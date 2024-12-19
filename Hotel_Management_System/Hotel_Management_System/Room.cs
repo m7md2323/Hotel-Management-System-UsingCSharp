@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
-
+//written by mohammad
 namespace Hotel_Management_System
 {
     //number(unique), type, price(per day), and availability
