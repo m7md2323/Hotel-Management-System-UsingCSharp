@@ -8,5 +8,11 @@ namespace Hotel_Management_System
 {
     internal class Service
     {
+        public Service(int ID, int reservationID, string description, double cost ){
+            this.ID=ID;
+            this.reservationID=reservationID;
+            this.description=description;
+            this.cost=cost;
+        }
     }
 }
