@@ -15,6 +15,7 @@ namespace Hotel_Management_System
         DOUBLE,
         SUITE
     }
+    [Serializable]
     internal class Room
     {
         private readonly int roomNumber;

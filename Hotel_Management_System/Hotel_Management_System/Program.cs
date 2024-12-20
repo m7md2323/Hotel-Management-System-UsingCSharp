@@ -11,7 +11,9 @@ namespace Hotel_Management_System
     {
         static void Main(string[] arg)
         {
-
+            Guest guest = new Guest(123, "Mohammad", 321, "0776690490", 400);
+            guest.RoomReservation();
+            //Console.WriteLine(guest.ToString());
         }
     }
 }

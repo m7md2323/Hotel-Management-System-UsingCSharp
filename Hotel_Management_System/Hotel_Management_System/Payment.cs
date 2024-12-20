@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 //written by zaid
 namespace Hotel_Management_System
 {
+
+    [Serializable]
     internal class Payment
     {
 

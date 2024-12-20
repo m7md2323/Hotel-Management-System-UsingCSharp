@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 //written by Zaid
 namespace Hotel_Management_System
 {
+    [Serializable]
     internal class Manager
     {
     }
