@@ -17,6 +17,7 @@ namespace Hotel_Management_System
         private string phoneNumber;
         private double bankBalance;
 
+        Reservation reservation;
         public Guest()
         {
 
@@ -35,22 +36,45 @@ namespace Hotel_Management_System
             int roomNumber;
             string checkInDate;
             string checkOutDate;
-            int meal;
+            string meal="";
+            int mealSelection;
             Console.WriteLine("Please enter the information below to confirm your reservation.");
             Console.WriteLine("Room Number : ");
             roomNumber = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Check In Date and Check Out date in form of (DD/MM/YYYY) : ");
+            //remember to handle the case where check-out is before check-in 
             Console.WriteLine("Check In Date : ");
             checkInDate = Console.ReadLine();
             Console.WriteLine("Check Out Date : ");
             checkOutDate = Console.ReadLine();
+            //remember to send a payment record of the reservation
             Console.WriteLine("Choose one of the meals type below : ");
             Console.WriteLine("1. Breakfast.");
             Console.WriteLine("2. Breakfast and Lunch");
             Console.WriteLine("3. Full board.");
-            meal= Convert.ToInt32(Console.ReadLine());
-            Reservation reservation = new Reservation(roomNumber, nationalID, checkInDate, checkOutDate,meal);
+            mealSelection= Convert.ToInt32(Console.ReadLine());
+            if (mealSelection == 1) meal = "Breakfast";
+            if (mealSelection == 2) meal = "Breakfast and Lunch";
+            if (mealSelection == 3) meal = "Full board.";
+            reservation = new Reservation(roomNumber, nationalID, checkInDate, checkOutDate,meal);
+            reservation.ID = DatabaseServer.GenerateUniqueId(reservation);
             DatabaseServer.SendDataToDatabase(reservation);
+        }
+        public void DisplayAllInfo()
+        {
+            string spaces = "                   ";
+            
+            //display info in 
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.Write($"| {nationalID}"+spaces.Substring(0,9));
+            Console.Write($"| {name}"+spaces.Substring(0,14-name.Length));
+            Console.Write($"| {password}"+spaces.Substring(0,12));
+            Console.Write($"| {phoneNumber}"+spaces.Substring(0,9));
+            Console.WriteLine($"| {bankBalance}"+spaces.Substring(0,11)+'|');
+        }
+        public void DisplayRes()
+        {
+            reservation.DisplayAllInfo();
         }
         public override string ToString()
         {

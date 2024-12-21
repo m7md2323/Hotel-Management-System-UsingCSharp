@@ -26,35 +26,35 @@ namespace Hotel_Management_System
     internal class Reservation
     {
         //Properties
-        private int Id=1000;
+        private int Id;
         private int roomNumber;
         private int guestNationalID;
         private string checkInDate;
         private string checkOutDate;
-        private int reservationStatus;
-        private int meal;//all the meals that the guest ordered(check MealsMenu enum)
+        private string reservationStatus;
+        private string meal;//all the meals that the guest ordered(check MealsMenu enum)
 
         //Methods
-        public Reservation(int roomNumber,int guestNationalID, string checkInDate, string checkOutDate,int meal)
+        public Reservation(int roomNumber,int guestNationalID, string checkInDate, string checkOutDate,string meal)
         {
-            this.Id++;
             this.roomNumber = roomNumber;
             this.guestNationalID = guestNationalID;
             this.checkInDate = checkInDate;
             this.checkOutDate = checkOutDate;
             this.meal = meal;
-            reservationStatus =(int)ResStatus.CONFIRMED;
+            reservationStatus ="Confirmed";
         }
         public int ID
         {
+            set { Id = value; }
             get { return Id;}
         }
-        public int ReservationStatus
+        public string ReservationStatus
         {
             set { reservationStatus = value;}
             get { return reservationStatus;}
         }
-        public int Meal
+        public string Meal
         {
             get { return meal; }
         }
@@ -64,13 +64,23 @@ namespace Hotel_Management_System
         }
         public void DisplayAllInfo()
         {
-            Console.WriteLine($"ID : {Id}\nRoom Number : {roomNumber}\nGuest National ID : {guestNationalID}");
-            Console.WriteLine($"Check-In Date : {checkInDate}\nCheck-Out Date : {checkOutDate}\nReservation Status : {reservationStatus}");
-            Console.WriteLine($"Meal : {meal}");
+            //this method will display all the information of this reservation in form of a table.
+            string spaces = "                   ";
+            // spaces variable to calculate the width of the cell accurately (to make all cells width equal).
+            //if the width of each cell i 15 (character) then we need to add the proper amount of spaces after the attribute
+            //15 - the size of the attribute = the number of needed spaces.
+            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            Console.Write($"| {Id}" + spaces.Substring(0, 9));
+            Console.Write($"| {roomNumber}" + spaces.Substring(0, 11));
+            Console.Write($"| {guestNationalID}" + spaces.Substring(0, 9));
+            Console.Write($"| {checkInDate}" + spaces.Substring(0, 14-checkInDate.Length));
+            Console.Write($"| {checkOutDate}" + spaces.Substring(0, 14 - checkOutDate.Length));
+            Console.Write($"| {reservationStatus}" + spaces.Substring(0, 14 - reservationStatus.Length));
+            Console.WriteLine($"| {meal}"+spaces.Substring(0,19-meal.Length)+'|');
         }
 
 
-        
+
 
 
     }

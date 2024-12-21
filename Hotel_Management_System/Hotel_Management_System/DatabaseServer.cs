@@ -12,10 +12,47 @@ namespace Hotel_Management_System
     {
         //there will be two methods 
         //on for sending data and the other one for requesting data
+
+        //to make sure that all IDs attributes of our classes are unique (Reservation ID, Service ID, Payment bill number).
+
+       static BinaryFormatter bf = new BinaryFormatter();
+        public static int GenerateUniqueId(object obj)
+        {
+            FileStream fs = new FileStream("database.txt", FileMode.OpenOrCreate, FileAccess.Read);
+            int Id=1000;
+            while (fs.Position < fs.Length)
+            {
+                //here we will Deserialize all objects in our database and extract the needed ID(the last ID of the object type we sent)
+                //so we will keep track of the last ID used in the last run
+                //for example if a reservation ID with 1000 was created and then we closed the system. 
+                //all we need to find is this reservation ID(1000) and add to it one to make the next reservation ID different from the others
+                object temp = bf.Deserialize(fs);
+                if (obj.ToString()==temp.ToString())
+                { 
+                    Id = ((Reservation)temp).ID + 1;
+                }
+                /*switch (obj.ToString())
+                {
+                    case "Hotel_Management_System.Reservation":
+                        Id =((Reservation)bf.Deserialize(fs)).ID+1;
+                        break;
+                    case "Hotel_Management_System.Payment":
+                        //Id = ((Payment)bf.Deserialize(fs)).ID + 1;
+                        break;
+                    case "Hotel_Management_System.Service":
+                        //Id = ((Service)bf.Deserialize(fs)).ID + 1;
+                        break;
+                    default:
+                        break;
+                }*/
+            }
+            fs.Close();
+            return Id;
+        }
         public static void SendDataToDatabase(object obj)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fs = new FileStream("database.txt", FileMode.OpenOrCreate,FileAccess.Write);
+
+            FileStream fs = new FileStream("database.txt", FileMode.Append,FileAccess.Write);
             switch (obj.ToString())
             {
                 case "Hotel_Management_System.Room":
