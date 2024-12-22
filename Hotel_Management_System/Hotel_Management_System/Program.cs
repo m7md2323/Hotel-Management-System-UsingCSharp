@@ -12,14 +12,14 @@ namespace Hotel_Management_System
         static void Main(string[] arg)
         {
 
-            /*
+             /*
                 12345 Omar 11 05215 450
                 12546 Khaled 22 01459 550
                 16556 Salma 33 04122 660
                 18730 Ahmad 44 02250 720
              */
            Guest guest = new Guest(12345, "Omar", 11, "05215", 450);
-            guest.RoomReservation();
+            guest.ReserveRoom();
             Console.WriteLine("---------------------------------------------------------------------------------");
             Console.Write("| National ID   ");
             Console.Write($"|     Name      ");

@@ -27,24 +27,18 @@ namespace Hotel_Management_System
                 //for example if a reservation ID with 1000 was created and then we closed the system. 
                 //all we need to find is this reservation ID(1000) and add to it one to make the next reservation ID different from the others
                 object temp = bf.Deserialize(fs);
-                if (obj.ToString()==temp.ToString())
+                if (obj.ToString()==temp.ToString()&&obj.ToString()== "Hotel_Management_System.Reservation")
                 { 
                     Id = ((Reservation)temp).ID + 1;
                 }
-                /*switch (obj.ToString())
+                if (obj.ToString() == temp.ToString()&& obj.ToString() == "Hotel_Management_System.Payment")
                 {
-                    case "Hotel_Management_System.Reservation":
-                        Id =((Reservation)bf.Deserialize(fs)).ID+1;
-                        break;
-                    case "Hotel_Management_System.Payment":
-                        //Id = ((Payment)bf.Deserialize(fs)).ID + 1;
-                        break;
-                    case "Hotel_Management_System.Service":
-                        //Id = ((Service)bf.Deserialize(fs)).ID + 1;
-                        break;
-                    default:
-                        break;
-                }*/
+                    //Id = ((Payment)temp).ID + 1;
+                }
+                if (obj.ToString() == temp.ToString() && obj.ToString() == "Hotel_Management_System.Service")
+                {
+                    //Id = ((Service)temp).ID + 1;
+                }
             }
             fs.Close();
             return Id;
@@ -72,6 +66,8 @@ namespace Hotel_Management_System
             fs.Close();
             
         }
+        //build the request data function (zaid).
+
 
     }
 }

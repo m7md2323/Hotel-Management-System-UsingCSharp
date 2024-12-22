@@ -32,7 +32,7 @@ namespace Hotel_Management_System
         private string checkInDate;
         private string checkOutDate;
         private string reservationStatus;
-        private string meal;//all the meals that the guest ordered(check MealsMenu enum)
+        private string meal;
 
         //Methods
         public Reservation(int roomNumber,int guestNationalID, string checkInDate, string checkOutDate,string meal)
@@ -61,6 +61,10 @@ namespace Hotel_Management_System
         public string CheckInDate
         {
             get { return checkInDate;}
+        }
+        public string CheckOutDate
+        {
+            get { return checkOutDate; }
         }
         public void DisplayAllInfo()
         {

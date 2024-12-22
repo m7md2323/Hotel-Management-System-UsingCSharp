@@ -30,6 +30,7 @@ namespace Hotel_Management_System
             this.pricePerDay = pricePerDay;
             this.available = available;
         }
+
         public void DisplayAllInfo()
         {
             string spaces = "                   ";

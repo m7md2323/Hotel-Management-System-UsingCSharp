@@ -31,34 +31,18 @@ namespace Hotel_Management_System
             this.phoneNumber = phoneNumber;
             this.bankBalance = bankBalance;
         }
-        public void RoomReservation()
+        public int NationalID
         {
-            int roomNumber;
-            string checkInDate;
-            string checkOutDate;
-            string meal="";
-            int mealSelection;
-            Console.WriteLine("Please enter the information below to confirm your reservation.");
-            Console.WriteLine("Room Number : ");
-            roomNumber = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Check In Date and Check Out date in form of (DD/MM/YYYY) : ");
-            //remember to handle the case where check-out is before check-in 
-            Console.WriteLine("Check In Date : ");
-            checkInDate = Console.ReadLine();
-            Console.WriteLine("Check Out Date : ");
-            checkOutDate = Console.ReadLine();
-            //remember to send a payment record of the reservation
-            Console.WriteLine("Choose one of the meals type below : ");
-            Console.WriteLine("1. Breakfast.");
-            Console.WriteLine("2. Breakfast and Lunch");
-            Console.WriteLine("3. Full board.");
-            mealSelection= Convert.ToInt32(Console.ReadLine());
-            if (mealSelection == 1) meal = "Breakfast";
-            if (mealSelection == 2) meal = "Breakfast and Lunch";
-            if (mealSelection == 3) meal = "Full board.";
-            reservation = new Reservation(roomNumber, nationalID, checkInDate, checkOutDate,meal);
-            reservation.ID = DatabaseServer.GenerateUniqueId(reservation);
-            DatabaseServer.SendDataToDatabase(reservation);
+            get { return nationalID;}
+        }
+        public int Password
+        {
+            get { return password; }
+        }
+        public double BankBalance
+        {
+            set { bankBalance = value; }
+            get { return bankBalance; }
         }
         public void DisplayAllInfo()
         {
@@ -75,10 +59,6 @@ namespace Hotel_Management_System
         public void DisplayRes()
         {
             reservation.DisplayAllInfo();
-        }
-        public override string ToString()
-        {
-            return "Test" + "name : " + name;
         }
 
     }

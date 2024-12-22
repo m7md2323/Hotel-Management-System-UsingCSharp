@@ -9,9 +9,9 @@ namespace Hotel_Management_System
     [Serializable]
     internal class Service
     {
-int ID,reservationID;
-string description;
-double cost;
+        int ID,reservationID;
+        string description;
+        double cost;
 
         public Service(int ID, int reservationID, string description, double cost ){
             this.ID=ID;
