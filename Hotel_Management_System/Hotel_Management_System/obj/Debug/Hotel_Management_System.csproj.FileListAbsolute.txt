@@ -5,3 +5,10 @@ D:\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_
 D:\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\obj\Debug\Hotel_Management_System.csproj.CoreCompileInputs.cache
 D:\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\obj\Debug\Hotel_Management_System.exe
 D:\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\obj\Debug\Hotel_Management_System.pdb
+C:\Users\user\Desktop\uml_project\Hotel_Management_System\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\bin\Debug\Hotel_Management_System.exe.config
+C:\Users\user\Desktop\uml_project\Hotel_Management_System\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\bin\Debug\Hotel_Management_System.exe
+C:\Users\user\Desktop\uml_project\Hotel_Management_System\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\bin\Debug\Hotel_Management_System.pdb
+C:\Users\user\Desktop\uml_project\Hotel_Management_System\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\obj\Debug\Hotel_Management_System.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\uml_project\Hotel_Management_System\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\obj\Debug\Hotel_Management_System.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\uml_project\Hotel_Management_System\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\obj\Debug\Hotel_Management_System.exe
+C:\Users\user\Desktop\uml_project\Hotel_Management_System\Hotel-Management-System-UsingCSharp\Hotel_Management_System\Hotel_Management_System\obj\Debug\Hotel_Management_System.pdb

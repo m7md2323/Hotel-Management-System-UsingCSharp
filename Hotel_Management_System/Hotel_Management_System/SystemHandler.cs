@@ -11,6 +11,16 @@ namespace Hotel_Management_System
     {   
         static Guest currentlyLoggedIn;
         static Manager manager;
+        public static int chooseUser() {
+            Console.WriteLine("choose what type of user");
+            Console.WriteLine("1.Manager \n2.Guest \n3.Exit");
+            int a=Convert.ToInt32(Console.Read());
+            if (a==1) { return 1; }
+            if(a==2) return 2;
+            if(a==3) return 3;
+            return 0;
+            
+        }
         public static void ReserveRoom()
         {
             int roomNumber;

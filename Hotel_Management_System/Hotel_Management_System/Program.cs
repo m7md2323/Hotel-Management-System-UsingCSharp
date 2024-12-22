@@ -19,7 +19,7 @@ namespace Hotel_Management_System
                 18730 Ahmad 44 02250 720
              */
            Guest guest = new Guest(12345, "Omar", 11, "05215", 450);
-            guest.ReserveRoom();
+          /*  guest.ReserveRoom();
             Console.WriteLine("---------------------------------------------------------------------------------");
             Console.Write("| National ID   ");
             Console.Write($"|     Name      ");
@@ -30,7 +30,7 @@ namespace Hotel_Management_System
             Console.WriteLine("---------------------------------------------------------------------------------");
             guest.DisplayRes();
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
-            /*
+           */ /*
             
             Guest guest1 = new Guest(12546, "Khaled", 22, "01459", 550);
             Guest guest2 = new Guest(16556, "Salma", 33, "04122", 660);
@@ -46,6 +46,10 @@ namespace Hotel_Management_System
             room.DisplayAllInfo();
             room1.DisplayAllInfo();*/
             //Console.WriteLine(guest.ToString());
+            // Payment bill = new Payment(1234,1111,"kidszone",400,"payed");
+            // bill.DisplayAllInfo();
+            Service Se = new Service(1212,1111,"kidsZone",2992.211);
+            Se.DisplayAllInfo();
         }
     }
 }
