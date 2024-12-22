@@ -83,7 +83,7 @@ namespace Hotel_Management_System
             Console.WriteLine($"| {meal}"+spaces.Substring(0,19-meal.Length)+'|');
         }
 
-
+        //dd
 
 
 
