@@ -29,14 +29,15 @@ namespace Hotel_Management_System
         private int Id;
         private int roomNumber;
         private int guestNationalID;
-        private string checkInDate;
-        private string checkOutDate;
+        private DateTime checkInDate;
+        private DateTime checkOutDate;
         private string reservationStatus;
         private string meal;
 
         //Methods
-        public Reservation(int roomNumber,int guestNationalID, string checkInDate, string checkOutDate,string meal)
+        public Reservation(int Id,int roomNumber,int guestNationalID, DateTime checkInDate, DateTime checkOutDate,string meal)
         {
+            this.Id = Id;
             this.roomNumber = roomNumber;
             this.guestNationalID = guestNationalID;
             this.checkInDate = checkInDate;
@@ -58,11 +59,11 @@ namespace Hotel_Management_System
         {
             get { return meal; }
         }
-        public string CheckInDate
+        public DateTime CheckInDate
         {
             get { return checkInDate;}
         }
-        public string CheckOutDate
+        public DateTime CheckOutDate
         {
             get { return checkOutDate; }
         }
@@ -71,14 +72,14 @@ namespace Hotel_Management_System
             //this method will display all the information of this reservation in form of a table.
             string spaces = "                   ";
             // spaces variable to calculate the width of the cell accurately (to make all cells width equal).
-            //if the width of each cell i 15 (character) then we need to add the proper amount of spaces after the attribute
+            //if the width of each cell is 15 (character) then we need to add the proper amount of spaces after the attribute
             //15 - the size of the attribute = the number of needed spaces.
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
             Console.Write($"| {Id}" + spaces.Substring(0, 9));
             Console.Write($"| {roomNumber}" + spaces.Substring(0, 11));
             Console.Write($"| {guestNationalID}" + spaces.Substring(0, 9));
-            Console.Write($"| {checkInDate}" + spaces.Substring(0, 14-checkInDate.Length));
-            Console.Write($"| {checkOutDate}" + spaces.Substring(0, 14 - checkOutDate.Length));
+            Console.Write($"| {checkInDate}" + spaces.Substring(0, 14-Convert.ToString(checkInDate).Length));
+            Console.Write($"| {checkOutDate}" + spaces.Substring(0, 14 - Convert.ToString(checkOutDate).Length));
             Console.Write($"| {reservationStatus}" + spaces.Substring(0, 14 - reservationStatus.Length));
             Console.WriteLine($"| {meal}"+spaces.Substring(0,19-meal.Length)+'|');
         }

@@ -9,8 +9,16 @@ namespace Hotel_Management_System
     [Serializable]
     internal class Manager
     {
-        string id = "M2022";
+        string Id = "M2022";
         int password = 00;
-
+        
+        public string ID
+        {
+            get { return Id; }
+        }
+        public int Password
+        {
+            get { return password;}
+        }
     }
 }

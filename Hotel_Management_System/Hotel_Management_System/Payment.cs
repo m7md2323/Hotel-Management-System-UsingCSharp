@@ -18,7 +18,7 @@ namespace Hotel_Management_System
         string source;
         double amount;
         string status; 
-        public Payment(int billNumber, int guestNationalID, string source, double amount, string status)
+        public Payment(int billNumber,int guestNationalID, string source, double amount, string status)
         {
             this.billNumber = billNumber;
             this.guestNationalID = guestNationalID;
@@ -30,7 +30,7 @@ namespace Hotel_Management_System
             string spaces = "                    ";
 
             
-            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("---------------------------------------------------------------------------------");
             Console.Write($"| {billNumber}" + spaces.Substring(0, 10));
             Console.Write($"| {guestNationalID}" + spaces.Substring(0, 9));
             Console.Write($"| {source}" + spaces.Substring(0, 14-source.Length));

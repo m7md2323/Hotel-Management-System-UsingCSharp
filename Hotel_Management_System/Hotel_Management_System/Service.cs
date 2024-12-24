@@ -14,7 +14,7 @@ namespace Hotel_Management_System
         double cost;
 
         public Service(int id, int reservationID, string description, double cost ){
-            this.id=id;
+            this.id = id;
             this.reservationID=reservationID;
             this.description=description;
             this.cost=cost;

@@ -18,28 +18,41 @@ namespace Hotel_Management_System
     [Serializable]
     internal class Room
     {
-        private readonly int roomNumber;
+        private int roomNumber;
         private string roomType;
         private double pricePerDay;
         private bool available;
 
-        public Room(int roomNumber,string roomType,double pricePerDay,bool available)
+        public Room()
         {
-            this.roomNumber = roomNumber;
-            this.roomType = roomType;
-            this.pricePerDay = pricePerDay;
-            this.available = available;
         }
-
+        public int RoomNumber
+        {
+            get { return roomNumber;}
+        }
+        public string RoomType
+        {
+            get { return roomType;}
+        }
+        public double PricePerDay
+        {
+            set { pricePerDay = value; }
+            get { return pricePerDay; }
+        }
+        public bool Available
+        {
+            set { available = value;}
+            get { return available;}
+        }
         public void DisplayAllInfo()
         {
             string spaces = "                   ";
 
-            //display info in 
+
             Console.WriteLine("-----------------------------------------------------------------");
             Console.Write($"| {roomNumber}" + spaces.Substring(0, 11));
             Console.Write($"| {roomType}" + spaces.Substring(0, 14 - roomType.Length));
-            Console.Write($"| {pricePerDay}" + spaces.Substring(0, 12));
+            Console.Write($"| {pricePerDay}$" + spaces.Substring(0, 11));
             Console.WriteLine($"| {available}" + ((available==true)?spaces.Substring(0,10):spaces.Substring(0,9))+'|');
         }
     }

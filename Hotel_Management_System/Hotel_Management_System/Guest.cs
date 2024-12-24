@@ -17,7 +17,7 @@ namespace Hotel_Management_System
         private string phoneNumber;
         private double bankBalance;
 
-        Reservation reservation;
+        public Reservation reservation;
         public Guest()
         {
 
@@ -30,6 +30,10 @@ namespace Hotel_Management_System
             this.password = password;
             this.phoneNumber = phoneNumber;
             this.bankBalance = bankBalance;
+        }
+        public string Name
+        {
+            get { return name; }
         }
         public int NationalID
         {
@@ -47,18 +51,14 @@ namespace Hotel_Management_System
         public void DisplayAllInfo()
         {
             string spaces = "                   ";
-            
-            //display info in 
+          
+
             Console.WriteLine("---------------------------------------------------------------------------------");
             Console.Write($"| {nationalID}"+spaces.Substring(0,9));
             Console.Write($"| {name}"+spaces.Substring(0,14-name.Length));
             Console.Write($"| {password}"+spaces.Substring(0,12));
             Console.Write($"| {phoneNumber}"+spaces.Substring(0,9));
             Console.WriteLine($"| {bankBalance}"+spaces.Substring(0,11)+'|');
-        }
-        public void DisplayRes()
-        {
-            reservation.DisplayAllInfo();
         }
 
     }
