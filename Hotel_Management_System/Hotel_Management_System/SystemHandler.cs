@@ -10,34 +10,49 @@ using System.Threading.Tasks;
 
 namespace Hotel_Management_System
 {
+    public enum SystemState
+    {
+        USER_SELECTION=1,
+        MANAGER_LOGIN,
+        GUEST_LOGIN,
+        GUEST_MENU,
+        MANAGER_MENU,
+        EXIT
+    }
     public enum UserType{
         MANAGER=1,
         GUEST,
+        EXIT,
         INVALID_SELECTION
+
     }
     public enum GuestServiceSelection
     {
-        RESERVE_A_ROOM=1,
-        REQUEST_A_SERVICE,
+        RESERVE_A_ROOM=1,//int const RESERVE_A_ROOM=1;
+        REQUEST_A_SERVICE,//int const REQUEST_A_SERVICE=2;
+        CHECK_IN,
+        CHECK_OUT,
+        PAY_FOR_A_RESERVATION,
+        PAY_FOR_A_SERVICE,
         LOGOUT
     }
     internal class SystemHandler
     {   
-
         static Guest loggedInGuest;
         static Manager manager;
-        public static void ChooseUser() {
+        static public SystemState systemState=SystemState.USER_SELECTION;
+        public static UserType ChooseUser() {
+            systemState = SystemState.USER_SELECTION;
             Console.WriteLine("--------------------[ Hotel Management System ]--------------------");
             Console.WriteLine("Please select the account type : ");
             Console.WriteLine("1. Manager \n2. Guest \n3. To Exit the System.");
             int userChoice=Convert.ToInt32(Console.ReadLine());
-            UserLogin(userChoice);
+            return (UserType)userChoice;
             
         }
-        public static bool UserLogin(int userType)
+        public static bool GuestLogin()
         {
-            if (userType == (int)UserType.GUEST)
-            {
+                systemState = SystemState.GUEST_LOGIN;
                 Console.Clear();
                 Console.WriteLine("--------------------[ Guest Login ]--------------------");
                 Console.WriteLine("Please enter your National ID and Password");
@@ -61,21 +76,10 @@ namespace Hotel_Management_System
                     Console.WriteLine("Unsuccessful Login attempt!!");
                     Console.WriteLine("National ID or Password is wrong, please try again!!");
                     Console.WriteLine("Press (1) to try again, (0) to Exit the system.");
-                    if (Console.ReadLine() == "1") UserLogin((int)UserType.GUEST);
-                    else return false; 
-                    
-                }
+                    if (Console.ReadLine() == "1") changeState(SystemState.GUEST_LOGIN);
+                    else changeState(SystemState.EXIT);
+
             }
-            else if (userType == (int)UserType.MANAGER)
-            {
-                //zaid work
-            }
-            else
-            {
-                Console.WriteLine("Please enter a valid Choice!!");
-                ChooseUser();
-            }
-            
             return true;
         }
         public static bool GuestValidator(int NationalId,int Password)
@@ -87,6 +91,7 @@ namespace Hotel_Management_System
         }
         public static void EnterGuestSystem()
         {
+            systemState = SystemState.GUEST_MENU;
             LoadGuestServicesMenu();
             int guestChoice = Convert.ToInt32(Console.ReadLine());
             switch (guestChoice)
@@ -99,7 +104,21 @@ namespace Hotel_Management_System
                     break;
                 case (int)GuestServiceSelection.LOGOUT:
                     loggedInGuest = null;
-                    UserLogin((int)UserType.GUEST);
+                    Console.Write("Logging out");LineOfDots();
+                    changeState(SystemState.GUEST_LOGIN);
+                    //UserLogin((int)UserType.GUEST);
+                    break;
+                case (int)GuestServiceSelection.CHECK_IN:
+                    //CheckIn();
+                    break;
+                case (int)GuestServiceSelection.CHECK_OUT:
+                    //CheckOut();
+                    break;
+                case (int)GuestServiceSelection.PAY_FOR_A_RESERVATION:
+                    //PayForReservation();
+                    break;
+                case (int)GuestServiceSelection.PAY_FOR_A_SERVICE:
+                    //PayForServices();
                     break;
 
             }
@@ -130,7 +149,9 @@ namespace Hotel_Management_System
             Console.WriteLine("---------------------------[ Room Reservation ]---------------------------");
             if (ShowAvailableRooms()==false){ 
                 Console.WriteLine("We are sorry, there is no available rooms at the moment!!");
-                EnterGuestSystem();
+                Thread.Sleep(2000);
+                changeState(SystemState.GUEST_MENU);
+                return;
             }
             Console.WriteLine("Please fill the information below to confirm your reservation.");
             Console.Write("Room Number : ");
@@ -142,6 +163,7 @@ namespace Hotel_Management_System
                 Console.WriteLine("Wrong room number, please try again");
                 Thread.Sleep(2000);
                 ReserveRoom();
+                return;
             }
             //change room availability to false
             Console.WriteLine("Check In Date and Check Out date in form of (DD/MM/YYYY) : ");
@@ -160,52 +182,70 @@ namespace Hotel_Management_System
             if (mealSelection == 2) meal = "Breakfast and Lunch";
             if (mealSelection == 3) meal = "Full Board";
             //calculate the total amount of reservation (total room reservation + the price of the meal)
-            Reservation res = null;
-   
             Reservation reservation = new Reservation(GenerateId("Reservation"),roomNumber, loggedInGuest.NationalID, checkInDate, checkOutDate, meal);
             Payment resPaymentRecord = new Payment(GenerateId("Payment"), loggedInGuest.NationalID, "Reservation",calculateReservation(reservation,chosenRoom.PricePerDay,meal),"Unpaid");
+            Console.WriteLine("Your receipt : ");
+            PrintHeaderTable();
             resPaymentRecord.DisplayAllInfo();
+            Console.WriteLine("---------------------------------------------------------------------------------");
             loggedInGuest.reservation = reservation;
+            ServiceConfirmedMessage();
             //DatabaseServer.SendData(reservation);
         }
         public static void RequestService()
         {
+            Payment servPaymentRecord=null;
             Console.Clear();
             Console.WriteLine("---------------------------[ Request a service ]---------------------------");
             Console.WriteLine("Please choose the service you want below : ");
             Console.WriteLine("1. Car rental.");
             Console.WriteLine("2. Kids zone.");
-            Console.WriteLine("3. Get back to menu");
-            int guestSelection = Convert.ToInt32(Console.ReadLine());
-            if (guestSelection == 1)
+            Console.WriteLine("Press (0) to get back.");
+            Console.WriteLine("---------------------------------------------------------------------------");
+            string guestSelection = Console.ReadLine();
+            if (guestSelection == "1")
             {
                 Console.Write("Please enter the number of rental days : ");
                 int numberOfRentDays= Convert.ToInt32(Console.ReadLine());
-                Service newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.reservation.ID, "Car rental", 24.5);
+                Service newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.NationalID, "Car rental",CalculateService("Car rental",numberOfRentDays));
+                servPaymentRecord = new Payment(GenerateId("Payment"), loggedInGuest.NationalID, "Car rental", CalculateService("Car rental", numberOfRentDays), "Unpaid");
             }
-            if (guestSelection == 2)
+            if (guestSelection == "2")
             {
                 Console.Write("Please enter the number of children : ");
-                int numberOfRentDays = Convert.ToInt32(Console.ReadLine());
-                Service newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.reservation.ID, "Kids zone", 24.5);
+                int numberOfChildren = Convert.ToInt32(Console.ReadLine());
+                Service newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.NationalID, "Kids zone", CalculateService("Kids zone", numberOfChildren));
+                servPaymentRecord = new Payment(GenerateId("Payment"), loggedInGuest.NationalID, "Kids zone", CalculateService("Kids zone", numberOfChildren), "Unpaid");
             }
-            if (guestSelection == 3)
+            if (guestSelection =="0")
             {
                 Console.Clear();
-                EnterGuestSystem();
+                changeState(SystemState.GUEST_MENU);
+                return;
             }
+            Console.WriteLine("Your receipt : ");
+            PrintHeaderTable();
+            servPaymentRecord.DisplayAllInfo();
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            ServiceConfirmedMessage();
+            
 
+        }
+        public static void PrintHeaderTable()
+        {
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.Write($"|  Bill number  ");
+            Console.Write($"|GuestNationalID");
+            Console.Write($"|     Source    ");
+            Console.Write($"|     Amount    ");
+            Console.WriteLine($"|    Status     |");
         }
         public static bool ShowAvailableRooms()
         {
             List<Room> availableRooms = DatabaseServer.LoadAvailableRooms();
             if (availableRooms.Count == 0) {return false; }
             Console.WriteLine("Currently available rooms : ");
-            Console.WriteLine("-----------------------------------------------------------------");
-            Console.Write($"|     Number    ");
-            Console.Write($"|      Type     ");
-            Console.Write($"| Price per day ");
-            Console.WriteLine($"|   Available   |");
+            Room.PrintHeaderTable();
             for (int i = 0; i < availableRooms.Count; i++)
             {
                 availableRooms[i].DisplayAllInfo();
@@ -213,9 +253,23 @@ namespace Hotel_Management_System
             Console.WriteLine("-----------------------------------------------------------------");
             return true;
         }
+        public static void changeState(SystemState to)
+        {
+            Console.Clear();
+            if (to == SystemState.GUEST_LOGIN) loggedInGuest = null;
+            systemState = to;
+        }
+        public static double CalculateService(string service,int number) 
+        {
+            if(service=="Car rental")
+            {
+                return number * 10;
+            }
+            return number * 5;
+        }
         public static double calculateReservation(Reservation reservation,double roomPrice,string meal)
         {
-            TimeSpan totalResidenceDays = reservation.CheckOutDate.ToLocalTime() - reservation.CheckInDate.ToLocalTime();
+            TimeSpan totalResidenceDays = reservation.CheckOutDate - reservation.CheckInDate;
             Console.WriteLine(totalResidenceDays.Days);
             double amount=0;
             if (meal == "Breakfast")
@@ -236,6 +290,17 @@ namespace Hotel_Management_System
         public static int GenerateId(string objectType)
         {
             return DatabaseServer.LoadLastIdOfObject(objectType)+1;            
+        }
+        public static void ServiceConfirmedMessage()
+        {
+            Console.WriteLine("Thank you for using our hotel!!");
+            Console.WriteLine("Press (1) to get back to menu, (0) To logout.");
+            string userChoice=Console.ReadLine();
+            if (userChoice == "1") changeState(SystemState.GUEST_MENU); 
+            else { 
+                changeState(SystemState.GUEST_LOGIN);
+                Console.Write("Logging out"); LineOfDots();
+            }
         }
         public static void LineOfDots()
         {

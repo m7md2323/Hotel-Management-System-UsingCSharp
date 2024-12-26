@@ -44,6 +44,14 @@ namespace Hotel_Management_System
             set { available = value;}
             get { return available;}
         }
+        public static void PrintHeaderTable()
+        {
+            Console.WriteLine("-----------------------------------------------------------------");
+            Console.Write($"|     Number    ");
+            Console.Write($"|      Type     ");
+            Console.Write($"| Price per day ");
+            Console.WriteLine($"|   Available   |");
+        }
         public void DisplayAllInfo()
         {
             string spaces = "                   ";

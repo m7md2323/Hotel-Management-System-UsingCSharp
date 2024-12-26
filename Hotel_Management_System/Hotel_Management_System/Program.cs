@@ -11,9 +11,41 @@ namespace Hotel_Management_System
     {
         static void Main(string[] arg)
         {
-           SystemHandler.ChooseUser();
-            Room r = new Room();
-            Console.WriteLine(r.GetType().Name);
+            bool Exit = false;
+            while (!Exit) {
+                switch (SystemHandler.systemState)
+                {
+                    case SystemState.USER_SELECTION:
+                        //
+                    switch (SystemHandler.ChooseUser())
+                    {
+                        case UserType.GUEST:
+                            SystemHandler.GuestLogin();
+                            break;
+                        //case UserType.MANAGER: zaid
+                        case UserType.INVALID_SELECTION:
+                            Console.WriteLine("Please enter a valid option(1, 2, 3)");
+                            break;
+                        case UserType.EXIT:
+                            Console.WriteLine("Exiting the system........");
+                            Exit = true;
+                            break;
+                    }
+                        break;
+                        //
+                    case SystemState.GUEST_LOGIN:
+                    SystemHandler.GuestLogin();
+                        break;
+                    case SystemState.GUEST_MENU:
+                
+                    SystemHandler.EnterGuestSystem();
+                        break;
+                    case SystemState.EXIT:
+                        Exit = true;
+                        Console.WriteLine("Exiting the system........");
+                        break;
+                }
+            }
             //TimeSpan totalResidanceDays = TimeSpan.Parse("10/4/2024") - TimeSpan.Parse(Convert.ToString("8/4/2024"));
             //Console.WriteLine(totalResidanceDays);
 
