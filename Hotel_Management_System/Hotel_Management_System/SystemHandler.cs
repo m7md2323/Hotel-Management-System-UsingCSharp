@@ -106,10 +106,9 @@ namespace Hotel_Management_System
                     loggedInGuest = null;
                     Console.Write("Logging out");LineOfDots();
                     changeState(SystemState.GUEST_LOGIN);
-                    //UserLogin((int)UserType.GUEST);
                     break;
                 case (int)GuestServiceSelection.CHECK_IN:
-                    //CheckIn();
+                    CheckIn();
                     break;
                 case (int)GuestServiceSelection.CHECK_OUT:
                     //CheckOut();
@@ -140,11 +139,10 @@ namespace Hotel_Management_System
         public static void ReserveRoom()
         {
             int roomNumber;
-            DateTime  checkInDate;
-            DateTime checkOutDate;
+            string checkInDate;
+            string checkOutDate;
             string meal = "";
             int mealSelection;
-            var dateFormat = new CultureInfo("en-JO");
             Console.Clear();
             Console.WriteLine("---------------------------[ Room Reservation ]---------------------------");
             if (ShowAvailableRooms()==false){ 
@@ -169,9 +167,9 @@ namespace Hotel_Management_System
             Console.WriteLine("Check In Date and Check Out date in form of (DD/MM/YYYY) : ");
             //remember to handle the case where check-out is before check-in 
             Console.Write("Check In Date : ");
-            checkInDate = DateTime.ParseExact(Console.ReadLine(),"dd/MM/yyyy",dateFormat);
+            checkInDate = Console.ReadLine();
             Console.Write("Check Out Date : ");
-            checkOutDate = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", dateFormat);
+            checkOutDate = Console.ReadLine();
             //remember to send a payment record of the reservation
             Console.WriteLine("Choose one of the meals type below : ");
             Console.WriteLine("1. Breakfast.");
@@ -188,13 +186,14 @@ namespace Hotel_Management_System
             PrintHeaderTable();
             resPaymentRecord.DisplayAllInfo();
             Console.WriteLine("---------------------------------------------------------------------------------");
-            loggedInGuest.reservation = reservation;
+            DatabaseServer.SaveData("Reservation.txt",reservation);
+            DatabaseServer.SaveData("Payment.txt", resPaymentRecord);
             ServiceConfirmedMessage();
-            //DatabaseServer.SendData(reservation);
         }
         public static void RequestService()
         {
             Payment servPaymentRecord=null;
+            Service newServiceRecord = null;
             Console.Clear();
             Console.WriteLine("---------------------------[ Request a service ]---------------------------");
             Console.WriteLine("Please choose the service you want below : ");
@@ -207,14 +206,14 @@ namespace Hotel_Management_System
             {
                 Console.Write("Please enter the number of rental days : ");
                 int numberOfRentDays= Convert.ToInt32(Console.ReadLine());
-                Service newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.NationalID, "Car rental",CalculateService("Car rental",numberOfRentDays));
+                newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.NationalID, "Car rental",CalculateService("Car rental",numberOfRentDays));
                 servPaymentRecord = new Payment(GenerateId("Payment"), loggedInGuest.NationalID, "Car rental", CalculateService("Car rental", numberOfRentDays), "Unpaid");
             }
             if (guestSelection == "2")
             {
                 Console.Write("Please enter the number of children : ");
                 int numberOfChildren = Convert.ToInt32(Console.ReadLine());
-                Service newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.NationalID, "Kids zone", CalculateService("Kids zone", numberOfChildren));
+                newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.NationalID, "Kids zone", CalculateService("Kids zone", numberOfChildren));
                 servPaymentRecord = new Payment(GenerateId("Payment"), loggedInGuest.NationalID, "Kids zone", CalculateService("Kids zone", numberOfChildren), "Unpaid");
             }
             if (guestSelection =="0")
@@ -227,18 +226,47 @@ namespace Hotel_Management_System
             PrintHeaderTable();
             servPaymentRecord.DisplayAllInfo();
             Console.WriteLine("---------------------------------------------------------------------------------");
+            DatabaseServer.SaveData("Payment.txt", servPaymentRecord);
+            DatabaseServer.SaveData("Service.txt", newServiceRecord);
             ServiceConfirmedMessage();
             
 
+        }
+        public static void CheckIn()
+        {
+            Console.Clear();
+            Console.WriteLine("--------------------------------------------------[ Check In ]--------------------------------------------------");
+            List<Reservation> reservations = DatabaseServer.GetReservations();
+            Console.WriteLine("All reservations in your name: ");
+           Reservation.PrintHeaderTable();
+           for(int i = 0; i < reservations.Count; i++)
+           {
+                if (reservations[i].NationalId == loggedInGuest.NationalID && reservations[i].ReservationStatus == "Confirmed")
+                { 
+                    reservations[i].DisplayAllInfo(); 
+                }
+           }
+            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("Please enter the reservation Id to check in: ");
+            int resId = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < reservations.Count; i++)
+            {
+                if (reservations[i].ID == resId)
+                {
+                    reservations[i].ReservationStatus = "Checked In";
+;               }
+            }
+            DatabaseServer.SaveUpdatedReservations(reservations);
+            ServiceConfirmedMessage();
         }
         public static void PrintHeaderTable()
         {
             Console.WriteLine("---------------------------------------------------------------------------------");
             Console.Write($"|  Bill number  ");
-            Console.Write($"|GuestNationalID");
+            Console.Write($"|  National ID  ");
             Console.Write($"|     Source    ");
             Console.Write($"|     Amount    ");
-            Console.WriteLine($"|    Status     |");
+            Console.WriteLine($"|     Status    |");
         }
         public static bool ShowAvailableRooms()
         {
@@ -269,7 +297,10 @@ namespace Hotel_Management_System
         }
         public static double calculateReservation(Reservation reservation,double roomPrice,string meal)
         {
-            TimeSpan totalResidenceDays = reservation.CheckOutDate - reservation.CheckInDate;
+            var dateFormat = new CultureInfo("en-JO");
+            DateTime checkInDate = DateTime.ParseExact(reservation.CheckInDate, "dd/MM/yyyy", dateFormat);
+            DateTime checkOutDate = DateTime.ParseExact(reservation.CheckOutDate, "dd/MM/yyyy", dateFormat);
+            TimeSpan totalResidenceDays = checkOutDate - checkInDate;
             Console.WriteLine(totalResidenceDays.Days);
             double amount=0;
             if (meal == "Breakfast")

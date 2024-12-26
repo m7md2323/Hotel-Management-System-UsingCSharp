@@ -19,128 +19,215 @@ namespace Hotel_Management_System
        static BinaryFormatter bf = new BinaryFormatter();
         public static int LoadLastIdOfObject(string objectType)
         {
-            FileStream fs = new FileStream("database.txt", FileMode.Open, FileAccess.Read);
-            int Id=1000;
-            while (fs.Position < fs.Length)
+            int Id = 1000;
+            using (FileStream fs = new FileStream(objectType+".txt", FileMode.OpenOrCreate, FileAccess.Read))
             {
-                //here we will Deserialize all objects in our database and extract the needed ID(the last ID of the object type we sent)
-                //so we will keep track of the last ID used in the last run
-                //for example if a reservation ID with 1000 was created and then we closed the system. 
-                //all we need to find is this reservation ID(1000) and add to it one to make the next reservation ID different from the others
-                object temp = bf.Deserialize(fs);
-                if (objectType == temp.GetType().Name && objectType== "Reservation")
+                
+                while (fs.Position < fs.Length)
                 {
-                    Id = ((Reservation)temp).ID;
-                }
-                if (objectType == temp.GetType().Name && objectType == "Payment")
-                {
-                    Id = ((Payment)temp).BillNumber;
-                }
-                if (objectType == temp.GetType().Name && objectType == "Service")
-                {
-                    Id = ((Service)temp).ID;
+                    //here we will Deserialize all objects in our database and extract the needed ID(the last ID of the object type we sent)
+                    //so we will keep track of the last ID used in the last run
+                    //for example if a reservation ID with 1000 was created and then we closed the system. 
+                    //all we need to find is this reservation ID(1000) and add to it one to make the next reservation ID different from the others
+                    object temp = bf.Deserialize(fs);
+                    if (objectType == "Reservation")
+                    {
+                        Id = ((Reservation)temp).ID;
+                    }
+                    if (objectType == "Payment")
+                    {
+                        Id = ((Payment)temp).BillNumber;
+                    }
+                    if ( objectType == "Service")
+                    {
+                        Id = ((Service)temp).ID;
+                    }
                 }
             }
-            fs.Close();
             return Id;
         }
-        public static void SendData(object obj)
+        public static void SaveData(string filePath,object obj)
         {
 
-            FileStream fs = new FileStream("database.txt", FileMode.Append,FileAccess.Write);
-            switch (obj.GetType().Name)
+            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
             {
-                case "Room":
-                    bf.Serialize(fs,(Room)obj);
-                    break;
-                case "Guest":
-                    bf.Serialize(fs,(Guest)obj);
-                    break;
-                case "Reservation":
-                    bf.Serialize(fs, (Reservation)obj);
-                    break;
+                switch (obj.GetType().Name)
+                {
+                    case "Room":
+                        bf.Serialize(fs, (Room)obj);
+                        break;
+                    case "Guest":
+                        bf.Serialize(fs, (Guest)obj);
+                        break;
+                    case "Reservation":
+                        bf.Serialize(fs, (Reservation)obj);
+                        break;
+                    case "Payment":
+                        bf.Serialize(fs, (Payment)obj);
+                        break;
                     //zaid finish the remaining classes
-                default:
-                    break;
+                    default:
+                        break;
 
+                }
             }
-            fs.Close();
             
+        }
+        public static void SaveUpdatedReservations(List<Reservation> data)
+        {
+            using (FileStream fs = new FileStream("Reservation.txt", FileMode.Open, FileAccess.Write))
+            {
+                for (int i = 0; i < data.Count; i++) {
+
+                    bf.Serialize(fs, data[i]);
+                }
+            }
+        }
+        public static List<Type> GetData(string filePath, string obj)
+        {
+            List<Type> Data = new List<Type>();
+            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+            {
+                while (fs.Position < fs.Length) {
+                    object data = bf.Deserialize(fs);
+                    Data.Add((Type)data);
+                    /*switch (obj)
+                    {
+                        case "Room":
+                            Data.Add((Type)data);
+                            break;
+                        case "Guest":
+                            bf.Serialize(fs, (Guest)obj);
+                            break;
+                        case "Reservation":
+                            bf.Serialize(fs, (Reservation)obj);
+                            break;
+                        //zaid finish the remaining classes
+                        default:
+                            break;
+
+                    } */
+                }
+            }
+            return Data;
+
+        }
+        public static List<Reservation> GetReservations()
+        {
+            List<Reservation> reservations = new List<Reservation>();
+            using (FileStream fs = new FileStream("Reservation.txt", FileMode.Open, FileAccess.Read))
+            {
+                while (fs.Position < fs.Length)
+                {
+                    reservations.Add((Reservation)bf.Deserialize(fs));
+                }
+            }
+            return reservations;
         }
         public static List<Room> LoadAvailableRooms()
         {
             List<Room> availableRooms = new List<Room>();
-            FileStream fs = new FileStream("database.txt", FileMode.Open, FileAccess.Read);
-            while (fs.Position < fs.Length)
+            using (FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Read))
             {
-                object desObject = bf.Deserialize(fs);
-                if(desObject.GetType().Name == "Room")
+                while (fs.Position < fs.Length)
                 {
-                    //desObject = (Room)desObject;
-                    if (((Room)desObject).Available == true) availableRooms.Add((Room)desObject);
+                    object desObject = bf.Deserialize(fs);
+                    if (desObject.GetType().Name == "Room")
+                    {
+                        //desObject = (Room)desObject;
+                        if (((Room)desObject).Available == true) availableRooms.Add((Room)desObject);
+                    }
                 }
             }
-            fs.Close();
             return availableRooms;
         }
         public static Guest LoadGuestUsingId(int NationalId)
-        {
-            FileStream fs = new FileStream("database.txt", FileMode.Open, FileAccess.Read);
-            Guest guest=null;
-            while (fs.Position < fs.Length)
+        {   
+            Guest guest = null;
+            using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read))
             {
-                object wantedUser = bf.Deserialize(fs);
-                if (wantedUser.GetType().Name == "Guest"&&((Guest)wantedUser).NationalID==NationalId)
+                
+                while (fs.Position < fs.Length)
                 {
-                    guest = (Guest)wantedUser;
+                    object wantedUser = bf.Deserialize(fs);
+                    if (wantedUser.GetType().Name == "Guest" ) 
+                    {
+                        Guest obj = (Guest)wantedUser;
+                        if(obj.NationalID==NationalId)guest = obj;
+                        
+                    }
                 }
             }
-            fs.Close();
             return guest;
         }
         public static List<Guest> LoadGuests()
         {
-            FileStream fs = new FileStream("database.txt", FileMode.Open, FileAccess.Read);
             List<Guest> guestUsers = new List<Guest>();
-            while (fs.Position < fs.Length)
+            using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read))
             {
-                object wantedUser = bf.Deserialize(fs);
-                if (wantedUser.GetType().Name == "Guest")
+
+                while (fs.Position < fs.Length)
                 {
-                    guestUsers.Add((Guest)wantedUser);
+                    object wantedUser = bf.Deserialize(fs);
+                    if (wantedUser.GetType().Name == "Guest")
+                    {
+                        guestUsers.Add((Guest)wantedUser);
+                    }
                 }
             }
-            fs.Close();
             return guestUsers;
             
         }
         public static Room GetRoom(int roomNumber)
-        {
-            FileStream fs = new FileStream("database.txt", FileMode.Open, FileAccess.Read);
+        { 
             List<Guest> guestUsers = new List<Guest>();
-            while (fs.Position < fs.Length)
+            using (FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Read))
             {
-                object wantedRoom = bf.Deserialize(fs);
-                if (wantedRoom.GetType().Name == "Room"&&((Room)wantedRoom).RoomNumber==roomNumber)
+
+                while (fs.Position < fs.Length)
                 {
-                    return (Room)wantedRoom;
+                    object wantedRoom = bf.Deserialize(fs);
+                    if (wantedRoom.GetType().Name == "Room" && ((Room)wantedRoom).RoomNumber == roomNumber)
+                    {
+                        return (Room)wantedRoom;
+                    }
                 }
             }
-            fs.Close();
             return null;
+        }
+        public static void ChangeResStatus(int resID,string status)
+        {
+           
+            using (FileStream fs = new FileStream("database.txt", FileMode.Open, FileAccess.Read))
+            {
+                while (fs.Position < fs.Length)
+                {
+                    object desObject = bf.Deserialize(fs);
+                    if (desObject.GetType().Name == "Reservation")
+                    {
+                        if(((Reservation)desObject).ID==resID)
+                        { 
+                            ((Reservation)desObject).ReservationStatus = status; 
+                            
+                        }
+                            
+                    }
+                }
+            }
         }
         public static void DisplayAllGuests()
         {
-            FileStream fs = new FileStream("database.txt", FileMode.Open, FileAccess.Read);
-            while (fs.Position < fs.Length)
+            using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read))
             {
-                object wantedUser = bf.Deserialize(fs);
-                if (wantedUser.GetType().Name == "Guest")
+                while (fs.Position < fs.Length)
                 {
-                    ((Guest)wantedUser).DisplayAllInfo();
+                    object wantedUser = bf.Deserialize(fs);
+                    if (wantedUser.GetType().Name == "Guest")
+                    {
+                        ((Guest)wantedUser).DisplayAllInfo();
+                    }
                 }
             }
-            fs.Close();
         }
         //build the request data function (zaid).
 

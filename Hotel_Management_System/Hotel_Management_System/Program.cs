@@ -11,7 +11,7 @@ namespace Hotel_Management_System
     {
         static void Main(string[] arg)
         {
-            bool Exit = false;
+           /**/ bool Exit = false;
             while (!Exit) {
                 switch (SystemHandler.systemState)
                 {
@@ -46,6 +46,7 @@ namespace Hotel_Management_System
                         break;
                 }
             }
+
             //TimeSpan totalResidanceDays = TimeSpan.Parse("10/4/2024") - TimeSpan.Parse(Convert.ToString("8/4/2024"));
             //Console.WriteLine(totalResidanceDays);
 
@@ -59,26 +60,30 @@ namespace Hotel_Management_System
                12546 Khaled 22 01459 550
                16556 Salma 33 04122 660
                18730 Ahmad 44 02250 720
-            
-            Room room1 = new Room(442, "Single", 25, true);
-            Room room2 = new Room(102, "Double", 30, true);
-            Room room3 = new Room(506, "Double", 25, false);
-            Room room4 = new Room(702, "Single", 40, true);
-            DatabaseServer.SendData(room1);
-            DatabaseServer.SendData(room2);
-            DatabaseServer.SendData(room3);
-            DatabaseServer.SendData(room4);
             */
+            
+            /*Room room1 = new Room(442, "Single", 25, true);
+            Room room2 = new Room(102, "Double", 30, true);
+            Room room3 = new Room(506, "Double", 32, false);
+            Room room4 = new Room(702, "Suite", 40, true);
+            Room room5 = new Room(333, "Double", 34, true);
+            DatabaseServer.SaveData("Room.txt",room1);
+            DatabaseServer.SaveData("Room.txt", room2);
+            DatabaseServer.SaveData("Room.txt", room3);
+            DatabaseServer.SaveData("Room.txt", room4);
+            DatabaseServer.SaveData("Room.txt", room5);
 
+            Guest guest = new Guest(12345, "Omar", 11, "05215", 450);
+            DatabaseServer.SaveData("Guest.txt", guest);
 
-            /*Guest guest1 = new Guest(12546, "Khaled", 22, "01459", 550);
+            Guest guest1 = new Guest(12546, "Khaled", 22, "01459", 550);
             Guest guest2 = new Guest(16556, "Salma", 33, "04122", 660);
             Guest guest13 = new Guest(18730, "Ahmad", 44, "02250", 720);
-             Guest guest = new Guest(12345, "Omar", 11, "05215", 450);
-            DatabaseServer.SendData(guest1);
-            DatabaseServer.SendData(guest2);
-            DatabaseServer.SendData(guest13);
-             DatabaseServer.SendData(guest);
+             
+            DatabaseServer.SaveData("Guest.txt", guest1);
+            DatabaseServer.SaveData("Guest.txt", guest2);
+            DatabaseServer.SaveData("Guest.txt", guest13);
+            
             Console.WriteLine("Guests");
             Console.WriteLine("---------------------------------------------------------------------------------");
             Console.Write("| National ID   ");
@@ -90,16 +95,16 @@ namespace Hotel_Management_System
             Console.WriteLine("---------------------------------------------------------------------------------");
            // Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
           
-            
-            
+            */
+
 
 
             // Console.WriteLine("---------------------------------------------------------------------------------");
             //Console.WriteLine(guest.ToString());
-             Payment bill = new Payment(1234,11111,"Kids zone",400,"paid");
+            Payment bill = new Payment(1234,11111,"Kids zone",400,"paid");
              bill.DisplayAllInfo();
             Service Se = new Service(1212,1111,"kidsZone",2992.211);
-            Se.DisplayAllInfo();*/
+            Se.DisplayAllInfo();
         }
     }
 }

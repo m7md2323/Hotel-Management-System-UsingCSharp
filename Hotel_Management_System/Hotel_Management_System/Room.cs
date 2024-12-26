@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 //written by mohammad
@@ -23,8 +24,12 @@ namespace Hotel_Management_System
         private double pricePerDay;
         private bool available;
 
-        public Room()
+        public Room(int roomNumber,string roomType, double pricePerDay, bool available)
         {
+            this.roomNumber = roomNumber;
+            this.roomType = roomType;
+            this.pricePerDay = pricePerDay;
+            this.available = available;
         }
         public int RoomNumber
         {

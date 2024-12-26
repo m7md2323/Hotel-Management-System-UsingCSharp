@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,13 +30,13 @@ namespace Hotel_Management_System
         private int Id;
         private int roomNumber;
         private int guestNationalID;
-        private DateTime checkInDate;
-        private DateTime checkOutDate;
+        private string checkInDate;
+        private string checkOutDate;
         private string reservationStatus;
         private string meal;
 
         //Methods
-        public Reservation(int Id,int roomNumber,int guestNationalID, DateTime checkInDate, DateTime checkOutDate,string meal)
+        public Reservation(int Id,int roomNumber,int guestNationalID, string checkInDate, string checkOutDate,string meal)
         {
             this.Id = Id;
             this.roomNumber = roomNumber;
@@ -59,13 +60,28 @@ namespace Hotel_Management_System
         {
             get { return meal; }
         }
-        public DateTime CheckInDate
+        public string CheckInDate
         {
             get { return checkInDate;}
         }
-        public DateTime CheckOutDate
+        public string CheckOutDate
         {
             get { return checkOutDate; }
+        }
+        public int NationalId
+        {
+            get { return guestNationalID; }
+        }
+        public static void PrintHeaderTable()
+        {
+            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            Console.Write($"|      ID      ");
+            Console.Write($"|  Room Number  ");
+            Console.Write($"|  National ID  ");
+            Console.Write($"| Check In Date ");
+            Console.Write($"|Check Out Date ");
+            Console.Write($"|     Status    ");
+            Console.WriteLine($"|         Meal       |");
         }
         public void DisplayAllInfo()
         {
@@ -74,12 +90,13 @@ namespace Hotel_Management_System
             // spaces variable to calculate the width of the cell accurately (to make all cells width equal).
             //if the width of each cell is 15 (character) then we need to add the proper amount of spaces after the attribute
             //15 - the size of the attribute = the number of needed spaces.
+            //10/04/2024
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
             Console.Write($"| {Id}" + spaces.Substring(0, 9));
             Console.Write($"| {roomNumber}" + spaces.Substring(0, 11));
             Console.Write($"| {guestNationalID}" + spaces.Substring(0, 9));
-            Console.Write($"| {checkInDate}" + spaces.Substring(0, 14-Convert.ToString(checkInDate).Length));
-            Console.Write($"| {checkOutDate}" + spaces.Substring(0, 14 - Convert.ToString(checkOutDate).Length));
+            Console.Write($"| {checkInDate}" + spaces.Substring(0, 14-checkInDate.Length));
+            Console.Write($"| {checkOutDate}" + spaces.Substring(0, 14 - checkOutDate.Length));
             Console.Write($"| {reservationStatus}" + spaces.Substring(0, 14 - reservationStatus.Length));
             Console.WriteLine($"| {meal}"+spaces.Substring(0,19-meal.Length)+'|');
         }

@@ -17,7 +17,6 @@ namespace Hotel_Management_System
         private string phoneNumber;
         private double bankBalance;
 
-        public Reservation reservation;
         public Guest()
         {
 
