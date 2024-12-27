@@ -3,16 +3,28 @@
   "WorkspaceRootPath": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\databaseserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|d:\\hotel-management-system-usingcsharp\\hotel_management_system\\hotel_management_system\\databaseserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\databaseserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\systemhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\systemhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|d:\\hotel-management-system-usingcsharp\\hotel_management_system\\hotel_management_system\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\guest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,14 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\hotel_management_system\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2620CAE3-7AC5-409D-B75E-34BF7A70EDF9}|Hotel_Management_System\\Hotel_Management_System.csproj|solutionrelative:hotel_management_system\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,11 +46,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Reservation.cs",
               "DocumentMoniker": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Reservation.cs",
               "RelativeDocumentMoniker": "Hotel_Management_System\\Reservation.cs",
@@ -55,12 +59,11 @@
               "ViewState": "AgIAADUAAAAAAAAAAAAUwEgAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-16T17:20:59.634Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Guest.cs",
               "DocumentMoniker": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Guest.cs",
               "RelativeDocumentMoniker": "Hotel_Management_System\\Guest.cs",
@@ -69,12 +72,11 @@
               "ViewState": "AgIAAA8AAAAAAAAAAAAAwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-16T17:19:56.962Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "Room.cs",
               "DocumentMoniker": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Room.cs",
               "RelativeDocumentMoniker": "Hotel_Management_System\\Room.cs",
@@ -83,8 +85,7 @@
               "ViewState": "AgIAABEAAAAAAAAAAAAAwB8AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-21T08:13:59.86Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -105,15 +106,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Manager.cs",
+              "DocumentMoniker": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Manager.cs",
+              "RelativeDocumentMoniker": "Hotel_Management_System\\Manager.cs",
+              "ToolTip": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Manager.cs",
+              "RelativeToolTip": "Hotel_Management_System\\Manager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T14:10:02.908Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "SystemHandler.cs",
               "DocumentMoniker": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\SystemHandler.cs",
               "RelativeDocumentMoniker": "Hotel_Management_System\\SystemHandler.cs",
               "ToolTip": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\SystemHandler.cs",
               "RelativeToolTip": "Hotel_Management_System\\SystemHandler.cs",
-              "ViewState": "AgIAAM4AAAAAAAAAAAAQwOUAAABFAAAAAAAAAA==",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAAwIcAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-22T13:44:07.644Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-22T13:44:07.644Z"
             },
             {
               "$type": "Document",
@@ -123,7 +136,7 @@
               "RelativeDocumentMoniker": "Hotel_Management_System\\DatabaseServer.cs",
               "ToolTip": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\DatabaseServer.cs",
               "RelativeToolTip": "Hotel_Management_System\\DatabaseServer.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAuwBgAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAMEAAAAAAAAAAAAwwNYAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-19T20:09:47.627Z",
               "EditorCaption": ""
@@ -136,27 +149,26 @@
               "RelativeDocumentMoniker": "Hotel_Management_System\\Program.cs",
               "ToolTip": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Program.cs",
               "RelativeToolTip": "Hotel_Management_System\\Program.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwEsAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAAACAAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-16T17:17:04.888Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "Payment.cs",
               "DocumentMoniker": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Payment.cs",
               "RelativeDocumentMoniker": "Hotel_Management_System\\Payment.cs",
               "ToolTip": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Payment.cs",
               "RelativeToolTip": "Hotel_Management_System\\Payment.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAACgAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-16T17:21:17.879Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-16T17:21:17.879Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Service.cs",
               "DocumentMoniker": "D:\\Hotel-Management-System-UsingCSharp\\Hotel_Management_System\\Hotel_Management_System\\Service.cs",
               "RelativeDocumentMoniker": "Hotel_Management_System\\Service.cs",
@@ -164,8 +176,7 @@
               "RelativeToolTip": "Hotel_Management_System\\Service.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAYwCUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-16T17:21:33.088Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-16T17:21:33.088Z"
             }
           ]
         }
