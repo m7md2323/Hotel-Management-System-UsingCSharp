@@ -81,6 +81,39 @@ namespace Hotel_Management_System
 
             }
             return true;
+
+        }
+        public static void ManagerHotelServices()
+        {
+            Console.WriteLine(" 1. View all guests\r\n 2. View all reservations\r\n 3. View all services\r\n 4. View all payments\r\n 5. View all rooms\r\n 6. Update room information\r\n 7. Generate profit report");
+        }
+       public static bool ManagerLogin()
+        {
+            manager = new Manager();
+            Console.WriteLine("---------[Manager login]--------");
+            Console.WriteLine("Please enter your ID and Password");
+            Console.Write(" ID : ");
+            string ManagerID = Console.ReadLine();
+            Console.Write("Password : ");
+            int Password = Convert.ToInt32(Console.ReadLine());
+            if (ManagerID != manager.ID || Password != manager.Password) {
+                Console.WriteLine("Unsuccessful Login attempt!!");
+                Console.WriteLine("National ID or Password is wrong, please try again!!");
+                Console.WriteLine("Press (1) to try again, (0) to Exit the system.");
+                string choice= Console.ReadLine();
+                if (choice == "1") {changeState(SystemState.MANAGER_LOGIN);}
+                else { changeState(SystemState.EXIT);}
+            }
+            Console.WriteLine("Successful Login!!");
+            Console.WriteLine();
+            Console.WriteLine($"Hello manager and welcome to our hotel system.");
+            Console.WriteLine();
+            EnterManagerSystem();////////////////////////////////////////
+
+
+            Console.WriteLine("---------------");
+
+            return false;
         }
         public static bool GuestValidator(int NationalId,int Password)
         {

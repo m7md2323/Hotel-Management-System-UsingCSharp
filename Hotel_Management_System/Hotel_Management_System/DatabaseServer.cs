@@ -65,6 +65,9 @@ namespace Hotel_Management_System
                     case "Payment":
                         bf.Serialize(fs, (Payment)obj);
                         break;
+                    case "Service":
+                        bf.Serialize(fs, (Service)obj);
+                        break;
                     //zaid finish the remaining classes
                     default:
                         break;
