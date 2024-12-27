@@ -11,7 +11,7 @@ namespace Hotel_Management_System
     {
         static void Main(string[] arg)
         {
-           /**/ bool Exit = false;
+          bool Exit = false;
             while (!Exit) {
                 switch (SystemHandler.systemState)
                 {
@@ -22,7 +22,10 @@ namespace Hotel_Management_System
                         case UserType.GUEST:
                             SystemHandler.GuestLogin();
                             break;
-                        //case UserType.MANAGER: zaid
+                            //case UserType.MANAGER: zaid
+                            case UserType.MANAGER:
+                                SystemHandler.ManagerLogin();
+                                break;
                         case UserType.INVALID_SELECTION:
                             Console.WriteLine("Please enter a valid option(1, 2, 3)");
                             break;

@@ -9,7 +9,7 @@ namespace Hotel_Management_System
     [Serializable]
     internal class Manager
     {
-        string Id = "M2022";
+        string Id = "m2022";
         int password = 00;
         
         public string ID
@@ -20,5 +20,6 @@ namespace Hotel_Management_System
         {
             get { return password;}
         }
+      
     }
 }
