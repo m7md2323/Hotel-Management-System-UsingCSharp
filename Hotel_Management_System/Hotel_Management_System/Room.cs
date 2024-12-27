@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 //written by mohammad
 namespace Hotel_Management_System
@@ -68,5 +70,6 @@ namespace Hotel_Management_System
             Console.Write($"| {pricePerDay}$" + spaces.Substring(0, 11));
             Console.WriteLine($"| {available}" + ((available==true)?spaces.Substring(0,10):spaces.Substring(0,9))+'|');
         }
+        
     }
 }

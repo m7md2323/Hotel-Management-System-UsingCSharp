@@ -18,46 +18,101 @@ namespace Hotel_Management_System
         //to make sure that all IDs attributes of our classes are unique (Reservation ID, Service ID, Payment bill number).
 
        static BinaryFormatter bf = new BinaryFormatter();
-        public static int LoadLastIdOfObject(string objectType)
+       /* public static int LoadLastIdRes()
         {
             int Id = 1000;
-            using (FileStream fs = new FileStream(objectType+".txt", FileMode.OpenOrCreate, FileAccess.Read))
+            using (FileStream fs = new FileStream("Reservation.txt", FileMode.OpenOrCreate, FileAccess.Read))
             {
-                
+                if (fs.Length == 0)
+                {
+                    return Id; // Return default ID if the file is empty
+                }
+
                 while (fs.Position < fs.Length)
                 {
-                    //here we will Deserialize all objects in our database and extract the needed ID(the last ID of the object type we sent)
-                    //so we will keep track of the last ID used in the last run
-                    //for example if a reservation ID with 1000 was created and then we closed the system. 
-                    //all we need to find is this reservation ID(1000) and add to it one to make the next reservation ID different from the others
-                    try 
-                    { 
-                        object temp = bf.Deserialize(fs); 
-                        if (objectType == "Reservation")
-                        {
-                            Id = ((Reservation)temp).ID;
-                        }
-                        if (objectType == "Payment")
-                        {
-                            Id = ((Payment)temp).BillNumber;
-                        }
-                        if ( objectType == "Service")
-                        {
-                            Id = ((Service)temp).ID;
-                        }
-                    }
-                    catch (SerializationException)
+                    try
                     {
-                        Console.WriteLine("Something went wrong, skipping.....");
+                        Reservation temp = (Reservation)bf.Deserialize(fs);  
+                        Id = temp.ID;
+                    }
+                    catch (SerializationException ex)
+                    {
+                        Console.WriteLine("Deserialization error: " + ex.Message + ", skipping...");
                     }
                 }
             }
             return Id;
         }
+        public static int LoadLastIdPayment()
+        {
+            int Id = 1000;
+            using (FileStream fs = new FileStream("Payment.txt", FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                if (fs.Length == 0)
+                {
+                    return Id; // Return default ID if the file is empty
+                }
+
+                while (fs.Position < fs.Length)
+                {
+                    try
+                    {
+                        Payment temp = (Payment)bf.Deserialize(fs);
+                        Id = temp.BillNumber;
+                    }
+                    catch (SerializationException ex)
+                    {
+                        Console.WriteLine("Deserialization error: " + ex.Message + ", skipping...");
+                    }
+                }
+            }
+            return Id;
+        }*/
+        public static int LoadLastIdOfObject(string objectType)
+        {
+            int Id = 1000;
+            BinaryFormatter bff = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream(objectType+".txt", FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                if (fs.Length == 0)
+                {
+                    return Id; // Return default ID if the file is empty
+                }
+
+                while (fs.Position < fs.Length)
+                {
+                    try
+                    {
+                        object temp = bff.Deserialize(fs);
+
+                        if (objectType == "Reservation" && temp is Reservation reservation)
+                        {
+                            Id = reservation.ID;
+                        }
+                        else if (objectType == "Payment" && temp is Payment payment)
+                        {
+                            Id = payment.BillNumber;
+                        }
+                        else if (objectType == "Service" && temp is Service service)
+                        {
+                            Id = service.ID;
+                        }
+                    }
+                    catch (SerializationException ex)
+                    {
+                        Console.WriteLine("Deserialization error: " + ex.Message + ", skipping...");
+                    }
+                }
+            }
+
+            return Id;
+        }
+
         public static void SaveData(string filePath,object obj)
         {
 
-            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
             {
                 switch (obj.GetType().Name)
                 {
@@ -96,7 +151,7 @@ namespace Hotel_Management_System
         }
         public static void SaveUpdatedPayments(List<Payment> data)
         {
-            using (FileStream fs = new FileStream("Payment.txt", FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream fs = new FileStream("Payment.txt", FileMode.Open, FileAccess.Write))
             {
                 for (int i = 0; i < data.Count; i++)
                 {
@@ -162,7 +217,8 @@ namespace Hotel_Management_System
                 {
                     try
                     {
-                        payments.Add((Payment)bf.Deserialize(fs));
+                        Payment payment = (Payment)bf.Deserialize(fs);
+                        payments.Add(payment);
                     }
                     catch (SerializationException)
                     {
@@ -190,7 +246,7 @@ namespace Hotel_Management_System
             }
             return availableRooms;
         }
-        public static Guest LoadGuestUsingId(int NationalId)
+        public static Guest GetGuestUsingId(int NationalId)
         {   
             Guest guest = null;
             using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read))

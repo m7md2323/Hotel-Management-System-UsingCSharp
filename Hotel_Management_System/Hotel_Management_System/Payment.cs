@@ -10,7 +10,7 @@ namespace Hotel_Management_System
    // number(unique), guest’s national ID, source, amount, and status
         
 
-        [Serializable]
+    [Serializable]
     internal class Payment
     {
         int billNumber;
@@ -34,7 +34,7 @@ namespace Hotel_Management_System
             Console.Write($"| {billNumber}" + spaces.Substring(0, 10));
             Console.Write($"| {guestNationalID}" + spaces.Substring(0, 9));
             Console.Write($"| {source}" + spaces.Substring(0, 14-source.Length));
-            Console.Write($"| {amount}" + spaces.Substring(0, 14-Convert.ToString(amount).Length));
+            Console.Write($"| {amount}$" + spaces.Substring(0, 13-Convert.ToString(amount).Length));
             Console.WriteLine($"| {status}" + spaces.Substring(0, 14-status.Length) + '|');
         }
         public int BillNumber { set { billNumber = value; } get { return billNumber; } }

@@ -67,7 +67,7 @@ namespace Hotel_Management_System
                 {
                     Console.WriteLine("Successful Login!!");
                     Console.WriteLine();
-                    loggedInGuest = DatabaseServer.LoadGuestUsingId(guestID);
+                    loggedInGuest = DatabaseServer.GetGuestUsingId(guestID);
                     Console.WriteLine($"Hello Mr.{loggedInGuest.Name} and welcome to our hotel system.");
                     Console.WriteLine();
                     EnterGuestSystem();
@@ -97,19 +97,23 @@ namespace Hotel_Management_System
             string ManagerID = Console.ReadLine();
             Console.Write("Password : ");
             int Password = Convert.ToInt32(Console.ReadLine());
-            if (ManagerID != manager.ID || Password != manager.Password) {
+            if (ManagerID != manager.ID || Password != manager.Password)
+            {
                 Console.WriteLine("Unsuccessful Login attempt!!");
-                Console.WriteLine("National ID or Password is wrong, please try again!!");
+                Console.WriteLine("ID or Password is wrong, please try again!!");
                 Console.WriteLine("Press (1) to try again, (0) to Exit the system.");
-                string choice= Console.ReadLine();
-                if (choice == "1") {changeState(SystemState.MANAGER_LOGIN);}
-                else { changeState(SystemState.EXIT);}
+                string choice = Console.ReadLine();
+                if (choice == "1") { changeState(SystemState.MANAGER_LOGIN); }
+                else { changeState(SystemState.EXIT); }
             }
-            Console.WriteLine("Successful Login!!");
-            Console.WriteLine();
-            Console.WriteLine($"Hello manager and welcome to our hotel system.");
-            Console.WriteLine();
-            EnterManagerSystem();////////////////////////////////////////
+            else
+            {
+                Console.WriteLine("Successful Login!!");
+                Console.WriteLine();
+                Console.WriteLine($"Hello manager and welcome to our hotel system.");
+                Console.WriteLine();
+            }
+          //  EnterManagerSystem();////////////////////////////////////////
 
 
             Console.WriteLine("---------------");
@@ -118,7 +122,7 @@ namespace Hotel_Management_System
         }
         public static bool GuestValidator(int NationalId,int Password)
         {
-            Guest guest = DatabaseServer.LoadGuestUsingId(NationalId);
+            Guest guest = DatabaseServer.GetGuestUsingId(NationalId);
             if (guest == null) return false;
             if (guest.Password != Password) return false;
             return true;
@@ -131,10 +135,10 @@ namespace Hotel_Management_System
             switch (guestChoice)
             {
                 case (int)GuestServiceSelection.RESERVE_A_ROOM:
-                    ReserveRoom();
+                    loggedInGuest.ReserveRoom();
                     break;
                 case (int)GuestServiceSelection.REQUEST_A_SERVICE:
-                    RequestService();
+                    loggedInGuest.RequestService();
                     break;
                 case (int)GuestServiceSelection.LOGOUT:
                     loggedInGuest = null;
@@ -142,16 +146,16 @@ namespace Hotel_Management_System
                     changeState(SystemState.GUEST_LOGIN);
                     break;
                 case (int)GuestServiceSelection.CHECK_IN:
-                    CheckIn();
+                    loggedInGuest.CheckIn();
                     break;
                 case (int)GuestServiceSelection.CHECK_OUT:
-                    CheckOut();
+                    loggedInGuest.CheckOut();
                     break;
                 case (int)GuestServiceSelection.PAY_FOR_A_RESERVATION:
-                    PayForReservation();
+                    loggedInGuest.PayForReservation();
                     break;
                 case (int)GuestServiceSelection.PAY_FOR_A_SERVICE:
-                    //PayForServices();
+                    loggedInGuest.PayForService();
                     break;
 
             }
@@ -170,232 +174,6 @@ namespace Hotel_Management_System
             Console.WriteLine("------------------------------------------------------------------------");
         }
         //Guest functions///////////////////////////////////////////////////////
-        public static void ReserveRoom()
-        {
-            int roomNumber;
-            string checkInDate;
-            string checkOutDate;
-            string meal = "";
-            int mealSelection;
-            Console.Clear();
-            Console.WriteLine("---------------------------[ Room Reservation ]---------------------------");
-            if (ShowAvailableRooms()==false){ 
-                Console.WriteLine("We are sorry, there is no available rooms at the moment!!");
-                Thread.Sleep(2000);
-                changeState(SystemState.GUEST_MENU);
-                return;
-            }
-            Console.WriteLine("Please fill the information below to confirm your reservation (Type 0 to cancel the reservation).");
-            Console.Write("Room Number : ");
-            roomNumber = Convert.ToInt32(Console.ReadLine());
-            //get room info from database
-            Room chosenRoom = DatabaseServer.GetRoom(roomNumber);
-            if (roomNumber == 0) { changeState(SystemState.GUEST_MENU);return; }
-            if (chosenRoom == null)
-            {
-                Console.WriteLine("Wrong room number, please try again");
-                Thread.Sleep(2000);
-                ReserveRoom();
-                return;
-            }
-            //change room availability to false
-            Console.WriteLine("Check In Date and Check Out date in form of (DD/MM/YYYY) : ");
-            //remember to handle the case where check-out is before check-in 
-            Console.Write("Check In Date : ");
-            checkInDate = Console.ReadLine();
-            Console.Write("Check Out Date : ");
-            checkOutDate = Console.ReadLine();
-            try
-            {
-                DateTime checkTimeValidity = DateTime.ParseExact(checkInDate,"dd/MM/yyyy",new CultureInfo("en-Jo"));
-                checkTimeValidity = DateTime.ParseExact(checkOutDate, "dd/MM/yyyy", new CultureInfo("en-Jo"));
-            }
-            catch (FormatException e)
-            {
-                Console.WriteLine(e.Message);
-                Thread.Sleep(2000);
-                ReserveRoom();
-                return;
-            }
-            //remember to send a payment record of the reservation
-            Console.WriteLine("Choose one of the meals type below : ");
-            Console.WriteLine("1. Breakfast.");
-            Console.WriteLine("2. Breakfast and Lunch.");
-            Console.WriteLine("3. Full board.");
-            mealSelection = Convert.ToInt32(Console.ReadLine());
-            if (mealSelection == 1) meal = "Breakfast";
-            if (mealSelection == 2) meal = "Breakfast and Lunch";
-            if (mealSelection == 3) meal = "Full Board";
-            //calculate the total amount of reservation (total room reservation + the price of the meal)
-            Reservation reservation = new Reservation(GenerateId("Reservation"),roomNumber, loggedInGuest.NationalID, checkInDate, checkOutDate, meal);
-            Payment resPaymentRecord = new Payment(GenerateId("Payment"), loggedInGuest.NationalID, "Reservation",calculateReservation(reservation,chosenRoom.PricePerDay,meal),"Unpaid");
-            Console.WriteLine("Your receipt : ");
-            PrintHeaderTable();
-            resPaymentRecord.DisplayAllInfo();
-            Console.WriteLine("---------------------------------------------------------------------------------");
-            DatabaseServer.SaveData("Reservation.txt",reservation);
-            DatabaseServer.SaveData("Payment.txt", resPaymentRecord);
-            Console.WriteLine("Room reservation went successfully, Thank you for using our Hotel!!");
-            AfterServiceMessage();
-        }
-        public static void RequestService()
-        {
-            Payment servPaymentRecord=null;
-            Service newServiceRecord = null;
-            Console.Clear();
-            Console.WriteLine("---------------------------[ Request a service ]---------------------------");
-            Console.WriteLine("Please choose the service you want below : ");
-            Console.WriteLine("1. Car rental.");
-            Console.WriteLine("2. Kids zone.");
-            Console.WriteLine("Press (0) to get back.");
-            Console.WriteLine("---------------------------------------------------------------------------");
-            string guestSelection = Console.ReadLine();
-            if (guestSelection == "1")
-            {
-                Console.Write("Please enter the number of rental days : ");
-                int numberOfRentDays= Convert.ToInt32(Console.ReadLine());
-                newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.NationalID, "Car rental",CalculateService("Car rental",numberOfRentDays));
-                servPaymentRecord = new Payment(GenerateId("Payment"), loggedInGuest.NationalID, "Car rental", CalculateService("Car rental", numberOfRentDays), "Unpaid");
-            }
-            if (guestSelection == "2")
-            {
-                Console.Write("Please enter the number of children : ");
-                int numberOfChildren = Convert.ToInt32(Console.ReadLine());
-                newServiceRecord = new Service(GenerateId("Service"), loggedInGuest.NationalID, "Kids zone", CalculateService("Kids zone", numberOfChildren));
-                servPaymentRecord = new Payment(GenerateId("Payment"), loggedInGuest.NationalID, "Kids zone", CalculateService("Kids zone", numberOfChildren), "Unpaid");
-            }
-            if (guestSelection =="0")
-            {
-                Console.Clear();
-                changeState(SystemState.GUEST_MENU);
-                return;
-            }
-            Console.WriteLine("Your receipt : ");
-            PrintHeaderTable();
-            servPaymentRecord.DisplayAllInfo();
-            Console.WriteLine("---------------------------------------------------------------------------------");
-            DatabaseServer.SaveData("Payment.txt", servPaymentRecord);
-            DatabaseServer.SaveData("Service.txt", newServiceRecord);
-            AfterServiceMessage();
-            
-
-        }
-        public static void CheckIn()
-        {
-            Console.Clear();
-            Console.WriteLine("--------------------------------------------------[ Check In ]--------------------------------------------------");
-            List<Reservation> reservations = DatabaseServer.GetReservations();
-            Console.WriteLine("All Confirmed reservations in your name: ");
-           Reservation.PrintHeaderTable();
-            int numberOfRes = 0;
-           for(int i = 0; i < reservations.Count; i++)
-           {
-                if (reservations[i].NationalId == loggedInGuest.NationalID && reservations[i].ReservationStatus == "Confirmed")
-                {
-                    numberOfRes++;
-                    reservations[i].DisplayAllInfo(); 
-                }
-           }
-            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
-            if (numberOfRes == 0)
-            {
-                Console.Clear();
-                Console.WriteLine("There is no Confirmed reservations in your name, please reserve a room and try again!!");
-                AfterServiceMessage();
-                return;
-
-            }
-            Console.WriteLine("Please enter the reservation Id to check in: ");
-            int resId = Convert.ToInt32(Console.ReadLine());
-            for (int i = 0; i < reservations.Count; i++)
-            {
-                if (reservations[i].ID == resId)
-                {
-                    reservations[i].ReservationStatus = "Checked In";
-;               }
-            }
-            DatabaseServer.SaveUpdatedReservations(reservations);
-            Console.WriteLine("Checking In went successfully, Thank you for using our Hotel!!");
-            AfterServiceMessage();
-        }
-        public static void CheckOut()
-        {
-            Console.Clear();
-            Console.WriteLine("--------------------------------------------------[ Check Out ]--------------------------------------------------");
-            List<Reservation> reservations = DatabaseServer.GetReservations();
-            Console.WriteLine("All Checked In reservations in your name: ");
-            Reservation.PrintHeaderTable();
-            int numberOfRes = 0;
-            for (int i = 0; i < reservations.Count; i++)
-            {
-                if (reservations[i].NationalId == loggedInGuest.NationalID && reservations[i].ReservationStatus == "Checked In")
-                {
-                    reservations[i].DisplayAllInfo();
-                }
-            }
-            if (numberOfRes == 0)
-            {
-                Console.Clear();
-                Console.WriteLine("There is no Checked In reservations in your name, please Check in first and try again!!");
-                AfterServiceMessage();
-                return;
-
-            }
-            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("Please enter the reservation Id to check out: ");
-            int resId = Convert.ToInt32(Console.ReadLine());
-            for (int i = 0; i < reservations.Count; i++)
-            {
-                if (reservations[i].ID == resId)
-                {
-                    reservations[i].ReservationStatus = "Checked Out";
-                    ;
-                }
-            }
-            DatabaseServer.SaveUpdatedReservations(reservations);
-            Console.WriteLine("Checking out went successfully, Thank you for using our Hotel!!");
-            AfterServiceMessage();
-        }
-        public static void PayForReservation()
-        {
-            Console.Clear();
-            Console.WriteLine("--------------------------------------------------[ Pay For Reservation ]--------------------------------------------------");
-            List<Payment> payments = DatabaseServer.GetPayments();
-            if (payments == null) Console.WriteLine("No paymets available");
-            Console.WriteLine("All Unpaid reservations in your name: ");
-           // Reservation.PrintHeaderTable();
-            int numberOfPayments = 0;
-            for (int i = 0; i < payments.Count; i++)
-            {
-                if (payments[i].GuestNationalID == loggedInGuest.NationalID && payments[i].Status == "Unpaid"&& payments[i].Source=="Reservation")
-                {
-                    numberOfPayments++;
-                    payments[i].DisplayAllInfo();
-                }
-            }
-            if (numberOfPayments == 0)
-            {
-                Console.Clear();
-                Console.WriteLine("There is no Unpaid reservations in your name!!");
-                AfterServiceMessage();
-                return;
-
-            }
-            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("Please enter the bill number to pay: ");
-            int billNumber = Convert.ToInt32(Console.ReadLine());
-            for (int i = 0; i < payments.Count; i++)
-            {
-                if (payments[i].BillNumber == billNumber)
-                {
-                    payments[i].Status = "Paid";
-                    
-                }
-            }
-            DatabaseServer.SaveUpdatedPayments(payments);
-            Console.WriteLine("Paying for reservation went successfully, Thank you for using our Hotel!!");
-            AfterServiceMessage();
-        }
         public static void PrintHeaderTable()
         {
             Console.WriteLine("---------------------------------------------------------------------------------");
