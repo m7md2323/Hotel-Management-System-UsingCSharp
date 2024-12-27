@@ -55,9 +55,10 @@ namespace Hotel_Management_System
                 systemState = SystemState.GUEST_LOGIN;
                 Console.Clear();
                 Console.WriteLine("--------------------[ Guest Login ]--------------------");
-                Console.WriteLine("Please enter your National ID and Password");
+                Console.WriteLine("Please enter your National ID and Password (Type 0 to get back) ");
                 Console.Write("National ID : ");
                 int guestID = Convert.ToInt32(Console.ReadLine());
+                if (guestID == 0) { changeState(SystemState.USER_SELECTION);return false;}
                 Console.Write("Password : ");
                 int Password= Convert.ToInt32(Console.ReadLine());
                 Console.Write("Verifying");LineOfDots();
@@ -79,7 +80,7 @@ namespace Hotel_Management_System
                     if (Console.ReadLine() == "1") changeState(SystemState.GUEST_LOGIN);
                     else changeState(SystemState.EXIT);
 
-            }
+                }
             return true;
         }
         public static bool GuestValidator(int NationalId,int Password)
@@ -111,10 +112,10 @@ namespace Hotel_Management_System
                     CheckIn();
                     break;
                 case (int)GuestServiceSelection.CHECK_OUT:
-                    //CheckOut();
+                    CheckOut();
                     break;
                 case (int)GuestServiceSelection.PAY_FOR_A_RESERVATION:
-                    //PayForReservation();
+                    PayForReservation();
                     break;
                 case (int)GuestServiceSelection.PAY_FOR_A_SERVICE:
                     //PayForServices();
@@ -124,7 +125,7 @@ namespace Hotel_Management_System
         }
         public static void LoadGuestServicesMenu()
         {
-            Console.WriteLine("-----------------------[ Guest Hotel Services ]-----------------------");
+            Console.WriteLine("------------------------[ Guest Hotel Services ]------------------------");
             //Console.WriteLine("Please select the service you want below: ");
             Console.WriteLine("1. Reserve a room");
             Console.WriteLine("2. Request a service");
@@ -133,7 +134,7 @@ namespace Hotel_Management_System
             Console.WriteLine("5. Pay for a reservation");
             Console.WriteLine("6. Pay for a service");
             Console.WriteLine("7. To Logout");
-            Console.WriteLine("-----------------------------------------------------------------------");
+            Console.WriteLine("------------------------------------------------------------------------");
         }
         //Guest functions///////////////////////////////////////////////////////
         public static void ReserveRoom()
@@ -151,11 +152,12 @@ namespace Hotel_Management_System
                 changeState(SystemState.GUEST_MENU);
                 return;
             }
-            Console.WriteLine("Please fill the information below to confirm your reservation.");
+            Console.WriteLine("Please fill the information below to confirm your reservation (Type 0 to cancel the reservation).");
             Console.Write("Room Number : ");
             roomNumber = Convert.ToInt32(Console.ReadLine());
             //get room info from database
             Room chosenRoom = DatabaseServer.GetRoom(roomNumber);
+            if (roomNumber == 0) { changeState(SystemState.GUEST_MENU);return; }
             if (chosenRoom == null)
             {
                 Console.WriteLine("Wrong room number, please try again");
@@ -170,6 +172,18 @@ namespace Hotel_Management_System
             checkInDate = Console.ReadLine();
             Console.Write("Check Out Date : ");
             checkOutDate = Console.ReadLine();
+            try
+            {
+                DateTime checkTimeValidity = DateTime.ParseExact(checkInDate,"dd/MM/yyyy",new CultureInfo("en-Jo"));
+                checkTimeValidity = DateTime.ParseExact(checkOutDate, "dd/MM/yyyy", new CultureInfo("en-Jo"));
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine(e.Message);
+                Thread.Sleep(2000);
+                ReserveRoom();
+                return;
+            }
             //remember to send a payment record of the reservation
             Console.WriteLine("Choose one of the meals type below : ");
             Console.WriteLine("1. Breakfast.");
@@ -188,7 +202,8 @@ namespace Hotel_Management_System
             Console.WriteLine("---------------------------------------------------------------------------------");
             DatabaseServer.SaveData("Reservation.txt",reservation);
             DatabaseServer.SaveData("Payment.txt", resPaymentRecord);
-            ServiceConfirmedMessage();
+            Console.WriteLine("Room reservation went successfully, Thank you for using our Hotel!!");
+            AfterServiceMessage();
         }
         public static void RequestService()
         {
@@ -228,7 +243,7 @@ namespace Hotel_Management_System
             Console.WriteLine("---------------------------------------------------------------------------------");
             DatabaseServer.SaveData("Payment.txt", servPaymentRecord);
             DatabaseServer.SaveData("Service.txt", newServiceRecord);
-            ServiceConfirmedMessage();
+            AfterServiceMessage();
             
 
         }
@@ -237,16 +252,26 @@ namespace Hotel_Management_System
             Console.Clear();
             Console.WriteLine("--------------------------------------------------[ Check In ]--------------------------------------------------");
             List<Reservation> reservations = DatabaseServer.GetReservations();
-            Console.WriteLine("All reservations in your name: ");
+            Console.WriteLine("All Confirmed reservations in your name: ");
            Reservation.PrintHeaderTable();
+            int numberOfRes = 0;
            for(int i = 0; i < reservations.Count; i++)
            {
                 if (reservations[i].NationalId == loggedInGuest.NationalID && reservations[i].ReservationStatus == "Confirmed")
-                { 
+                {
+                    numberOfRes++;
                     reservations[i].DisplayAllInfo(); 
                 }
            }
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            if (numberOfRes == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("There is no Confirmed reservations in your name, please reserve a room and try again!!");
+                AfterServiceMessage();
+                return;
+
+            }
             Console.WriteLine("Please enter the reservation Id to check in: ");
             int resId = Convert.ToInt32(Console.ReadLine());
             for (int i = 0; i < reservations.Count; i++)
@@ -257,7 +282,86 @@ namespace Hotel_Management_System
 ;               }
             }
             DatabaseServer.SaveUpdatedReservations(reservations);
-            ServiceConfirmedMessage();
+            Console.WriteLine("Checking In went successfully, Thank you for using our Hotel!!");
+            AfterServiceMessage();
+        }
+        public static void CheckOut()
+        {
+            Console.Clear();
+            Console.WriteLine("--------------------------------------------------[ Check Out ]--------------------------------------------------");
+            List<Reservation> reservations = DatabaseServer.GetReservations();
+            Console.WriteLine("All Checked In reservations in your name: ");
+            Reservation.PrintHeaderTable();
+            int numberOfRes = 0;
+            for (int i = 0; i < reservations.Count; i++)
+            {
+                if (reservations[i].NationalId == loggedInGuest.NationalID && reservations[i].ReservationStatus == "Checked In")
+                {
+                    reservations[i].DisplayAllInfo();
+                }
+            }
+            if (numberOfRes == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("There is no Checked In reservations in your name, please Check in first and try again!!");
+                AfterServiceMessage();
+                return;
+
+            }
+            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("Please enter the reservation Id to check out: ");
+            int resId = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < reservations.Count; i++)
+            {
+                if (reservations[i].ID == resId)
+                {
+                    reservations[i].ReservationStatus = "Checked Out";
+                    ;
+                }
+            }
+            DatabaseServer.SaveUpdatedReservations(reservations);
+            Console.WriteLine("Checking out went successfully, Thank you for using our Hotel!!");
+            AfterServiceMessage();
+        }
+        public static void PayForReservation()
+        {
+            Console.Clear();
+            Console.WriteLine("--------------------------------------------------[ Pay For Reservation ]--------------------------------------------------");
+            List<Payment> payments = DatabaseServer.GetPayments();
+            if (payments == null) Console.WriteLine("No paymets available");
+            Console.WriteLine("All Unpaid reservations in your name: ");
+           // Reservation.PrintHeaderTable();
+            int numberOfPayments = 0;
+            for (int i = 0; i < payments.Count; i++)
+            {
+                if (payments[i].GuestNationalID == loggedInGuest.NationalID && payments[i].Status == "Unpaid"&& payments[i].Source=="Reservation")
+                {
+                    numberOfPayments++;
+                    payments[i].DisplayAllInfo();
+                }
+            }
+            if (numberOfPayments == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("There is no Unpaid reservations in your name!!");
+                AfterServiceMessage();
+                return;
+
+            }
+            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("Please enter the bill number to pay: ");
+            int billNumber = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < payments.Count; i++)
+            {
+                if (payments[i].BillNumber == billNumber)
+                {
+                    payments[i].Status = "Paid";
+                    
+                }
+            }
+            DatabaseServer.SaveUpdatedPayments(payments);
+            Console.WriteLine("Paying for reservation went successfully, Thank you for using our Hotel!!");
+            AfterServiceMessage();
         }
         public static void PrintHeaderTable()
         {
@@ -322,9 +426,8 @@ namespace Hotel_Management_System
         {
             return DatabaseServer.LoadLastIdOfObject(objectType)+1;            
         }
-        public static void ServiceConfirmedMessage()
+        public static void AfterServiceMessage()
         {
-            Console.WriteLine("Thank you for using our hotel!!");
             Console.WriteLine("Press (1) to get back to menu, (0) To logout.");
             string userChoice=Console.ReadLine();
             if (userChoice == "1") changeState(SystemState.GUEST_MENU); 

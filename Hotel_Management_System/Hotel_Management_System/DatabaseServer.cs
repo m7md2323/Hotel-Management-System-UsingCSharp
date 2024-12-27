@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,18 +30,25 @@ namespace Hotel_Management_System
                     //so we will keep track of the last ID used in the last run
                     //for example if a reservation ID with 1000 was created and then we closed the system. 
                     //all we need to find is this reservation ID(1000) and add to it one to make the next reservation ID different from the others
-                    object temp = bf.Deserialize(fs);
-                    if (objectType == "Reservation")
-                    {
-                        Id = ((Reservation)temp).ID;
+                    try 
+                    { 
+                        object temp = bf.Deserialize(fs); 
+                        if (objectType == "Reservation")
+                        {
+                            Id = ((Reservation)temp).ID;
+                        }
+                        if (objectType == "Payment")
+                        {
+                            Id = ((Payment)temp).BillNumber;
+                        }
+                        if ( objectType == "Service")
+                        {
+                            Id = ((Service)temp).ID;
+                        }
                     }
-                    if (objectType == "Payment")
+                    catch (SerializationException)
                     {
-                        Id = ((Payment)temp).BillNumber;
-                    }
-                    if ( objectType == "Service")
-                    {
-                        Id = ((Service)temp).ID;
+                        Console.WriteLine("Something went wrong, skipping.....");
                     }
                 }
             }
@@ -49,7 +57,7 @@ namespace Hotel_Management_System
         public static void SaveData(string filePath,object obj)
         {
 
-            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
             {
                 switch (obj.GetType().Name)
                 {
@@ -75,9 +83,20 @@ namespace Hotel_Management_System
         }
         public static void SaveUpdatedReservations(List<Reservation> data)
         {
-            using (FileStream fs = new FileStream("Reservation.txt", FileMode.Open, FileAccess.Write))
+            using (FileStream fs = new FileStream("Reservation.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 for (int i = 0; i < data.Count; i++) {
+
+                    bf.Serialize(fs, data[i]);
+                }
+            }
+        }
+        public static void SaveUpdatedPayments(List<Payment> data)
+        {
+            using (FileStream fs = new FileStream("Payment.txt", FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                for (int i = 0; i < data.Count; i++)
+                {
 
                     bf.Serialize(fs, data[i]);
                 }
@@ -115,19 +134,46 @@ namespace Hotel_Management_System
         public static List<Reservation> GetReservations()
         {
             List<Reservation> reservations = new List<Reservation>();
-            using (FileStream fs = new FileStream("Reservation.txt", FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream("Reservation.txt", FileMode.OpenOrCreate, FileAccess.Read))
             {
                 while (fs.Position < fs.Length)
                 {
-                    reservations.Add((Reservation)bf.Deserialize(fs));
+                    try 
+                    {
+                        reservations.Add((Reservation)bf.Deserialize(fs)); 
+                    }
+                    catch(SerializationException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
             }
             return reservations;
         }
+        public static List<Payment> GetPayments()
+        {
+            List<Payment> payments = new List<Payment>();
+            using (FileStream fs = new FileStream("Payment.txt", FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                while (fs.Position < fs.Length)
+                {
+                    try
+                    {
+                        payments.Add((Payment)bf.Deserialize(fs));
+                    }
+                    catch (SerializationException)
+                    {
+                        // Handle or log the error and continue
+                        Console.WriteLine("Encountered a corrupted entry, skipping...");
+                    }
+                }
+            }
+            return payments;
+        }
         public static List<Room> LoadAvailableRooms()
         {
             List<Room> availableRooms = new List<Room>();
-            using (FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream("Room.txt", FileMode.OpenOrCreate, FileAccess.Read))
             {
                 while (fs.Position < fs.Length)
                 {
@@ -194,26 +240,6 @@ namespace Hotel_Management_System
                 }
             }
             return null;
-        }
-        public static void ChangeResStatus(int resID,string status)
-        {
-           
-            using (FileStream fs = new FileStream("database.txt", FileMode.Open, FileAccess.Read))
-            {
-                while (fs.Position < fs.Length)
-                {
-                    object desObject = bf.Deserialize(fs);
-                    if (desObject.GetType().Name == "Reservation")
-                    {
-                        if(((Reservation)desObject).ID==resID)
-                        { 
-                            ((Reservation)desObject).ReservationStatus = status; 
-                            
-                        }
-                            
-                    }
-                }
-            }
         }
         public static void DisplayAllGuests()
         {
