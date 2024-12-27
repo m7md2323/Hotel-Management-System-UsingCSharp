@@ -36,6 +36,17 @@ namespace Hotel_Management_System
         PAY_FOR_A_SERVICE,
         LOGOUT
     }
+    public enum ManagerServiceSelection
+    {
+        VIEW_ALL_GUESTS=1 ,
+        VIEW_ALL_RESERVATIONS,
+        VIEW_ALL_SERVICES,
+        VIEW_ALL_PAYMENTS,
+        VIEW_ALL_ROOMS,
+        UPDATE_ROOM_INFORMATION,
+        GENERATE_PROFIT_REPORT,
+        LOGOUT
+    }
     internal class SystemHandler
     {   
         static Guest loggedInGuest;
@@ -50,6 +61,7 @@ namespace Hotel_Management_System
             return (UserType)userChoice;
             
         }
+        ///after login ///
         public static bool GuestLogin()
         {
                 systemState = SystemState.GUEST_LOGIN;
@@ -83,10 +95,12 @@ namespace Hotel_Management_System
             return true;
 
         }
+        //zaid
         public static void ManagerHotelServices()
         {
             Console.WriteLine(" 1. View all guests\r\n 2. View all reservations\r\n 3. View all services\r\n 4. View all payments\r\n 5. View all rooms\r\n 6. Update room information\r\n 7. Generate profit report");
         }
+        //zaid
        public static bool ManagerLogin()
         {
             manager = new Manager();
@@ -106,9 +120,9 @@ namespace Hotel_Management_System
             }
             Console.WriteLine("Successful Login!!");
             Console.WriteLine();
-            Console.WriteLine($"Hello manager and welcome to our hotel system.");
+            Console.WriteLine("Hello manager and welcome to our hotel system.");
             Console.WriteLine();
-            EnterManagerSystem();////////////////////////////////////////
+            EnterManagerSystem();
 
 
             Console.WriteLine("---------------");
@@ -154,6 +168,15 @@ namespace Hotel_Management_System
                     break;
 
             }
+        }//zaid
+        public static void EnterManagerSystem() { 
+            systemState = SystemState.MANAGER_LOGIN;
+            ManagerHotelServices();
+            int ManagerChoice = Convert.ToInt32(Console.ReadLine());
+            switch (ManagerChoice) {
+                case 1:;
+                    break;
+            }//////////////////
         }
         public static void LoadGuestServicesMenu()
         {
