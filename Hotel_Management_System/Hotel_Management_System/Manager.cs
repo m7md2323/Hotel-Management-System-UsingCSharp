@@ -22,29 +22,39 @@ namespace Hotel_Management_System
         }
       
         public  void viewAllGuests() {
-        
+            Console.WriteLine("viewing all guests..");
+            DatabaseServer db = new DatabaseServer();
+            DatabaseServer.GetAllGuests();///////
+
+
+
         }
         public void viewAllReservations() {
-        
+            Console.WriteLine("viewing all reservations..");
         }
         public void viewAllServices()
         {
+            Console.WriteLine("viewing all services..");
 
         }
         public void viewAllPayments()
         {
+            Console.WriteLine("viewing all payments..");
 
         }
         public void viewAllRooms()
         {
+            Console.WriteLine("viewing all rooms..");
 
         }
         public void updateRoomInfo()
         {
+            Console.WriteLine("update room info..");
 
         }
         public void generateProfitReport()
         {
+            Console.WriteLine("generating profit report..");
 
         }
     }
