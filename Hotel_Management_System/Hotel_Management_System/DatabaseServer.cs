@@ -191,6 +191,8 @@ namespace Hotel_Management_System
                             bf.Serialize(fs, (Reservation)obj);
                             break;
                         //zaid finish the remaining classes
+                    case "Service":bf.Serialize(fs, (Service)obj);
+                    break;
                         default:
                             break;
 
@@ -199,6 +201,26 @@ namespace Hotel_Management_System
             }
             return Data;
 
+        }
+        
+        public static List<Guest> GetAllGuests()
+        {
+            List<Guest> guest = new List<Guest>();
+            using (FileStream fs = new FileStream("Reservation.txt", FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                while (fs.Position < fs.Length)
+                {
+                    try
+                    {
+                        guest.Add((Guest)bf.Deserialize(fs));
+                    }
+                    catch (SerializationException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+            return guest;
         }
         public static List<Reservation> GetReservations()
         {
@@ -311,19 +333,7 @@ namespace Hotel_Management_System
             }
             return null;
         }
-        public static List<Guest> GetAllGuests()
-        {
-            List<Guest> guests = new List<Guest>();
-            using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read))
-            {
-                while (fs.Position < fs.Length)
-                {
-                    guests.Add((Guest)bf.Deserialize(fs));
-                    
-                }
-            }
-            return guests;
-        }
+        
         //build the request data function (zaid).
 
 
