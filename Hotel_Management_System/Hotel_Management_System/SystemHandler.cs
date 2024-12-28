@@ -35,6 +35,15 @@ namespace Hotel_Management_System
         PAY_FOR_A_RESERVATION,
         PAY_FOR_A_SERVICE,
         LOGOUT
+    }public enum ManagerServiceSelection
+    {
+        VIEW_ALL_GUESTS,
+        VIEW_ALL_RESERVATIONS,
+        VIEW_ALL_SERVICES,
+        VIEW_ALL_PAYMENTS,
+        VIEW_ALL_ROOMS,
+        UPDATE_ROOM_INFO,
+        GENERATE_PROFIT_REPORT
     }
     internal class SystemHandler
     {   
@@ -112,8 +121,38 @@ namespace Hotel_Management_System
                 Console.WriteLine();
                 Console.WriteLine($"Hello manager and welcome to our hotel system.");
                 Console.WriteLine();
+                Console.WriteLine("choose a service: \n");
+                ManagerHotelServices();
+               int managerchoice= Convert.ToInt32(Console.ReadLine());
+                switch (managerchoice)
+                {
+                    case (int)ManagerServiceSelection.VIEW_ALL_GUESTS: manager.viewAllGuests();
+                        break;
+                    case (int)ManagerServiceSelection.VIEW_ALL_RESERVATIONS:
+                        manager.viewAllReservations();
+                        
+                        break;
+                    case (int)ManagerServiceSelection.VIEW_ALL_SERVICES:
+                        manager.viewAllServices()
+                        ;
+                        break;
+                    case (int)ManagerServiceSelection.VIEW_ALL_PAYMENTS:
+                        manager.viewAllPayments();
+                        break;
+                    case (int)ManagerServiceSelection.VIEW_ALL_ROOMS:
+                        manager.viewAllRooms();
+                        break;
+                    case (int)ManagerServiceSelection.UPDATE_ROOM_INFO:
+                        manager.updateRoomInfo();
+                        break;
+                    case (int)ManagerServiceSelection.GENERATE_PROFIT_REPORT:
+                        manager.generateProfitReport();
+                        break;
+                    
+                }
+
             }
-          //  EnterManagerSystem();////////////////////////////////////////
+            LineOfDots();
 
 
             Console.WriteLine("---------------");

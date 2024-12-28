@@ -21,5 +21,31 @@ namespace Hotel_Management_System
             get { return password;}
         }
       
+        public  void viewAllGuests() {
+        
+        }
+        public void viewAllReservations() {
+        
+        }
+        public void viewAllServices()
+        {
+
+        }
+        public void viewAllPayments()
+        {
+
+        }
+        public void viewAllRooms()
+        {
+
+        }
+        public void updateRoomInfo()
+        {
+
+        }
+        public void generateProfitReport()
+        {
+
+        }
     }
 }
