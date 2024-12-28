@@ -247,6 +247,22 @@ namespace Hotel_Management_System
                 Console.Write("Logging out"); LineOfDots();
             }
         }
+        public static bool UpdateBankBalance(double amount) 
+        {
+            List<Guest> guests = DatabaseServer.GetAllGuests();
+            for(int i = 0; i < guests.Count; i++)
+            {
+                if (guests[i].NationalID == loggedInGuest.NationalID)
+                {
+                    if (guests[i].BankBalance < amount) return false;
+                    guests[i].BankBalance -= amount;
+                    loggedInGuest.BankBalance -= amount;
+                }
+            }
+            DatabaseServer.SaveUpdatedGuests(guests);
+            return true;
+            
+        }
         public static void LineOfDots()
         {
             for (int i = 0; i < 35; i++)

@@ -160,6 +160,17 @@ namespace Hotel_Management_System
                 }
             }
         }
+        public static void SaveUpdatedGuests(List<Guest> data)
+        {
+            using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Write))
+            {
+                for (int i = 0; i < data.Count; i++)
+                {
+
+                    bf.Serialize(fs, data[i]);
+                }
+            }
+        }
         public static List<Type> GetData(string filePath, string obj)
         {
             List<Type> Data = new List<Type>();
@@ -300,19 +311,18 @@ namespace Hotel_Management_System
             }
             return null;
         }
-        public static void DisplayAllGuests()
+        public static List<Guest> GetAllGuests()
         {
+            List<Guest> guests = new List<Guest>();
             using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read))
             {
                 while (fs.Position < fs.Length)
                 {
-                    object wantedUser = bf.Deserialize(fs);
-                    if (wantedUser.GetType().Name == "Guest")
-                    {
-                        ((Guest)wantedUser).DisplayAllInfo();
-                    }
+                    guests.Add((Guest)bf.Deserialize(fs));
+                    
                 }
             }
+            return guests;
         }
         //build the request data function (zaid).
 

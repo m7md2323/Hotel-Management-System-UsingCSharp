@@ -59,7 +59,7 @@ namespace Hotel_Management_System
             Console.Write($"| {name}"+spaces.Substring(0,14-name.Length));
             Console.Write($"| {password}"+spaces.Substring(0,12));
             Console.Write($"| {phoneNumber}"+spaces.Substring(0,9));
-            Console.WriteLine($"| {bankBalance}"+spaces.Substring(0,11)+'|');
+            Console.WriteLine($"| {bankBalance}"+spaces.Substring(0,14-Convert.ToString(bankBalance).Length)+'|');
         }
         public void ReserveRoom()
         {
@@ -257,7 +257,7 @@ namespace Hotel_Management_System
             List<Payment> payments = DatabaseServer.GetPayments();
             if (payments == null) Console.WriteLine("No payments available");
             Console.WriteLine("All Unpaid reservations in your name: ");
-            // Reservation.PrintHeaderTable();
+            //Reservation.PrintHeaderTable();
             int numberOfPayments = 0;
             for (int i = 0; i < payments.Count; i++)
             {
@@ -281,8 +281,14 @@ namespace Hotel_Management_System
             for (int i = 0; i < payments.Count; i++)
             {
                 if (payments[i].BillNumber == billNumber)
-                {
+                { 
                     //Check guest Bank balance and if enough pay the bill, and update the guest bank balance
+                    if (SystemHandler.UpdateBankBalance(payments[i].Amount) == false)
+                    {
+                        Console.WriteLine("Sorry you don't have enough balance, update your bank balance and try again!!");
+                        SystemHandler.AfterServiceMessage();
+                        return;
+                    }
                     payments[i].Status = "  Paid";
 
                 }
@@ -324,6 +330,13 @@ namespace Hotel_Management_System
                 if (payments[i].BillNumber == billNumber)
                 {
                     //Check guest Bank balance and if enough pay the bill, and update the guest bank balance
+                    if (SystemHandler.UpdateBankBalance(payments[i].Amount) == false)
+                    {
+                        Console.WriteLine("Sorry you don't have enough balance, update your bank balance and try again!!");
+                        SystemHandler.AfterServiceMessage();
+                        return;
+                    }
+                    DisplayAllInfo();
                     payments[i].Status = "  Paid";
 
                 }
