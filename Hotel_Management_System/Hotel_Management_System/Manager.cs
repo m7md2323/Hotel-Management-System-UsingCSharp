@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +24,25 @@ namespace Hotel_Management_System
       
         public  void viewAllGuests() {
             Console.WriteLine("viewing all guests..");
-            DatabaseServer db = new DatabaseServer();
-            DatabaseServer.GetAllGuests();///////
+
+            List<Guest> GuestsList = new List<Guest>();
+            FileStream fs = new FileStream("Guest.txt",FileMode.Open,FileAccess.Read);
+            while (fs.Position < fs.Length)
+            {
+                object requiredGuest = DatabaseServer.bf.Deserialize(fs);
+                GuestsList.Add((Guest)requiredGuest);
+            
+;                
+            }
+            for (int i=0;i<GuestsList.Count;i++) {
+                GuestsList[i].DisplayAllInfo();
+            }
+            Console.WriteLine("guests successfully, enter [1] to get another manager service or [0] to logOut");
+            int choice =Convert.ToInt32(Console.ReadLine());
+            if (choice == 1) { SystemHandler.ChooseManagerService(); }
+            else
+                SystemHandler.systemState = SystemState.MANAGER_LOGIN;
+
 
 
 

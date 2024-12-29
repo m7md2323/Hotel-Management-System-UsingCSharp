@@ -42,6 +42,12 @@ namespace Hotel_Management_System
                     case SystemState.GUEST_LOGIN:
                     SystemHandler.GuestLogin();
                         break;
+                    case SystemState.MANAGER_LOGIN:
+                        SystemHandler.ManagerLogin();
+                        break;
+                    case SystemState.MANAGER_MENU:
+                        SystemHandler.ChooseManagerService();
+                        break;
                     case SystemState.GUEST_MENU:
                 
                     SystemHandler.EnterGuestSystem();

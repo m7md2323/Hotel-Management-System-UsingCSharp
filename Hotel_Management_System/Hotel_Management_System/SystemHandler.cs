@@ -121,16 +121,26 @@ namespace Hotel_Management_System
                 Console.WriteLine();
                 Console.WriteLine($"Hello manager and welcome to the hotel system.");
                 Console.WriteLine();
+                ChooseManagerService();
+            }
+
+            return false;
+        }
+            public static void ChooseManagerService() 
+            {
+                
+
                 Console.WriteLine("choose a service: \n");
                 ManagerHotelServices();
-               int managerchoice= Convert.ToInt32(Console.ReadLine());
+                int managerchoice = Convert.ToInt32(Console.ReadLine());
                 switch (managerchoice)
                 {
-                    case (int)ManagerServiceSelection.VIEW_ALL_GUESTS: manager.viewAllGuests();
+                    case (int)ManagerServiceSelection.VIEW_ALL_GUESTS:
+                        manager.viewAllGuests();
                         break;
                     case (int)ManagerServiceSelection.VIEW_ALL_RESERVATIONS:
                         manager.viewAllReservations();
-                        
+
                         break;
                     case (int)ManagerServiceSelection.VIEW_ALL_SERVICES:
                         manager.viewAllServices()
@@ -148,16 +158,14 @@ namespace Hotel_Management_System
                     case (int)ManagerServiceSelection.GENERATE_PROFIT_REPORT:
                         manager.generateProfitReport();
                         break;
-                    
+
                 }
 
-            }
+            
             LineOfDots();
 
 
             Console.WriteLine("---------------");
-
-            return false;
         }
         public static bool GuestValidator(int NationalId,int Password)
         {
