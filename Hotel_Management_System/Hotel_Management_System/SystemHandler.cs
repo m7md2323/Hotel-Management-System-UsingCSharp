@@ -35,7 +35,8 @@ namespace Hotel_Management_System
         PAY_FOR_A_RESERVATION,
         PAY_FOR_A_SERVICE,
         LOGOUT
-    }public enum ManagerServiceSelection
+    }
+    public enum ManagerServiceSelection
     {
         VIEW_ALL_GUESTS,
         VIEW_ALL_RESERVATIONS,
@@ -269,6 +270,8 @@ namespace Hotel_Management_System
             {
                 amount = 1.4*totalResidenceDays.Days * roomPrice;
             }
+            if(reservation.CheckInDate=="01/02/2025"|| reservation.CheckInDate == "22/04/2025"|| reservation.CheckInDate == "10/10/2025")
+            { return 0.6 * amount; }
             return amount;
         }
         //to make sure that all IDs attributes of our classes unique (Reservation ID, Service ID, Payment bill number).

@@ -146,14 +146,14 @@ namespace Hotel_Management_System
             {
                 Console.Write("Please enter the number of rental days : ");
                 int numberOfRentDays = Convert.ToInt32(Console.ReadLine());
-                newServiceRecord = new Service(SystemHandler.GenerateId("Service"), NationalID, "Car rental", SystemHandler.CalculateService("Car rental", numberOfRentDays));
+                newServiceRecord = new Service(SystemHandler.GenerateId("Service"), NationalID, "Car rental", SystemHandler.CalculateService("Car rental", numberOfRentDays),numberOfRentDays);
                 servPaymentRecord = new Payment(SystemHandler.GenerateId("Payment"), NationalID, "Car rental", SystemHandler.CalculateService("Car rental", numberOfRentDays), "Unpaid");
             }
             if (guestSelection == "2")
             {
                 Console.Write("Please enter the number of children : ");
                 int numberOfChildren = Convert.ToInt32(Console.ReadLine());
-                newServiceRecord = new Service(SystemHandler.GenerateId("Service"), NationalID, "Kids zone", SystemHandler.CalculateService("Kids zone", numberOfChildren));
+                newServiceRecord = new Service(SystemHandler.GenerateId("Service"), NationalID, "Kids zone", SystemHandler.CalculateService("Kids zone", numberOfChildren), numberOfChildren);
                 servPaymentRecord = new Payment(SystemHandler.GenerateId("Payment"), NationalID, "Kids zone", SystemHandler.CalculateService("Kids zone", numberOfChildren), "Unpaid");
             }
             if (guestSelection == "0")
@@ -175,7 +175,8 @@ namespace Hotel_Management_System
         public  void CheckIn()
         {
             Console.Clear();
-            Console.WriteLine("--------------------------------------------------[ Check In ]--------------------------------------------------");
+            Console.WriteLine("------------------------------------------------------[ Check In ]------------------------------------------------------");
+            Console.WriteLine();
             List<Reservation> reservations = DatabaseServer.GetReservations();
             Console.WriteLine("All Confirmed reservations in your name: ");
             Reservation.PrintHeaderTable();
@@ -188,7 +189,7 @@ namespace Hotel_Management_System
                     reservations[i].DisplayAllInfo();
                 }
             }
-            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------------------------------------------");
             if (numberOfRes == 0)
             {
                 Console.Clear();
@@ -197,18 +198,21 @@ namespace Hotel_Management_System
                 return;
 
             }
+            bool valid = false;
+            Console.WriteLine();
             Console.WriteLine("Please enter the reservation Id to check in: ");
             int resId = Convert.ToInt32(Console.ReadLine());
             for (int i = 0; i < reservations.Count; i++)
             {
-                if (reservations[i].ID == resId)
+                if (reservations[i].ID == resId && reservations[i].ReservationStatus == "Confirmed")
                 {
                     reservations[i].ReservationStatus = "Checked In";
-                    
+                    valid = true;
                 }
             }
             DatabaseServer.SaveUpdatedReservations(reservations);
-            Console.WriteLine("Checking In went successfully, Thank you for using our Hotel!!");
+            if(valid==true)Console.WriteLine("Checking In went successfully, Thank you for using our Hotel!!");
+            else Console.WriteLine("The reservation Id you entered is wrong, please try again!!");
             SystemHandler.AfterServiceMessage();
         }
         public  void CheckOut()
@@ -238,16 +242,18 @@ namespace Hotel_Management_System
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine("Please enter the reservation Id to check out: ");
             int resId = Convert.ToInt32(Console.ReadLine());
+            bool valid = false;
             for (int i = 0; i < reservations.Count; i++)
             {
-                if (reservations[i].ID == resId)
+                if (reservations[i].ID == resId && reservations[i].ReservationStatus == "Checked In")
                 {
                     reservations[i].ReservationStatus = "Checked Out";
-                    ;
+                    valid = true;
                 }
             }
             DatabaseServer.SaveUpdatedReservations(reservations);
-            Console.WriteLine("Checking out went successfully, Thank you for using our Hotel!!");
+            if(valid==true)Console.WriteLine("Checking out went successfully, Thank you for using our Hotel!!");
+            else Console.WriteLine("The reservation Id you entered is wrong, please try again!!");
             SystemHandler.AfterServiceMessage();
         }
         public void PayForReservation()
@@ -278,9 +284,10 @@ namespace Hotel_Management_System
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine("Please enter the bill number to pay: ");
             int billNumber = Convert.ToInt32(Console.ReadLine());
+            bool valid = false;
             for (int i = 0; i < payments.Count; i++)
             {
-                if (payments[i].BillNumber == billNumber)
+                if (payments[i].BillNumber == billNumber && payments[i].Status == "Unpaid" && payments[i].Source == "Reservation")
                 { 
                     //Check guest Bank balance and if enough pay the bill, and update the guest bank balance
                     if (SystemHandler.UpdateBankBalance(payments[i].Amount) == false)
@@ -290,12 +297,14 @@ namespace Hotel_Management_System
                         return;
                     }
                     payments[i].Status = "  Paid";
+                    valid = true;
 
                 }
             }
-            DatabaseServer.SaveUpdatedPayments(payments);
-            Console.WriteLine("Paying for reservation went successfully, Thank you for using our Hotel!!");
-            SystemHandler.AfterServiceMessage();
+           DatabaseServer.SaveUpdatedPayments(payments);
+           if(valid==true) Console.WriteLine("Paying for reservation went successfully, Thank you for using our Hotel!!");
+           else Console.WriteLine("The bill number you entered is wrong, please try again!!");
+           SystemHandler.AfterServiceMessage();
         }
         public void PayForService()
         {
@@ -306,6 +315,7 @@ namespace Hotel_Management_System
             Console.WriteLine("All Unpaid Services in your name: ");
             // Reservation.PrintHeaderTable();
             int numberOfPayments = 0;
+
             for (int i = 0; i < payments.Count; i++)
             {
                 if (payments[i].GuestNationalID == NationalID && payments[i].Status == "Unpaid" && payments[i].Source != "Reservation")
@@ -325,9 +335,10 @@ namespace Hotel_Management_System
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine("Please enter the bill number to pay: ");
             int billNumber = Convert.ToInt32(Console.ReadLine());
+            bool valid = false;
             for (int i = 0; i < payments.Count; i++)
             {
-                if (payments[i].BillNumber == billNumber)
+                if (payments[i].BillNumber == billNumber && payments[i].Status == "Unpaid" && payments[i].Source != "Reservation")
                 {
                     //Check guest Bank balance and if enough pay the bill, and update the guest bank balance
                     if (SystemHandler.UpdateBankBalance(payments[i].Amount) == false)
@@ -338,11 +349,13 @@ namespace Hotel_Management_System
                     }
                     DisplayAllInfo();
                     payments[i].Status = "  Paid";
+                    valid = true;
 
                 }
             }
             DatabaseServer.SaveUpdatedPayments(payments);
-            Console.WriteLine("Paying for Service went successfully, Thank you for using our Hotel!!");
+            if(valid==true)Console.WriteLine("Paying for Service went successfully, Thank you for using our Hotel!!");
+            else Console.WriteLine("The bill number you entered is wrong, please try again!!");
             SystemHandler.AfterServiceMessage();
         }
     }

@@ -18,14 +18,13 @@ namespace Hotel_Management_System
             while (!Exit) {
                 switch (SystemHandler.systemState)
                 {
-                    case SystemState.USER_SELECTION:
+                    case SystemState.USER_SELECTION: //(case number 1)
                         //
                     switch (SystemHandler.ChooseUser())
                     {
                         case UserType.GUEST:
                             SystemHandler.GuestLogin();
                             break;
-                            //case UserType.MANAGER: zaid
                             case UserType.MANAGER:
                                 SystemHandler.ManagerLogin();
                                 break;
@@ -39,14 +38,14 @@ namespace Hotel_Management_System
                     }
                         break;
                         //
-                    case SystemState.GUEST_LOGIN:
+                    case SystemState.GUEST_LOGIN: //(case number 2)
                     SystemHandler.GuestLogin();
                         break;
-                    case SystemState.GUEST_MENU:
+                    case SystemState.GUEST_MENU: //(case number 3)
                 
                     SystemHandler.EnterGuestSystem();
                         break;
-                    case SystemState.EXIT:
+                    case SystemState.EXIT: //(case number 4)
                         Exit = true;
                         Console.WriteLine("Exiting the system........");
                         break;
@@ -109,7 +108,7 @@ namespace Hotel_Management_System
             //Console.WriteLine(guest.ToString());
             Payment bill = new Payment(1234,11111,"Kids zone",400,"paid");
              bill.DisplayAllInfo();
-            Service Se = new Service(1212,1111,"kidsZone",2992.211);
+            Service Se = new Service(1212,11111,"kidsZone",2992.211,10000);
             Se.DisplayAllInfo();
         }
     }

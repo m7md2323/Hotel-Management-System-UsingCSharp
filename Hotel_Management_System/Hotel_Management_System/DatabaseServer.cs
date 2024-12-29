@@ -171,42 +171,11 @@ namespace Hotel_Management_System
                 }
             }
         }
-        public static List<Type> GetData(string filePath, string obj)
-        {
-            List<Type> Data = new List<Type>();
-            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
-            {
-                while (fs.Position < fs.Length) {
-                    object data = bf.Deserialize(fs);
-                    Data.Add((Type)data);
-                    /*switch (obj)
-                    {
-                        case "Room":
-                            Data.Add((Type)data);
-                            break;
-                        case "Guest":
-                            bf.Serialize(fs, (Guest)obj);
-                            break;
-                        case "Reservation":
-                            bf.Serialize(fs, (Reservation)obj);
-                            break;
-                        //zaid finish the remaining classes
-                    case "Service":bf.Serialize(fs, (Service)obj);
-                    break;
-                        default:
-                            break;
-
-                    } */
-                }
-            }
-            return Data;
-
-        }
         
         public static List<Guest> GetAllGuests()
         {
             List<Guest> guest = new List<Guest>();
-            using (FileStream fs = new FileStream("Reservation.txt", FileMode.OpenOrCreate, FileAccess.Read))
+            using (FileStream fs = new FileStream("Guest.txt", FileMode.OpenOrCreate, FileAccess.Read))
             {
                 while (fs.Position < fs.Length)
                 {

@@ -13,12 +13,14 @@ namespace Hotel_Management_System
         int gustNationalID;
         string description;
         double cost;
+        int notes;
 
-        public Service(int id, int gustNationalID, string description, double cost ){
+        public Service(int id, int gustNationalID, string description, double cost,int notes){
             this.id = id;
             this.gustNationalID = gustNationalID;
             this.description=description;
             this.cost=cost;
+            this.notes = notes;
         }
         public int ID { set{ id=value; } get { return id; } }
         public int GustNationalID { set { gustNationalID = value; } get { return gustNationalID; } }
@@ -29,10 +31,11 @@ namespace Hotel_Management_System
             string spaces = "                    ";
 
 
-            Console.WriteLine("-----------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
             Console.Write($"| {ID}" + spaces.Substring(0, 10));
             Console.Write($"| {GustNationalID}" + spaces.Substring(0, 9));
             Console.Write($"| {Description}" + spaces.Substring(0, 14 - Description.Length));
+            Console.Write($"| {notes}" + spaces.Substring(0, 14 - Convert.ToString(notes).Length));
             Console.WriteLine($"| {Cost}" + spaces.Substring(0, 14 - Convert.ToString(Cost).Length) + '|');
         }
 
