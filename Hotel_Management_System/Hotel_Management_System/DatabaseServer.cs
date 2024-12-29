@@ -17,7 +17,7 @@ namespace Hotel_Management_System
 
         //to make sure that all IDs attributes of our classes are unique (Reservation ID, Service ID, Payment bill number).
 
-       static BinaryFormatter bf = new BinaryFormatter();
+      public static BinaryFormatter bf = new BinaryFormatter();
        /* public static int LoadLastIdRes()
         {
             int Id = 1000;
@@ -131,7 +131,7 @@ namespace Hotel_Management_System
                     case "Service":
                         bf.Serialize(fs, (Service)obj);
                         break;
-                    //zaid finish the remaining classes
+                   
                     default:
                         break;
 
@@ -205,7 +205,7 @@ namespace Hotel_Management_System
                     catch(SerializationException e)
                     {
                         Console.WriteLine(e.Message);
-                    }
+                    }//////////////////////
                 }
             }
             return reservations;
