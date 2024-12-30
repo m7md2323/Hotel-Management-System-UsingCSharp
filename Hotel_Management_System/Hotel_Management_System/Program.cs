@@ -69,23 +69,23 @@ namespace Hotel_Management_System
                18730 Ahmad 44 02250 720
             */
             
-           /* Room room1 = new Room(442, "Single", 25, true);
-            Room room2 = new Room(102, "Double", 30, true);
-            Room room3 = new Room(506, "Double", 32, false);
-            Room room4 = new Room(702, "Suite", 40, true);
-            Room room5 = new Room(333, "Double", 34, true);
+            /*Room room1 = new Room(442, "Single", 25f, true);
+            Room room2 = new Room(102, "Double", 30f, true);
+            Room room3 = new Room(506, "Double", 32f, false);
+            Room room4 = new Room(702, "Suite", 40f, true);
+            Room room5 = new Room(333, "Double", 34f, true);
             DatabaseServer.SaveData("Room.txt",room1);
             DatabaseServer.SaveData("Room.txt", room2);
             DatabaseServer.SaveData("Room.txt", room3);
             DatabaseServer.SaveData("Room.txt", room4);
             DatabaseServer.SaveData("Room.txt", room5);
 
-            Guest guest = new Guest(12345, "Omar", 11, "05215", 450);
+            Guest guest = new Guest(12345, "Omar", 11, "05215", 450f);
             DatabaseServer.SaveData("Guest.txt", guest);
 
-            Guest guest1 = new Guest(12546, "Khaled", 22, "01459", 550);
-            Guest guest2 = new Guest(16556, "Salma", 33, "04122", 660);
-            Guest guest13 = new Guest(18730, "Ahmad", 44, "02250", 720);
+            Guest guest1 = new Guest(12546, "Khaled", 22, "01459", 550f);
+            Guest guest2 = new Guest(16556, "Salma", 33, "04122", 660f);
+            Guest guest13 = new Guest(18730, "Ahmad", 44, "02250", 720f);
              
             DatabaseServer.SaveData("Guest.txt", guest1);
             DatabaseServer.SaveData("Guest.txt", guest2);

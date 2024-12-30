@@ -348,6 +348,7 @@ namespace Hotel_Management_System
                         SystemHandler.AfterServiceMessage();
                         return;
                     }
+                    DisplayAllInfo();
                     Console.WriteLine(BankBalance);
                     payments[i].Status = "  Paid";
                     valid = true;
