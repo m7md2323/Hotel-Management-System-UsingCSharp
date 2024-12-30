@@ -191,24 +191,33 @@ namespace Hotel_Management_System
             }
             return guest;
         }
+        /////
         public static List<Reservation> GetReservations()
         {
-            List<Reservation> reservations = new List<Reservation>();
-            using (FileStream fs = new FileStream("Reservation.txt", FileMode.OpenOrCreate, FileAccess.Read))
-            {
+            List<Reservation> AllReservations = new List<Reservation>();
+            FileStream fs = new FileStream("Reservation.txt", FileMode.Open, FileAccess.Read);
+            
                 while (fs.Position < fs.Length)
                 {
-                    try 
-                    {
-                        reservations.Add((Reservation)bf.Deserialize(fs)); 
-                    }
-                    catch(SerializationException e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }//////////////////////
+                    try { AllReservations.Add((Reservation)bf.Deserialize(fs));   }
+                    catch (SerializationException e) { Console.WriteLine(e.Message);}
                 }
-            }
-            return reservations;
+                          
+            
+            return AllReservations;
+        }
+        public static void LoadReservation() {
+
+            
+                Console.WriteLine("viewing all reservations..");
+                List<Reservation> ReservationsList = DatabaseServer.GetReservations();
+
+                for (int i = 0; i < ReservationsList.Count; i++) { ReservationsList[i].DisplayAllInfo(); }
+                Console.WriteLine("\nreservations displayed successfully,type [1] to use another manager service or [0] To exit");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if (choice == 1) { SystemHandler.ChooseManagerService(); }
+                else SystemHandler.ChooseUser();
+            
         }
         public static List<Payment> GetPayments()
         {

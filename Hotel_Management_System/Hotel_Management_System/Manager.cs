@@ -41,15 +41,13 @@ namespace Hotel_Management_System
             int choice =Convert.ToInt32(Console.ReadLine());
             if (choice == 1) { SystemHandler.ChooseManagerService(); }
             else
-                SystemHandler.systemState = SystemState.MANAGER_LOGIN;
+                SystemHandler.ChooseUser();
 
 
 
 
         }
-        public void viewAllReservations() {
-            Console.WriteLine("viewing all reservations..");
-        }
+        
         public void viewAllServices()
         {
             Console.WriteLine("viewing all services..");
