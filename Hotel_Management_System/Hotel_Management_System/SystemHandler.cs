@@ -115,6 +115,7 @@ namespace Hotel_Management_System
                 if (choice == "1") { changeState(SystemState.MANAGER_LOGIN); }
                 else { changeState(SystemState.EXIT); }
             }
+            //
             else
             {
                 Console.WriteLine("Successful Login!!");
@@ -249,7 +250,7 @@ namespace Hotel_Management_System
             if (to == SystemState.GUEST_LOGIN) loggedInGuest = null;
             systemState = to;
         }
-        public static double CalculateService(string service,int number) 
+        public static float CalculateService(string service,int number) 
         {
             if(service=="Car rental")
             {
@@ -257,28 +258,28 @@ namespace Hotel_Management_System
             }
             return number * 5;
         }
-        public static double calculateReservation(Reservation reservation,double roomPrice,string meal)
+        public static float calculateReservation(Reservation reservation,float roomPrice,string meal)
         {
             var dateFormat = new CultureInfo("en-JO");
             DateTime checkInDate = DateTime.ParseExact(reservation.CheckInDate, "dd/MM/yyyy", dateFormat);
             DateTime checkOutDate = DateTime.ParseExact(reservation.CheckOutDate, "dd/MM/yyyy", dateFormat);
             TimeSpan totalResidenceDays = checkOutDate - checkInDate;
             Console.WriteLine(totalResidenceDays.Days);
-            double amount=0;
+            float amount=0;
             if (meal == "Breakfast")
             {
                 amount= totalResidenceDays.Days * roomPrice;
             }
             if(meal=="Breakfast and Lunch")
             {
-                amount= 1.2 *totalResidenceDays.Days * roomPrice;
+                amount= 1.2f *totalResidenceDays.Days * roomPrice;
             }
             if (meal == "Full Board")
             {
-                amount = 1.4*totalResidenceDays.Days * roomPrice;
+                amount = 1.4f*totalResidenceDays.Days * roomPrice;
             }
             if(reservation.CheckInDate=="01/02/2025"|| reservation.CheckInDate == "22/04/2025"|| reservation.CheckInDate == "10/10/2025")
-            { return 0.6 * amount; }
+            { return 0.6f * amount; }
             return amount;
         }
         //to make sure that all IDs attributes of our classes unique (Reservation ID, Service ID, Payment bill number).
@@ -296,7 +297,7 @@ namespace Hotel_Management_System
                 Console.Write("Logging out"); LineOfDots();
             }
         }
-        public static bool UpdateBankBalance(double amount) 
+        public static bool UpdateBankBalance(float amount) 
         {
             List<Guest> guests = DatabaseServer.GetAllGuests();
             for(int i = 0; i < guests.Count; i++)

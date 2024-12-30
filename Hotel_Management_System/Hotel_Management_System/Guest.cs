@@ -17,14 +17,14 @@ namespace Hotel_Management_System
         private string name;
         private int password;
         private string phoneNumber;
-        private double bankBalance;
+        private float bankBalance;
 
         public Guest()
         {
 
         }
         //for the initial build of guests
-        public Guest(int nationalID, string name, int password,string phoneNumber, double bankBalance)
+        public Guest(int nationalID, string name, int password,string phoneNumber, float bankBalance)
         {
             this.nationalID = nationalID;
             this.name = name;
@@ -44,7 +44,7 @@ namespace Hotel_Management_System
         {
             get { return password; }
         }
-        public double BankBalance
+        public float BankBalance
         {
             set { bankBalance = value; }
             get { return bankBalance; }
@@ -59,7 +59,7 @@ namespace Hotel_Management_System
             Console.Write($"| {name}"+spaces.Substring(0,14-name.Length));
             Console.Write($"| {password}"+spaces.Substring(0,12));
             Console.Write($"| {phoneNumber}"+spaces.Substring(0,9));
-            Console.WriteLine($"| {bankBalance}"+spaces.Substring(0,14-Convert.ToString(bankBalance).Length)+'|');
+            Console.WriteLine($"| {bankBalance}$"+spaces.Substring(0,14-Convert.ToString(bankBalance).Length)+'|');
         }
         public void ReserveRoom()
         {
@@ -336,6 +336,7 @@ namespace Hotel_Management_System
             Console.WriteLine("Please enter the bill number to pay: ");
             int billNumber = Convert.ToInt32(Console.ReadLine());
             bool valid = false;
+            Console.WriteLine(BankBalance);
             for (int i = 0; i < payments.Count; i++)
             {
                 if (payments[i].BillNumber == billNumber && payments[i].Status == "Unpaid" && payments[i].Source != "Reservation")
@@ -347,7 +348,7 @@ namespace Hotel_Management_System
                         SystemHandler.AfterServiceMessage();
                         return;
                     }
-                    DisplayAllInfo();
+                    Console.WriteLine(BankBalance);
                     payments[i].Status = "  Paid";
                     valid = true;
 

@@ -41,9 +41,11 @@ namespace Hotel_Management_System
                     case SystemState.GUEST_LOGIN: //(case number 2)
                     SystemHandler.GuestLogin();
                         break;
-                    case SystemState.GUEST_MENU: //(case number 3)
-                
+                    case SystemState.GUEST_MENU: //(case number 3) 
                     SystemHandler.EnterGuestSystem();
+                        break;
+                    case SystemState.MANAGER_MENU:
+                        SystemHandler.ChooseManagerService();
                         break;
                     case SystemState.EXIT: //(case number 4)
                         Exit = true;
@@ -67,7 +69,7 @@ namespace Hotel_Management_System
                18730 Ahmad 44 02250 720
             */
             
-            /*Room room1 = new Room(442, "Single", 25, true);
+           /* Room room1 = new Room(442, "Single", 25, true);
             Room room2 = new Room(102, "Double", 30, true);
             Room room3 = new Room(506, "Double", 32, false);
             Room room4 = new Room(702, "Suite", 40, true);

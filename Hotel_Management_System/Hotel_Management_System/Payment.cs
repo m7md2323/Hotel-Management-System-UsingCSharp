@@ -16,9 +16,9 @@ namespace Hotel_Management_System
         int billNumber;
         int guestNationalID;
         string source;
-        double amount;
+        float amount;
         string status; 
-        public Payment(int billNumber,int guestNationalID, string source, double amount, string status)
+        public Payment(int billNumber,int guestNationalID, string source, float amount, string status)
         {
             this.billNumber = billNumber;
             this.guestNationalID = guestNationalID;
@@ -39,7 +39,7 @@ namespace Hotel_Management_System
         }
         public int BillNumber { set { billNumber = value; } get { return billNumber; } }
         public string Source { set { source = value; } get { return source; } }
-        public double Amount { set {  amount = value; } get { return amount; } }
+        public float Amount { set {  amount = value; } get { return amount; } }
         public string Status { set { status = value; } get { return status; } }
         public int GuestNationalID { get { return guestNationalID; } }
     }

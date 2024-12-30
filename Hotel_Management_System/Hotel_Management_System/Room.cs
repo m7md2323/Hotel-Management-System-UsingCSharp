@@ -23,10 +23,10 @@ namespace Hotel_Management_System
     {
         private int roomNumber;
         private string roomType;
-        private double pricePerDay;
+        private float pricePerDay;
         private bool available;
 
-        public Room(int roomNumber,string roomType, double pricePerDay, bool available)
+        public Room(int roomNumber,string roomType, float pricePerDay, bool available)
         {
             this.roomNumber = roomNumber;
             this.roomType = roomType;
@@ -41,7 +41,7 @@ namespace Hotel_Management_System
         {
             get { return roomType;}
         }
-        public double PricePerDay
+        public float PricePerDay
         {
             set { pricePerDay = value; }
             get { return pricePerDay; }
