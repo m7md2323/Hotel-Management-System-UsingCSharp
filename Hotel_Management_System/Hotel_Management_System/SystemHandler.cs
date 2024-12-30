@@ -52,10 +52,9 @@ namespace Hotel_Management_System
         static Manager manager;
         static public SystemState systemState=SystemState.USER_SELECTION;
         public static UserType ChooseUser() {
-            systemState = SystemState.USER_SELECTION;
             Console.WriteLine("--------------------[ Hotel Management System ]--------------------");
             Console.WriteLine("Please select the account type : ");
-            Console.WriteLine("1. Manager \n2. Guest \n3. To Exit the System.");
+            Console.WriteLine("[1] Manager \n[2] Guest \n[3] To Exit the System.");
             int userChoice=Convert.ToInt32(Console.ReadLine());
             return (UserType)userChoice;
             
@@ -64,7 +63,7 @@ namespace Hotel_Management_System
         {
                 systemState = SystemState.GUEST_LOGIN;
                 Console.Clear();
-                Console.WriteLine("--------------------[ Guest Login ]--------------------");
+                Console.WriteLine("-------------------------[ Guest Login ]-------------------------");
                 Console.WriteLine("Please enter your National ID and Password (Type 0 to get back) ");
                 Console.Write("National ID : ");
                 int guestID = Convert.ToInt32(Console.ReadLine());
@@ -212,13 +211,13 @@ namespace Hotel_Management_System
         {
             Console.WriteLine("------------------------[ Guest Hotel Services ]------------------------");
             //Console.WriteLine("Please select the service you want below: ");
-            Console.WriteLine("1. Reserve a room");
-            Console.WriteLine("2. Request a service");
-            Console.WriteLine("3. Check in");
-            Console.WriteLine("4. Check out");
-            Console.WriteLine("5. Pay for a reservation");
-            Console.WriteLine("6. Pay for a service");
-            Console.WriteLine("7. To Logout");
+            Console.WriteLine("[1] Reserve a room");
+            Console.WriteLine("[2] Request a service");
+            Console.WriteLine("[3] Check in");
+            Console.WriteLine("[4] Check out");
+            Console.WriteLine("[5] Pay for a reservation");
+            Console.WriteLine("[6] Pay for a service");
+            Console.WriteLine("[7] To Logout");
             Console.WriteLine("------------------------------------------------------------------------");
         }
         //Guest functions///////////////////////////////////////////////////////
