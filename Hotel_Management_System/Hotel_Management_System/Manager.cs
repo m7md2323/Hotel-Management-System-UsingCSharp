@@ -48,9 +48,36 @@ namespace Hotel_Management_System
 
         }
         
-        public void viewAllServices()
+        public void ViewAllReseravtions()
         {
-            Console.WriteLine("viewing all services..");
+            
+            
+
+
+                Console.WriteLine("viewing all reservations..");
+                List<Reservation> ReservationsList = DatabaseServer.GetReservations();
+
+                for (int i = 0; i < ReservationsList.Count; i++) { ReservationsList[i].DisplayAllInfo(); }
+                Console.WriteLine("\nreservations displayed successfully,type [1] to use another manager service or [0] To exit");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if (choice == 1) { SystemHandler.ChooseManagerService(); }
+                else SystemHandler.ChooseUser();
+
+            
+
+        }
+        public void ViewAllServices()
+        {
+
+
+            Console.WriteLine("viewing all Services..");
+            List<Service> ServicessList = DatabaseServer.GetServices();
+
+            for (int i = 0; i < ServicessList.Count; i++) { ServicessList[i].DisplayAllInfo(); }
+            Console.WriteLine("\nServices displayed successfully,type [1] to use another manager service or [0] To exit");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            if (choice == 1) { SystemHandler.ChooseManagerService(); }
+            else SystemHandler.ChooseUser();
 
         }
         public void viewAllPayments()

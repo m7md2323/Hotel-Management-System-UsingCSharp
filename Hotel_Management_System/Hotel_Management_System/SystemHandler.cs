@@ -139,12 +139,12 @@ namespace Hotel_Management_System
                         manager.viewAllGuests();
                         break;
                     case (int)ManagerServiceSelection.VIEW_ALL_RESERVATIONS:
-                        DatabaseServer.LoadReservation();
+                        manager.ViewAllReseravtions();
 
                         break;
                     case (int)ManagerServiceSelection.VIEW_ALL_SERVICES:
-                        manager.viewAllServices()
-                        ;
+                    manager.ViewAllServices();
+                        
                         break;
                     case (int)ManagerServiceSelection.VIEW_ALL_PAYMENTS:
                         manager.viewAllPayments();
