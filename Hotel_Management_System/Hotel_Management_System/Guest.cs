@@ -177,7 +177,7 @@ namespace Hotel_Management_System
             Console.Clear();
             Console.WriteLine("------------------------------------------------------[ Check In ]------------------------------------------------------");
             Console.WriteLine();
-            List<Reservation> reservations = DatabaseServer.GetReservations();
+            List<Reservation> reservations = DatabaseServer.GetAllReservations();
             Console.WriteLine("All Confirmed reservations in your name: ");
             Reservation.PrintHeaderTable();
             int numberOfRes = 0;
@@ -219,7 +219,7 @@ namespace Hotel_Management_System
         {
             Console.Clear();
             Console.WriteLine("--------------------------------------------------[ Check Out ]--------------------------------------------------");
-            List<Reservation> reservations = DatabaseServer.GetReservations();
+            List<Reservation> reservations = DatabaseServer.GetAllReservations();
             Console.WriteLine("All Checked In reservations in your name: ");
             Reservation.PrintHeaderTable();
             int numberOfRes = 0;
@@ -260,7 +260,7 @@ namespace Hotel_Management_System
         {
             Console.Clear();
             Console.WriteLine("--------------------------------------------------[ Pay For Reservation ]--------------------------------------------------");
-            List<Payment> payments = DatabaseServer.GetPayments();
+            List<Payment> payments = DatabaseServer.GetAllPayments();
             if (payments == null) Console.WriteLine("No payments available");
             Console.WriteLine("All Unpaid reservations in your name: ");
             //Reservation.PrintHeaderTable();
@@ -310,7 +310,7 @@ namespace Hotel_Management_System
         {
             Console.Clear();
             Console.WriteLine("--------------------------------------------------[ Pay For Service ]--------------------------------------------------");
-            List<Payment> payments = DatabaseServer.GetPayments();
+            List<Payment> payments = DatabaseServer.GetAllPayments();
             if (payments == null) Console.WriteLine("No payments available");
             Console.WriteLine("All Unpaid Services in your name: ");
             // Reservation.PrintHeaderTable();

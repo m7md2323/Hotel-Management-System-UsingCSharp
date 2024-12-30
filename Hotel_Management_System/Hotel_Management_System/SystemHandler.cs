@@ -52,6 +52,7 @@ namespace Hotel_Management_System
         static Manager manager;
         static public SystemState systemState=SystemState.USER_SELECTION;
         public static UserType ChooseUser() {
+            Console.Clear();
             Console.WriteLine("--------------------[ Hotel Management System ]--------------------");
             Console.WriteLine("Please select the account type : ");
             Console.WriteLine("[1] Manager \n[2] Guest \n[3] To Exit the System.");
@@ -95,10 +96,14 @@ namespace Hotel_Management_System
         }
         public static void ManagerHotelServices()
         {
-            Console.WriteLine(" 1. View all guests\r\n 2. View all reservations\r\n 3. View all services\r\n 4. View all payments\r\n 5. View all rooms\r\n 6. Update room information\r\n 7. Generate profit report");
+            Console.Clear();
+            
+            Console.WriteLine($"Hello manager and welcome to the hotel system.");
+            Console.WriteLine("1. View all guests\n2. View all reservations\n3. View all services\n4. View all payments\n5. View all rooms\n6. Update room information\n7. Generate profit report");
         }
        public static bool ManagerLogin()
         {
+            Console.Clear();
             manager = new Manager();
             Console.WriteLine("---------[Manager login]--------");
             Console.WriteLine("Please enter your ID and Password");
@@ -118,9 +123,9 @@ namespace Hotel_Management_System
             //
             else
             {
+                Console.WriteLine("verifying..");
+                LineOfDots();
                 Console.WriteLine("Successful Login!!");
-                Console.WriteLine();
-                Console.WriteLine($"Hello manager and welcome to the hotel system.");
                 Console.WriteLine();
                 ChooseManagerService();
             }
@@ -159,6 +164,10 @@ namespace Hotel_Management_System
                     case (int)ManagerServiceSelection.GENERATE_PROFIT_REPORT:
                         manager.generateProfitReport();
                         break;
+                    default: Console.WriteLine("invalid input, try again..");
+                    Thread.Sleep(2000);
+                    ChooseManagerService();
+                    break;
 
                 }
 

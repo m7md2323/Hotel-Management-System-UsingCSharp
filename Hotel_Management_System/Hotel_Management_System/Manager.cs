@@ -10,7 +10,7 @@ namespace Hotel_Management_System
     [Serializable]
     internal class Manager
     {
-        string Id = "m2022";
+        string Id = "m2024";
         int password = 00;
         
         public string ID
@@ -55,7 +55,7 @@ namespace Hotel_Management_System
 
 
                 Console.WriteLine("viewing all reservations..");
-                List<Reservation> ReservationsList = DatabaseServer.GetReservations();
+                List<Reservation> ReservationsList = DatabaseServer.GetAllReservations();
 
                 for (int i = 0; i < ReservationsList.Count; i++) { ReservationsList[i].DisplayAllInfo(); }
                 Console.WriteLine("\nreservations displayed successfully,type [1] to use another manager service or [0] To exit");
@@ -71,7 +71,7 @@ namespace Hotel_Management_System
 
 
             Console.WriteLine("viewing all Services..");
-            List<Service> ServicessList = DatabaseServer.GetServices();
+            List<Service> ServicessList = DatabaseServer.GetAllServices();
 
             for (int i = 0; i < ServicessList.Count; i++) { ServicessList[i].DisplayAllInfo(); }
             Console.WriteLine("\nServices displayed successfully,type [1] to use another manager service or [0] To exit");
@@ -83,11 +83,34 @@ namespace Hotel_Management_System
         public void viewAllPayments()
         {
             Console.WriteLine("viewing all payments..");
+            List<Payment>AllPaymentsList =DatabaseServer.GetAllPayments();
+            for (int i=0;i<AllPaymentsList.Count;i++) {
+                AllPaymentsList[i].DisplayAllInfo();
+            }
+            Console.WriteLine("Payments successfully aquired,type [1] to use another manager service or [0] To exit");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            if (choice == 1) 
+            {
+                SystemHandler.ChooseManagerService();   
+            }
+            else SystemHandler.ChooseUser();
 
         }
         public void viewAllRooms()
         {
-            Console.WriteLine("viewing all rooms..");
+            Console.WriteLine("viewing all rooms..\n");
+            List<Room>RoomsList=DatabaseServer.GetAllRooms();
+            for (int i = 0; i < RoomsList.Count; i++)
+            {
+                RoomsList[i].DisplayAllInfo();
+            }
+                Console.WriteLine("Rooms successfully aquired,type [1] to use another manager service or [0] To exit");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if (choice == 1) { SystemHandler.ChooseManagerService(); }
+                else SystemHandler.ChooseUser();
+            
+            
+
 
         }
         public void updateRoomInfo()

@@ -192,7 +192,7 @@ namespace Hotel_Management_System
             return guest;
         }
         /////
-        public static List<Reservation> GetReservations()
+        public static List<Reservation> GetAllReservations()
         {
             List<Reservation> AllReservations = new List<Reservation>();
             FileStream fs = new FileStream("Reservation.txt", FileMode.Open, FileAccess.Read);
@@ -206,9 +206,9 @@ namespace Hotel_Management_System
             
             return AllReservations;
         }
-        public static List<Service> GetServices() {
+        public static List<Service> GetAllServices() {
             List<Service> AllServicesList = new List<Service>();
-            FileStream fs = new FileStream("Services.txt", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream("Service.txt", FileMode.Open, FileAccess.Read);
             while (fs.Position<fs.Length) {
                 try { AllServicesList.Add((Service)bf.Deserialize(fs)); }
                 catch(SerializationException e) { Console.WriteLine(e.Message); }
@@ -217,26 +217,28 @@ namespace Hotel_Management_System
             return AllServicesList;
         
         }
-        public static List<Payment> GetPayments()
+        public static List<Payment> GetAllPayments()
         {
-            List<Payment> payments = new List<Payment>();
-            using (FileStream fs = new FileStream("Payment.txt", FileMode.OpenOrCreate, FileAccess.Read))
-            {
-                while (fs.Position < fs.Length)
-                {
-                    try
-                    {
-                        Payment payment = (Payment)bf.Deserialize(fs);
-                        payments.Add(payment);
-                    }
-                    catch (SerializationException)
-                    {
-                        // Handle or log the error and continue
-                        Console.WriteLine("Encountered a corrupted entry, skipping...");
-                    }
-                }
+            List<Payment> AllPaymentsList = new List<Payment>();
+            FileStream fs = new FileStream("Payment.txt",FileMode.OpenOrCreate,FileAccess.Read);
+            while (fs.Position<fs.Length) {
+                try { AllPaymentsList.Add((Payment)bf.Deserialize(fs)); }
+                catch(SerializationException e) { Console.WriteLine(e.Message); }
             }
-            return payments;
+            fs.Close ();
+            return AllPaymentsList;
+        }
+        public static List<Room> GetAllRooms()
+        {
+            List<Room> RoomsList = new List<Room>();
+            FileStream fs = new FileStream("Room.txt",FileMode.OpenOrCreate,FileAccess.Read);
+            while (fs.Position<fs.Length) {
+                try { RoomsList.Add((Room)bf.Deserialize(fs)); }
+                catch (SerializationException e) { Console.WriteLine(e.Message); }
+            }
+            fs.Close ();
+
+            return RoomsList;
         }
         public static List<Room> LoadAvailableRooms()
         {

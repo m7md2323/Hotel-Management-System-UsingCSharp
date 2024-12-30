@@ -108,10 +108,10 @@ namespace Hotel_Management_System
 
             // Console.WriteLine("---------------------------------------------------------------------------------");
             //Console.WriteLine(guest.ToString());
-            Payment bill = new Payment(1234,11111,"Kids zone",400,"paid");
-             bill.DisplayAllInfo();
-            Service Se = new Service(1212,11111,"kidsZone",2992.211,10000);
-            Se.DisplayAllInfo();
+          //  Payment bill = new Payment(1234,11111,"Kids zone",400,"paid");
+           //  bill.DisplayAllInfo();
+          //  Service Se = new Service(1212,11111,"kidsZone",2992.211,10000);
+          //  Se.DisplayAllInfo();
         }
     }
 }
