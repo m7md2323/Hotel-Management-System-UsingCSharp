@@ -47,6 +47,9 @@ namespace Hotel_Management_System
                     case SystemState.MANAGER_MENU:
                         SystemHandler.ChooseManagerService();
                         break;
+                    case SystemState.MANAGER_LOGIN:
+                        SystemHandler.ManagerLogin();
+                        break;
                     case SystemState.EXIT: //(case number 4)
                         Exit = true;
                         Console.WriteLine("Exiting the system........");

@@ -72,6 +72,10 @@ namespace Hotel_Management_System
         {
             get { return guestNationalID; }
         }
+        public int RoomNumber
+        {
+            get { return roomNumber; }
+        }
         public static void PrintHeaderTable()
         {
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");

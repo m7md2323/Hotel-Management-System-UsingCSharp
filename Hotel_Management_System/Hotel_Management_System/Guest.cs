@@ -67,13 +67,13 @@ namespace Hotel_Management_System
             string checkInDate;
             string checkOutDate;
             string meal = "";
-            int mealSelection;
+            string mealSelection;
             Console.Clear();
             Console.WriteLine("---------------------------[ Room Reservation ]---------------------------");
             if (SystemHandler.ShowAvailableRooms() == false)
             {
                 Console.WriteLine("We are sorry, there is no available rooms at the moment!!");
-                Thread.Sleep(2000);
+                Thread.Sleep(2500);
                 SystemHandler.changeState(SystemState.GUEST_MENU);
                 return;
             }
@@ -82,6 +82,7 @@ namespace Hotel_Management_System
             roomNumber = Convert.ToInt32(Console.ReadLine());
             //get room info from database
             Room chosenRoom = DatabaseServer.GetRoom(roomNumber);
+            List<Room> AllRooms = DatabaseServer.GetAllRooms();//to make changes on room availability
             if (roomNumber == 0) { SystemHandler.changeState(SystemState.GUEST_MENU); return; }
             if (chosenRoom == null)
             {
@@ -114,10 +115,16 @@ namespace Hotel_Management_System
             Console.WriteLine("1. Breakfast.");
             Console.WriteLine("2. Breakfast and Lunch.");
             Console.WriteLine("3. Full board.");
-            mealSelection = Convert.ToInt32(Console.ReadLine());
-            if (mealSelection == 1) meal = "Breakfast";
-            if (mealSelection == 2) meal = "Breakfast and Lunch";
-            if (mealSelection == 3) meal = "Full Board";
+            mealSelection = Console.ReadLine();
+            if (mealSelection == "1") meal = "Breakfast";
+            else if (mealSelection =="2") meal = "Breakfast and Lunch";
+            else if (mealSelection == "3") meal = "Full Board";
+            else { Console.WriteLine("Invalid choice, please try again!!");Thread.Sleep(2000);ReserveRoom();return;}
+            foreach(Room r in AllRooms)
+            {
+                if (roomNumber == r.RoomNumber) r.Available = false;
+            }
+            DatabaseServer.SaveUpdatedRoom(AllRooms);
             //calculate the total amount of reservation (total room reservation + the price of the meal)
             Reservation reservation = new Reservation(SystemHandler.GenerateId("Reservation"), roomNumber, NationalID, checkInDate, checkOutDate, meal);
             Payment resPaymentRecord = new Payment(SystemHandler.GenerateId("Payment"), NationalID, "Reservation", SystemHandler.calculateReservation(reservation, chosenRoom.PricePerDay, meal), "Unpaid");
@@ -220,6 +227,7 @@ namespace Hotel_Management_System
             Console.Clear();
             Console.WriteLine("--------------------------------------------------[ Check Out ]--------------------------------------------------");
             List<Reservation> reservations = DatabaseServer.GetAllReservations();
+            List<Room> AllRooms = DatabaseServer.GetAllRooms();//to change the availability of the room to true
             Console.WriteLine("All Checked In reservations in your name: ");
             Reservation.PrintHeaderTable();
             int numberOfRes = 0;
@@ -243,16 +251,25 @@ namespace Hotel_Management_System
             Console.WriteLine("Please enter the reservation Id to check out: ");
             int resId = Convert.ToInt32(Console.ReadLine());
             bool valid = false;
+            int roomNumber=0;//to use it to change the availability of the room to true
             for (int i = 0; i < reservations.Count; i++)
             {
                 if (reservations[i].ID == resId && reservations[i].ReservationStatus == "Checked In")
                 {
                     reservations[i].ReservationStatus = "Checked Out";
+                    roomNumber = reservations[i].RoomNumber;
                     valid = true;
                 }
             }
             DatabaseServer.SaveUpdatedReservations(reservations);
-            if(valid==true)Console.WriteLine("Checking out went successfully, Thank you for using our Hotel!!");
+            if(valid==true){
+                foreach(Room r in AllRooms)
+                {
+                    if (roomNumber == r.RoomNumber) r.Available = true;
+                }
+                DatabaseServer.SaveUpdatedRoom(AllRooms);
+                Console.WriteLine("Checking out went successfully, Thank you for using our Hotel!!"); 
+            }
             else Console.WriteLine("The reservation Id you entered is wrong, please try again!!");
             SystemHandler.AfterServiceMessage();
         }
