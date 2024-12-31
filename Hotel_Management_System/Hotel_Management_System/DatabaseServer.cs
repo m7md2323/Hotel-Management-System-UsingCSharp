@@ -149,6 +149,17 @@ namespace Hotel_Management_System
                 }
             }
         }
+        public static void SaveUpdatedRoom(List<Room> data)
+        {
+            using (FileStream fs = new FileStream("Room.txt", FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                for (int i = 0; i < data.Count; i++)
+                {
+
+                    bf.Serialize(fs, data[i]);
+                }
+            }
+        }
         public static void SaveUpdatedPayments(List<Payment> data)
         {
             using (FileStream fs = new FileStream("Payment.txt", FileMode.Open, FileAccess.Write))

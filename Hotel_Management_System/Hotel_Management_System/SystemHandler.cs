@@ -52,6 +52,7 @@ namespace Hotel_Management_System
         static Manager manager;
         static public SystemState systemState=SystemState.USER_SELECTION;
         public static UserType ChooseUser() {
+            systemState = SystemState.USER_SELECTION;
             Console.Clear();
             Console.WriteLine("--------------------[ Hotel Management System ]--------------------");
             Console.WriteLine("Please select the account type : ");
@@ -101,8 +102,9 @@ namespace Hotel_Management_System
             Console.WriteLine($"Hello manager and welcome to the hotel system.");
             Console.WriteLine("1. View all guests\n2. View all reservations\n3. View all services\n4. View all payments\n5. View all rooms\n6. Update room information\n7. Generate profit report");
         }
-       public static bool ManagerLogin()
+       public static void  ManagerLogin()
         {
+            systemState = SystemState.MANAGER_LOGIN;
             Console.Clear();
             manager = new Manager();
             Console.WriteLine("---------[Manager login]--------");
@@ -123,19 +125,20 @@ namespace Hotel_Management_System
             //
             else
             {
-                Console.WriteLine("verifying..");
+                Console.Write("verifying");
                 LineOfDots();
                 Console.WriteLine("Successful Login!!");
+                Thread.Sleep(2000);
                 Console.WriteLine();
                 ChooseManagerService();
             }
 
-            return false;
+            //return false;
         }
             public static void ChooseManagerService() 
             {
                 
-
+               // systemState = SystemState.MANAGER_MENU;
                 Console.WriteLine("choose a service: \n");
                 ManagerHotelServices();
                 int managerchoice = Convert.ToInt32(Console.ReadLine());
@@ -171,12 +174,7 @@ namespace Hotel_Management_System
 
                 }
 
-            
-            LineOfDots();
-
-
-            Console.WriteLine("---------------");
-        }
+            }
         public static bool GuestValidator(int NationalId,int Password)
         {
             Guest guest = DatabaseServer.GetGuestUsingId(NationalId);
@@ -197,11 +195,6 @@ namespace Hotel_Management_System
                 case (int)GuestServiceSelection.REQUEST_A_SERVICE:
                     loggedInGuest.RequestService();
                     break;
-                case (int)GuestServiceSelection.LOGOUT:
-                    loggedInGuest = null;
-                    Console.Write("Logging out");LineOfDots();
-                    changeState(SystemState.GUEST_LOGIN);
-                    break;
                 case (int)GuestServiceSelection.CHECK_IN:
                     loggedInGuest.CheckIn();
                     break;
@@ -214,7 +207,11 @@ namespace Hotel_Management_System
                 case (int)GuestServiceSelection.PAY_FOR_A_SERVICE:
                     loggedInGuest.PayForService();
                     break;
-
+                case (int)GuestServiceSelection.LOGOUT:
+                    loggedInGuest = null;
+                    Console.Write("Logging out");LineOfDots();
+                    changeState(SystemState.USER_SELECTION);
+                    break;
             }
         }
         public static void LoadGuestServicesMenu()
