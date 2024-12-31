@@ -35,10 +35,12 @@ namespace Hotel_Management_System
         }
         public int RoomNumber
         {
+            
             get { return roomNumber;}
         }
         public string RoomType
         {
+            set { roomType = value; }
             get { return roomType;}
         }
         public float PricePerDay

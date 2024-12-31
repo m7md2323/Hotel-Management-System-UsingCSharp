@@ -312,7 +312,7 @@ namespace Hotel_Management_System
             return null;
         }
         
-        //build the request data function (zaid).
+        
 
 
     }

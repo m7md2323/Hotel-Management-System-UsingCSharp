@@ -115,7 +115,49 @@ namespace Hotel_Management_System
         }
         public void updateRoomInfo()
         {
-            Console.WriteLine("update room info..");
+            Console.WriteLine("update room info..\n");
+            Console.WriteLine("viewing all rooms..\n");
+            List<Room> RoomsList = DatabaseServer.GetAllRooms();
+            for (int i = 0; i < RoomsList.Count; i++)
+            {
+                RoomsList[i].DisplayAllInfo();
+            }
+            Console.WriteLine("enter room number to update its info\n");
+            int ChosenRoomNumber=Convert.ToInt32(Console.ReadLine());
+            Room ChosenRoom = DatabaseServer.GetRoom(ChosenRoomNumber);
+            int FoundRoomIndex;
+            for(int i = 0; i <= RoomsList.Count; i++) {
+                if (RoomsList[i].RoomNumber == ChosenRoomNumber) { FoundRoomIndex = i; UpdateFunctions(); }
+                
+
+
+                
+            }
+             void UpdateFunctions() {
+                Console.WriteLine("Room Found!\nto update room (type) enter [1],to update room (price) enter [2] \n");
+                int ChosenRoomUpdate = Convert.ToInt32(Console.ReadLine());
+                if (ChosenRoomUpdate == 1) {
+                    Console.WriteLine("enter the new type:");
+                    RoomsList[FoundRoomIndex].RoomType = Console.ReadLine();
+                    //////////////// serialize again
+                    Console.WriteLine("Rooms successfully Updated!,type [1] to use another manager service or [0] To exit");
+                    int choice = Convert.ToInt32(Console.ReadLine());
+                    if (choice == 1) { SystemHandler.ChooseManagerService(); }
+                    else SystemHandler.ChooseUser();
+                }
+                else if(ChosenRoomUpdate == 2)
+                {
+                    Console.WriteLine("enter the new price:");
+                    RoomsList[FoundRoomIndex].PricePerDay=Convert.ToInt32(Console.ReadLine());
+                    //////////////// serialize again
+                    Console.WriteLine("Rooms successfully Updated! ,type [1] to use another manager service or [0] To exit");
+                    int choice = Convert.ToInt32(Console.ReadLine());
+                    if (choice == 1) { SystemHandler.ChooseManagerService(); }
+                    else SystemHandler.ChooseUser();
+                }
+                else { Console.WriteLine("Unvalid input! please enter [1] or [2]");
+                   UpdateFunctions();  }
+            }
 
         }
         public void generateProfitReport()
