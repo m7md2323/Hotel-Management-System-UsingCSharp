@@ -26,6 +26,15 @@ namespace Hotel_Management_System
             this.amount = amount;
             this.status = status;
         }
+        public static void PrintHeaderTable()
+        {
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.Write($"|  Bill number  ");
+            Console.Write($"|  National ID  ");
+            Console.Write($"|     Source    ");
+            Console.Write($"|     Amount    ");
+            Console.WriteLine($"|     Status    |");
+        }
         public void DisplayAllInfo() {
             string spaces = "                    ";
 

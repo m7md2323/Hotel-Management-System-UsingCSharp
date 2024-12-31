@@ -24,7 +24,7 @@ namespace Hotel_Management_System
 
         }
         //for the initial build of guests
-        public Guest(int nationalID, string name, int password,string phoneNumber, float bankBalance)
+        public Guest(int nationalID, string name, int password, string phoneNumber, float bankBalance)
         {
             this.nationalID = nationalID;
             this.name = name;
@@ -38,7 +38,7 @@ namespace Hotel_Management_System
         }
         public int NationalID
         {
-            get { return nationalID;}
+            get { return nationalID; }
         }
         public int Password
         {
@@ -48,6 +48,15 @@ namespace Hotel_Management_System
         {
             set { bankBalance = value; }
             get { return bankBalance; }
+        }
+        public static void PrintHeaderTable()
+        {
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.Write("| National ID   ");
+            Console.Write($"|     Name      ");
+            Console.Write($"|   Password    ");
+            Console.Write($"| Phone Number  ");
+            Console.WriteLine($"|  Bank Balance |");
         }
         public void DisplayAllInfo()
         {
@@ -59,7 +68,7 @@ namespace Hotel_Management_System
             Console.Write($"| {name}"+spaces.Substring(0,14-name.Length));
             Console.Write($"| {password}"+spaces.Substring(0,12));
             Console.Write($"| {phoneNumber}"+spaces.Substring(0,9));
-            Console.WriteLine($"| {bankBalance}$"+spaces.Substring(0,14-Convert.ToString(bankBalance).Length)+'|');
+            Console.WriteLine($"| {bankBalance}$"+spaces.Substring(0,13-Convert.ToString(bankBalance).Length)+'|');
         }
         public void ReserveRoom()
         {
@@ -84,7 +93,7 @@ namespace Hotel_Management_System
             Room chosenRoom = DatabaseServer.GetRoom(roomNumber);
             List<Room> AllRooms = DatabaseServer.GetAllRooms();//to make changes on room availability
             if (roomNumber == 0) { SystemHandler.changeState(SystemState.GUEST_MENU); return; }
-            if (chosenRoom == null)
+            if (chosenRoom == null||chosenRoom.Available==false)
             {
                 Console.WriteLine("Wrong room number, please try again");
                 Thread.Sleep(2000);
@@ -129,7 +138,7 @@ namespace Hotel_Management_System
             Reservation reservation = new Reservation(SystemHandler.GenerateId("Reservation"), roomNumber, NationalID, checkInDate, checkOutDate, meal);
             Payment resPaymentRecord = new Payment(SystemHandler.GenerateId("Payment"), NationalID, "Reservation", SystemHandler.calculateReservation(reservation, chosenRoom.PricePerDay, meal), "Unpaid");
             Console.WriteLine("Your receipt : ");
-            //PrintHeaderTable();
+            Payment.PrintHeaderTable();
             resPaymentRecord.DisplayAllInfo();
             Console.WriteLine("---------------------------------------------------------------------------------");
             DatabaseServer.SaveData("Reservation.txt", reservation);
@@ -170,7 +179,7 @@ namespace Hotel_Management_System
                 return;
             }
             Console.WriteLine("Your receipt : ");
-            //PrintHeaderTable();
+            Payment.PrintHeaderTable();
             servPaymentRecord.DisplayAllInfo();
             Console.WriteLine("---------------------------------------------------------------------------------");
             DatabaseServer.SaveData("Payment.txt", servPaymentRecord);
@@ -196,7 +205,7 @@ namespace Hotel_Management_System
                     reservations[i].DisplayAllInfo();
                 }
             }
-            Console.WriteLine("--------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
             if (numberOfRes == 0)
             {
                 Console.Clear();
@@ -280,7 +289,7 @@ namespace Hotel_Management_System
             List<Payment> payments = DatabaseServer.GetAllPayments();
             if (payments == null) Console.WriteLine("No payments available");
             Console.WriteLine("All Unpaid reservations in your name: ");
-            //Reservation.PrintHeaderTable();
+            Payment.PrintHeaderTable();
             int numberOfPayments = 0;
             for (int i = 0; i < payments.Count; i++)
             {
@@ -298,7 +307,7 @@ namespace Hotel_Management_System
                 return;
 
             }
-            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("---------------------------------------------------------------------------------");
             Console.WriteLine("Please enter the bill number to pay: ");
             int billNumber = Convert.ToInt32(Console.ReadLine());
             bool valid = false;
@@ -330,9 +339,8 @@ namespace Hotel_Management_System
             List<Payment> payments = DatabaseServer.GetAllPayments();
             if (payments == null) Console.WriteLine("No payments available");
             Console.WriteLine("All Unpaid Services in your name: ");
-            // Reservation.PrintHeaderTable();
+            Payment.PrintHeaderTable();
             int numberOfPayments = 0;
-
             for (int i = 0; i < payments.Count; i++)
             {
                 if (payments[i].GuestNationalID == NationalID && payments[i].Status == "Unpaid" && payments[i].Source != "Reservation")
@@ -349,7 +357,7 @@ namespace Hotel_Management_System
                 return;
 
             }
-            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
             Console.WriteLine("Please enter the bill number to pay: ");
             int billNumber = Convert.ToInt32(Console.ReadLine());
             bool valid = false;

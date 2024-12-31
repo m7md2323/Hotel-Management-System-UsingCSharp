@@ -26,6 +26,15 @@ namespace Hotel_Management_System
         public int GustNationalID { set { gustNationalID = value; } get { return gustNationalID; } }
         public string Description { set { description = value; } get{ return description; } }
         public double Cost { set { cost = value; } get { return cost; } }
+        public static void PrintHeaderTable()
+        {
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.Write($"|      ID       ");
+            Console.Write($"|  National ID  ");
+            Console.Write($"|  Description  ");
+            Console.Write($"|     Notes     ");
+            Console.WriteLine($"|     Cost      |");
+        }
         public void DisplayAllInfo()
         {
             string spaces = "                    ";
@@ -36,7 +45,7 @@ namespace Hotel_Management_System
             Console.Write($"| {GustNationalID}" + spaces.Substring(0, 9));
             Console.Write($"| {Description}" + spaces.Substring(0, 14 - Description.Length));
             Console.Write($"| {notes}" + spaces.Substring(0, 14 - Convert.ToString(notes).Length));
-            Console.WriteLine($"| {Cost}" + spaces.Substring(0, 14 - Convert.ToString(Cost).Length) + '|');
+            Console.WriteLine($"| {Cost}$" + spaces.Substring(0, 13 - Convert.ToString(Cost).Length) + '|');
         }
 
     }
