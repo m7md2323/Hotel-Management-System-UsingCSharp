@@ -144,8 +144,8 @@ namespace Hotel_Management_System
                         Console.WriteLine("room type doesnt exist, try again");
                         UpdateFunctions();
                     }
-                     RoomsList[FoundRoomIndex].RoomType = NewRoomType; 
-                    FileStream fs = new FileStream("Room.txt",FileMode.Append,FileAccess.Write);
+                    RoomsList[FoundRoomIndex].RoomType = NewRoomType; 
+                    FileStream fs = new FileStream("Room.txt",FileMode.Open,FileAccess.Write);
                     for (int i = 0; i < RoomsList.Count; i++)
                     {
                         DatabaseServer.bf.Serialize(fs, RoomsList[i]);
@@ -160,7 +160,7 @@ namespace Hotel_Management_System
                 {
                     Console.WriteLine("enter the new price:");
                     RoomsList[FoundRoomIndex].PricePerDay=Convert.ToInt32(Console.ReadLine());
-                    FileStream fs = new FileStream("Room.txt",FileMode.Create,FileAccess.Write);
+                    FileStream fs = new FileStream("Room.txt",FileMode.Open,FileAccess.Write);
                     for(int i = 0;i< RoomsList.Count; i++)
                     {
                         DatabaseServer.bf.Serialize(fs, RoomsList[i]);
