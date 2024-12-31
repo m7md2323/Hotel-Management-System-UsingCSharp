@@ -322,9 +322,50 @@ namespace Hotel_Management_System
             }
             return null;
         }
-        
-        
+        public static float GetReservationsRevenue()
+        {
+            
+            List<Payment> AllPaymentsList = DatabaseServer.GetAllPayments();
+            float ReservationsRevenue = 0;
+            for (int i = 0; i < AllPaymentsList.Count; i++)
+            {
+                if (AllPaymentsList[i].Status == "  Paid" && AllPaymentsList[i].Source=="Reservation")
+                {
+                    ReservationsRevenue += AllPaymentsList[i].Amount;
+                }
+            }
+            return ReservationsRevenue;
+        }
 
+        public static float GetKidsZoneRevenue()
+        {
+            
+            List<Payment> AllPaymentsList = DatabaseServer.GetAllPayments();
+            float KidsZoneRevenue = 0;
+            for (int i = 0; i < AllPaymentsList.Count; i++)
+            {
+                if (AllPaymentsList[i].Status == "  Paid" && AllPaymentsList[i].Source == "Kids zone")
+                {
+                    KidsZoneRevenue += AllPaymentsList[i].Amount;
+                }
+            }
+            return KidsZoneRevenue;
+        }
+        public static float GetCarRentalRevenue()
+        {
+            
+            List<Payment> AllPaymentsList = DatabaseServer.GetAllPayments();
+            float CarRentalRevenue = 0;
+            for (int i = 0; i < AllPaymentsList.Count; i++)
+            {
+                if (AllPaymentsList[i].Status == "  Paid" && AllPaymentsList[i].Source == "Car rental")
+                {
+                    CarRentalRevenue += AllPaymentsList[i].Amount;
+                }
+            }
+            return CarRentalRevenue;
+        }
+        
 
     }
 }

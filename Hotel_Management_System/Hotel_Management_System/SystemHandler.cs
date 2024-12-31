@@ -118,9 +118,14 @@ namespace Hotel_Management_System
                 Console.WriteLine("Unsuccessful Login attempt!!");
                 Console.WriteLine("ID or Password is wrong, please try again!!");
                 Console.WriteLine("Press (1) to try again, (0) to Exit the system.");
-                string choice = Console.ReadLine();
-                if (choice == "1") { changeState(SystemState.MANAGER_LOGIN); }
-                else { changeState(SystemState.EXIT); }
+                MoreManagerOrLeave();
+                void MoreManagerOrLeave()
+                { string choice = Console.ReadLine();
+                
+                    if (choice == "1") { changeState(SystemState.MANAGER_LOGIN); }
+                    else if (choice == "0") { changeState(SystemState.EXIT); }
+                    else { Console.WriteLine("invalid choice, choose 1 or 0");Thread.Sleep(1500) ; MoreManagerOrLeave(); }
+                }
             }
             //
             else
@@ -138,7 +143,7 @@ namespace Hotel_Management_System
             public static void ChooseManagerService() 
             {
                 
-               // systemState = SystemState.MANAGER_MENU;
+                systemState = SystemState.MANAGER_MENU;
                 Console.WriteLine("choose a service: \n");
                 ManagerHotelServices();
                 int managerchoice = Convert.ToInt32(Console.ReadLine());
@@ -165,7 +170,8 @@ namespace Hotel_Management_System
                         manager.updateRoomInfo();
                         break;
                     case (int)ManagerServiceSelection.GENERATE_PROFIT_REPORT:
-                        manager.generateProfitReport();
+                        manager.GenerateProfitReport();
+                    string R= Console.ReadLine();
                         break;
                     default: Console.WriteLine("invalid input, try again..");
                     Thread.Sleep(2000);
@@ -228,15 +234,7 @@ namespace Hotel_Management_System
             Console.WriteLine("------------------------------------------------------------------------");
         }
         //Guest functions///////////////////////////////////////////////////////
-        public static void PrintHeaderTable()
-        {
-            Console.WriteLine("---------------------------------------------------------------------------------");
-            Console.Write($"|  Bill number  ");
-            Console.Write($"|  National ID  ");
-            Console.Write($"|     Source    ");
-            Console.Write($"|     Amount    ");
-            Console.WriteLine($"|     Status    |");
-        }
+       
         public static bool ShowAvailableRooms()
         {
             List<Room> availableRooms = DatabaseServer.LoadAvailableRooms();
