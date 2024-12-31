@@ -136,10 +136,21 @@ namespace Hotel_Management_System
              void UpdateFunctions() {
                 Console.WriteLine("Room Found!\nto update room (type) enter [1],to update room (price) enter [2] \n");
                 int ChosenRoomUpdate = Convert.ToInt32(Console.ReadLine());
-                if (ChosenRoomUpdate == 1) {
+                if (ChosenRoomUpdate == 1) {//fix problem with not updating new type and price
                     Console.WriteLine("enter the new type:");
-                    RoomsList[FoundRoomIndex].RoomType = Console.ReadLine();
-                    //////////////// serialize again
+                    string NewRoomType = Console.ReadLine();
+                    if (RoomsList[FoundRoomIndex].RoomType != "Suite" && RoomsList[FoundRoomIndex].RoomType != "Double" && RoomsList[FoundRoomIndex].RoomType != "Single")
+                    {
+                        Console.WriteLine("room type doesnt exist, try again");
+                        UpdateFunctions();
+                    }
+                     RoomsList[FoundRoomIndex].RoomType = NewRoomType; 
+                    FileStream fs = new FileStream("Room.txt",FileMode.Append,FileAccess.Write);
+                    for (int i = 0; i < RoomsList.Count; i++)
+                    {
+                        DatabaseServer.bf.Serialize(fs, RoomsList[i]);
+                    }
+                    fs.Close();
                     Console.WriteLine("Rooms successfully Updated!,type [1] to use another manager service or [0] To exit");
                     int choice = Convert.ToInt32(Console.ReadLine());
                     if (choice == 1) { SystemHandler.ChooseManagerService(); }
@@ -149,7 +160,12 @@ namespace Hotel_Management_System
                 {
                     Console.WriteLine("enter the new price:");
                     RoomsList[FoundRoomIndex].PricePerDay=Convert.ToInt32(Console.ReadLine());
-                    //////////////// serialize again
+                    FileStream fs = new FileStream("Room.txt",FileMode.Create,FileAccess.Write);
+                    for(int i = 0;i< RoomsList.Count; i++)
+                    {
+                        DatabaseServer.bf.Serialize(fs, RoomsList[i]);
+                    }
+                    fs.Close();
                     Console.WriteLine("Rooms successfully Updated! ,type [1] to use another manager service or [0] To exit");
                     int choice = Convert.ToInt32(Console.ReadLine());
                     if (choice == 1) { SystemHandler.ChooseManagerService(); }
