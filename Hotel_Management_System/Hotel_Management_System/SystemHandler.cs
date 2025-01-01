@@ -61,7 +61,7 @@ namespace Hotel_Management_System
             return (UserType)userChoice;
             
         }
-        public static bool GuestLogin()
+        public static void GuestLogin()
         {
                 systemState = SystemState.GUEST_LOGIN;
                 Console.Clear();
@@ -69,7 +69,7 @@ namespace Hotel_Management_System
                 Console.WriteLine("Please enter your National ID and Password (Type 0 to get back) ");
                 Console.Write("National ID : ");
                 int guestID = Convert.ToInt32(Console.ReadLine());
-                if (guestID == 0) { changeState(SystemState.USER_SELECTION);return false;}
+                if (guestID == 0) { changeState(SystemState.USER_SELECTION);return;}
                 Console.Write("Password : ");
                 int Password= Convert.ToInt32(Console.ReadLine());
                 Console.Write("Verifying");LineOfDots();
@@ -87,12 +87,11 @@ namespace Hotel_Management_System
                 {
                     Console.WriteLine("Unsuccessful Login attempt!!");
                     Console.WriteLine("National ID or Password is wrong, please try again!!");
-                    Console.WriteLine("Press (1) to try again, (0) to Exit the system.");
+                    Console.WriteLine("Press (1) to try again, (0) to login using different account type.");
                     if (Console.ReadLine() == "1") changeState(SystemState.GUEST_LOGIN);
-                    else changeState(SystemState.EXIT);
+                    else changeState(SystemState.USER_SELECTION);
 
                 }
-            return true;
 
         }
         public static void ManagerHotelServices()
@@ -183,10 +182,12 @@ namespace Hotel_Management_System
             }
         public static bool GuestValidator(int NationalId,int Password)
         {
-            Guest guest = DatabaseServer.GetGuestUsingId(NationalId);
-            if (guest == null) return false;
-            if (guest.Password != Password) return false;
-            return true;
+            List<Guest> guests = DatabaseServer.GetAllGuests();
+            foreach(Guest g in guests)
+            {
+                if (g.CheckLogin(NationalId, Password)) return true;
+            }
+            return false;
         }
         public static void EnterGuestSystem()
         {
@@ -237,13 +238,19 @@ namespace Hotel_Management_System
        
         public static bool ShowAvailableRooms()
         {
-            List<Room> availableRooms = DatabaseServer.LoadAvailableRooms();
-            if (availableRooms.Count == 0) {return false; }
+            List<Room> allRooms = DatabaseServer.GetAllRooms();
             Console.WriteLine("Currently available rooms : ");
-            Room.PrintHeaderTable();
-            for (int i = 0; i < availableRooms.Count; i++)
+            bool valid=false;
+            //to check if there are available rooms
+            foreach(Room r in allRooms)
             {
-                availableRooms[i].DisplayAllInfo();
+                if (r.Available == true)valid = true; 
+            }
+            if (!valid) return false;
+            Room.PrintHeaderTable();
+            foreach (Room r in allRooms)
+            {
+                if (r.Available == true) { r.DisplayAllInfo(); }
             }
             Console.WriteLine("-----------------------------------------------------------------");
             return true;

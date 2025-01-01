@@ -40,14 +40,15 @@ namespace Hotel_Management_System
         {
             get { return nationalID; }
         }
-        public int Password
-        {
-            get { return password; }
-        }
         public float BankBalance
         {
             set { bankBalance = value; }
             get { return bankBalance; }
+        }
+        public  bool CheckLogin(int NationalId, int Password)
+        {
+            if (nationalID != NationalId|| password != Password) return false;
+            return true;
         }
         public static void PrintHeaderTable()
         {
@@ -62,7 +63,6 @@ namespace Hotel_Management_System
         {
             string spaces = "                   ";
           
-
             Console.WriteLine("---------------------------------------------------------------------------------");
             Console.Write($"| {nationalID}"+spaces.Substring(0,9));
             Console.Write($"| {name}"+spaces.Substring(0,14-name.Length));
@@ -109,8 +109,16 @@ namespace Hotel_Management_System
             checkOutDate = Console.ReadLine();
             try
             {
-                DateTime checkTimeValidity = DateTime.ParseExact(checkInDate, "dd/MM/yyyy", new CultureInfo("en-Jo"));
-                checkTimeValidity = DateTime.ParseExact(checkOutDate, "dd/MM/yyyy", new CultureInfo("en-Jo"));
+                DateTime checkTimeValidity1 = DateTime.ParseExact(checkInDate, "dd/MM/yyyy", new CultureInfo("en-Jo"));
+                DateTime checkTimeValidity2 = DateTime.ParseExact(checkOutDate, "dd/MM/yyyy", new CultureInfo("en-Jo"));
+                //if check in date is after check out date display error message
+                TimeSpan totalDays = (checkTimeValidity2 - checkTimeValidity1);
+                if (totalDays.Days<=0) { 
+                    Console.WriteLine("Invalid range (check-out is before check-in), please try again!!");
+                    Thread.Sleep(2500);
+                    ReserveRoom();
+                    return;
+                }
             }
             catch (FormatException e)
             {
@@ -119,6 +127,7 @@ namespace Hotel_Management_System
                 ReserveRoom();
                 return;
             }
+            //if check in date is after check out date display error message
             //remember to send a payment record of the reservation
             Console.WriteLine("Choose one of the meals type below : ");
             Console.WriteLine("1. Breakfast.");

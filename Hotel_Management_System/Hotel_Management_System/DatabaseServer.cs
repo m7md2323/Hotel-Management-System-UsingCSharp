@@ -18,74 +18,17 @@ namespace Hotel_Management_System
         //to make sure that all IDs attributes of our classes are unique (Reservation ID, Service ID, Payment bill number).
 
       public static BinaryFormatter bf = new BinaryFormatter();
-       /* public static int LoadLastIdRes()
-        {
-            int Id = 1000;
-            using (FileStream fs = new FileStream("Reservation.txt", FileMode.OpenOrCreate, FileAccess.Read))
-            {
-                if (fs.Length == 0)
-                {
-                    return Id; // Return default ID if the file is empty
-                }
-
-                while (fs.Position < fs.Length)
-                {
-                    try
-                    {
-                        Reservation temp = (Reservation)bf.Deserialize(fs);  
-                        Id = temp.ID;
-                    }
-                    catch (SerializationException ex)
-                    {
-                        Console.WriteLine("Deserialization error: " + ex.Message + ", skipping...");
-                    }
-                }
-            }
-            return Id;
-        }
-        public static int LoadLastIdPayment()
-        {
-            int Id = 1000;
-            using (FileStream fs = new FileStream("Payment.txt", FileMode.OpenOrCreate, FileAccess.Read))
-            {
-                if (fs.Length == 0)
-                {
-                    return Id; // Return default ID if the file is empty
-                }
-
-                while (fs.Position < fs.Length)
-                {
-                    try
-                    {
-                        Payment temp = (Payment)bf.Deserialize(fs);
-                        Id = temp.BillNumber;
-                    }
-                    catch (SerializationException ex)
-                    {
-                        Console.WriteLine("Deserialization error: " + ex.Message + ", skipping...");
-                    }
-                }
-            }
-            return Id;
-        }*/
+ 
         public static int LoadLastIdOfObject(string objectType)
         {
             int Id = 1000;
-            BinaryFormatter bff = new BinaryFormatter();
-
             using (FileStream fs = new FileStream(objectType+".txt", FileMode.OpenOrCreate, FileAccess.Read))
             {
-                if (fs.Length == 0)
-                {
-                    return Id; // Return default ID if the file is empty
-                }
-
                 while (fs.Position < fs.Length)
                 {
                     try
                     {
-                        object temp = bff.Deserialize(fs);
-
+                        object temp = bf.Deserialize(fs);
                         if (objectType == "Reservation" && temp is Reservation reservation)
                         {
                             Id = reservation.ID;
@@ -131,7 +74,6 @@ namespace Hotel_Management_System
                     case "Service":
                         bf.Serialize(fs, (Service)obj);
                         break;
-                   
                     default:
                         break;
 
@@ -250,23 +192,6 @@ namespace Hotel_Management_System
             fs.Close ();
 
             return RoomsList;
-        }
-        public static List<Room> LoadAvailableRooms()
-        {
-            List<Room> availableRooms = new List<Room>();
-            using (FileStream fs = new FileStream("Room.txt", FileMode.OpenOrCreate, FileAccess.Read))
-            {
-                while (fs.Position < fs.Length)
-                {
-                    object desObject = bf.Deserialize(fs);
-                    if (desObject.GetType().Name == "Room")
-                    {
-                        //desObject = (Room)desObject;
-                        if (((Room)desObject).Available == true) availableRooms.Add((Room)desObject);
-                    }
-                }
-            }
-            return availableRooms;
         }
         public static Guest GetGuestUsingId(int NationalId)
         {   
