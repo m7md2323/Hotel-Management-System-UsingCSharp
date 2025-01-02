@@ -44,7 +44,8 @@ namespace Hotel_Management_System
         VIEW_ALL_PAYMENTS,
         VIEW_ALL_ROOMS,
         UPDATE_ROOM_INFO,
-        GENERATE_PROFIT_REPORT
+        GENERATE_PROFIT_REPORT,
+        LOGOUT
     }
     internal class SystemHandler
     {   
@@ -105,7 +106,7 @@ namespace Hotel_Management_System
             Console.Clear();
             
             Console.WriteLine($"Hello manager and welcome to the hotel system.");
-            Console.WriteLine("1. View all guests\n2. View all reservations\n3. View all services\n4. View all payments\n5. View all rooms\n6. Update room information\n7. Generate profit report");
+            Console.WriteLine("1. View all guests\n2. View all reservations\n3. View all services\n4. View all payments\n5. View all rooms\n6. Update room information\n7. Generate profit report\n8. Log Out");
         }
        public static void  ManagerLogin()
         {
@@ -177,7 +178,11 @@ namespace Hotel_Management_System
                     case (int)ManagerServiceSelection.GENERATE_PROFIT_REPORT:
                         manager.GenerateProfitReport();
                         break;
-                    default: Console.WriteLine("invalid input, try again..");
+                    case (int)ManagerServiceSelection.LOGOUT:
+                    Console.Write("Logging out"); LineOfDots();
+                    changeState(SystemState.USER_SELECTION);
+                    break;
+                default: Console.WriteLine("invalid input, try again..");
                     Thread.Sleep(2000);
                     ChooseManagerService();
                     break;

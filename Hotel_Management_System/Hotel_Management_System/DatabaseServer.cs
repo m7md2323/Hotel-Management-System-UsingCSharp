@@ -104,14 +104,12 @@ namespace Hotel_Management_System
         }
         public static void SaveUpdatedPayments(List<Payment> data)
         {
-            using (FileStream fs = new FileStream("Payment.txt", FileMode.Open, FileAccess.Write))
+            FileStream fs = new FileStream("Payment.txt",FileMode.Create,FileAccess.Write);
+            for(int i=0;i<fs.Length ;i++)
             {
-                for (int i = 0; i < data.Count; i++)
-                {
-
-                    bf.Serialize(fs, data[i]);
-                }
+                bf.Serialize(fs, data[i]);
             }
+            fs.Close();
         }
         public static void SaveUpdatedGuests(List<Guest> data)
         {

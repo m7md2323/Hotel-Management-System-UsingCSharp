@@ -193,7 +193,7 @@ namespace Hotel_Management_System
 
 
             Console.WriteLine("----------------------------------");
-                Console.WriteLine($"|profit from Reservations: {DatabaseServer.GetReservationsRevenue()}|");
+            Console.WriteLine($"|profit from Reservations: {DatabaseServer.GetReservationsRevenue()}|");
             Console.WriteLine($"|profit from Car rental: {DatabaseServer.GetCarRentalRevenue()}|");
             Console.WriteLine($"|profit from Kids zone: {DatabaseServer.GetKidsZoneRevenue()}|");
             Console.WriteLine("----------------------------------");
@@ -201,8 +201,8 @@ namespace Hotel_Management_System
 
             Console.WriteLine("Rooms successfully Updated! ,type [1] to use another manager service or [0] To exit");
             int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1) { SystemHandler.ChooseManagerService(); }
-            else SystemHandler.ChooseUser();
+            if (choice == 1) { SystemHandler.AfterManagerServiceMessage(); return; }
+            else {SystemHandler.ChooseUser(); return;}
         }
                  
                    
