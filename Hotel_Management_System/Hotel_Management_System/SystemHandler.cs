@@ -57,21 +57,27 @@ namespace Hotel_Management_System
             Console.WriteLine("--------------------[ Hotel Management System ]--------------------");
             Console.WriteLine("Please select the account type : ");
             Console.WriteLine("[1] Manager \n[2] Guest \n[3] To Exit the System.");
+            Console.WriteLine("-------------------------------------------------------------------");
             int userChoice=Convert.ToInt32(Console.ReadLine());
             return (UserType)userChoice;
             
         }
         public static void GuestLogin()
         {
+                int guestID=0, Password=0; 
                 systemState = SystemState.GUEST_LOGIN;
                 Console.Clear();
                 Console.WriteLine("-------------------------[ Guest Login ]-------------------------");
                 Console.WriteLine("Please enter your National ID and Password (Type 0 to get back) ");
                 Console.Write("National ID : ");
-                int guestID = Convert.ToInt32(Console.ReadLine());
-                if (guestID == 0) { changeState(SystemState.USER_SELECTION);return;}
-                Console.Write("Password : ");
-                int Password= Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    guestID = Convert.ToInt32(Console.ReadLine());
+                    if (guestID == 0) { changeState(SystemState.USER_SELECTION); return; }
+                    Console.Write("Password : ");
+                    Password = Convert.ToInt32(Console.ReadLine());
+                }
+                catch(FormatException){ Console.WriteLine("Wrong format, Please type an integer!!");Thread.Sleep(2000); return;}
                 Console.Write("Verifying");LineOfDots();
                 Console.Clear();
                 if (GuestValidator(guestID, Password))
@@ -170,7 +176,6 @@ namespace Hotel_Management_System
                         break;
                     case (int)ManagerServiceSelection.GENERATE_PROFIT_REPORT:
                         manager.GenerateProfitReport();
-                    string R= Console.ReadLine();
                         break;
                     default: Console.WriteLine("invalid input, try again..");
                     Thread.Sleep(2000);
@@ -219,12 +224,17 @@ namespace Hotel_Management_System
                     Console.Write("Logging out");LineOfDots();
                     changeState(SystemState.USER_SELECTION);
                     break;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Invalid option, please try again!!");
+                    EnterGuestSystem();
+                    break;
             }
         }
         public static void LoadGuestServicesMenu()
         {
             Console.WriteLine("------------------------[ Guest Hotel Services ]------------------------");
-            //Console.WriteLine("Please select the service you want below: ");
+            Console.WriteLine("Please choose a service: ");
             Console.WriteLine("[1] Reserve a room");
             Console.WriteLine("[2] Request a service");
             Console.WriteLine("[3] Check in");
@@ -304,7 +314,18 @@ namespace Hotel_Management_System
             string userChoice=Console.ReadLine();
             if (userChoice == "1") changeState(SystemState.GUEST_MENU); 
             else { 
-                changeState(SystemState.GUEST_LOGIN);
+                changeState(SystemState.USER_SELECTION);
+                Console.Write("Logging out"); LineOfDots();
+            }
+        }
+        public static void AfterManagerServiceMessage()
+        {
+            Console.WriteLine("Press (1) to get back to menu, (0) To logout.");
+            string userChoice = Console.ReadLine();
+            if (userChoice == "1") changeState(SystemState.MANAGER_MENU);
+            else
+            {
+                changeState(SystemState.USER_SELECTION);
                 Console.Write("Logging out"); LineOfDots();
             }
         }

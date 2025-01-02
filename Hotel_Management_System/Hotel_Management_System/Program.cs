@@ -13,7 +13,12 @@ namespace Hotel_Management_System
         static void Main(string[] arg)
         {
 
-
+            //this system is designed using a state mechanism
+            //we have a variable called systemState in SystemHandler class
+            //and this variable will keep track of the system state 
+            //whether he is in login state(for manager or guest) or in hotel service menu(for manager or guest)
+            //or user selection state etc..
+            //and also we have an enum called SystemState that stores the names of our state, to make tracking and understanding proccess of the code easier
           bool Exit = false;
             while (!Exit) {
                 switch (SystemHandler.systemState)

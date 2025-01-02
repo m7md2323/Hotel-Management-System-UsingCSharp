@@ -164,7 +164,7 @@ namespace Hotel_Management_System
             Console.WriteLine("Please choose the service you want below : ");
             Console.WriteLine("1. Car rental.");
             Console.WriteLine("2. Kids zone.");
-            Console.WriteLine("Press (0) to get back.");
+            Console.WriteLine("Type (0) to get back.");
             Console.WriteLine("---------------------------------------------------------------------------");
             string guestSelection = Console.ReadLine();
             if (guestSelection == "1")

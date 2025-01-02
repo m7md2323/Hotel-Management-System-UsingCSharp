@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 //written by Zaid
 namespace Hotel_Management_System
@@ -126,24 +127,31 @@ namespace Hotel_Management_System
             Console.WriteLine("enter room number to update its info\n");
             int ChosenRoomNumber = Convert.ToInt32(Console.ReadLine());
             Room ChosenRoom = DatabaseServer.GetRoom(ChosenRoomNumber);
-            int FoundRoomIndex;
-            for (int i = 0; i <= RoomsList.Count; i++) {
-                if (RoomsList[i].RoomNumber == ChosenRoomNumber) { FoundRoomIndex = i; UpdateFunctions(); }
-
-
-
-
+            int FoundRoomIndex=0;
+            bool found=false;
+            for (int i = 0; i <RoomsList.Count; i++) {
+                if (RoomsList[i].RoomNumber == ChosenRoomNumber) {
+                    found = true;
+                    FoundRoomIndex = i;
+                }
             }
-            void UpdateFunctions() {
+            if (found == false)
+            {
+                Console.WriteLine("Room not found, please try again!!");
+                Thread.Sleep(2500);
+                return;
+            }
+                invalidOption:
                 Console.WriteLine("Room Found!\nto update room (type) enter [1],to update room (price) enter [2] \n");
                 int ChosenRoomUpdate = Convert.ToInt32(Console.ReadLine());
                 if (ChosenRoomUpdate == 1) {//fix problem with not updating new type and price
+                    tryAgain:
                     Console.WriteLine("enter the new type:");
                     string NewRoomType = Console.ReadLine();
-                    if (RoomsList[FoundRoomIndex].RoomType != "Suite" && RoomsList[FoundRoomIndex].RoomType != "Double" && RoomsList[FoundRoomIndex].RoomType != "Single")
+                    if (NewRoomType != "Suite" && NewRoomType != "Double" && NewRoomType != "Single")
                     {
-                        Console.WriteLine("room type doesnt exist, try again");
-                        UpdateFunctions();
+                        Console.WriteLine("room type doesn't exist, try again");
+                        goto tryAgain;
                     }
                     RoomsList[FoundRoomIndex].RoomType = NewRoomType;
                     FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Write);
@@ -164,20 +172,19 @@ namespace Hotel_Management_System
                 {
                     Console.WriteLine("enter the new price:");
                     RoomsList[FoundRoomIndex].PricePerDay = Convert.ToInt32(Console.ReadLine());
-                    FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Write);
-                    for (int i = 0; i < RoomsList.Count; i++)
-                    {
-                        DatabaseServer.bf.Serialize(fs, RoomsList[i]);
-                    }
-                    fs.Close();
+                     FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Write);
+                     for (int i = 0; i < RoomsList.Count; i++)
+                     {
+                         DatabaseServer.bf.Serialize(fs, RoomsList[i]);
+                     }
+                     fs.Close();
                     Console.WriteLine("Rooms successfully Updated! ,type [1] to use another manager service or [0] To exit");
                     int choice = Convert.ToInt32(Console.ReadLine());
                     if (choice == 1) { SystemHandler.ChooseManagerService(); }
                     else SystemHandler.ChooseUser();
                 }
-                else { Console.WriteLine("Unvalid input! please enter [1] or [2]");
-                    UpdateFunctions(); }
-            }
+                else { Console.WriteLine("Invalid input! please enter [1] or [2]");goto invalidOption; }
+            
 
         }
         public void GenerateProfitReport()
