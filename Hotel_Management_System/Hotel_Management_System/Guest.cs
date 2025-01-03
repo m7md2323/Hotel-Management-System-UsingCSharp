@@ -443,10 +443,10 @@ namespace Hotel_Management_System
             else Console.WriteLine("The bill number you entered is wrong, please try again!!");
             SystemHandler.AfterServiceMessage();
 <<<<<<< Updated upstream
- */ 
+
 =======
         }
     }
 }
 
->>>>>>> Stashed changes
+>>>>>>> Stashed changes */ 

@@ -69,7 +69,7 @@ namespace Hotel_Management_System
             Console.WriteLine("-----------------------------------------------------------------");
             Console.Write($"| {roomNumber}" + spaces.Substring(0, 11));
             Console.Write($"| {roomType}" + spaces.Substring(0, 14 - roomType.Length));
-            Console.Write($"| {pricePerDay}$" + spaces.Substring(0, 11));
+            Console.Write($"| {pricePerDay}$" + spaces.Substring(0, 13-Convert.ToString(pricePerDay).Length));
             Console.WriteLine($"| {available}" + ((available==true)?spaces.Substring(0,10):spaces.Substring(0,9))+'|');
         }
         
