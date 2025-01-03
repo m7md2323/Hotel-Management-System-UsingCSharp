@@ -135,7 +135,7 @@ namespace Hotel_Management_System
                 
                     if (choice == "1") { changeState(SystemState.MANAGER_LOGIN); }
                     else if (choice == "0") { changeState(SystemState.EXIT); }
-                    else { Console.WriteLine("invalid choice, choose 1 or 0");Thread.Sleep(1500) ; MoreManagerOrLeave(); }
+                    else { Console.WriteLine("invalid choice, choose 1 or 0");Thread.Sleep(500) ; MoreManagerOrLeave(); }
                 }
             }
             //

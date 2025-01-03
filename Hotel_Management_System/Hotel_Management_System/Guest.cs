@@ -377,14 +377,13 @@ namespace Hotel_Management_System
                     }
                     DisplayAllInfo();
                     Console.WriteLine(BankBalance);
-                    SystemHandler.UpdateBankBalance(payment.Amount);
-                    SystemHandler.AfterServiceMessage();
                     payment.Status = "  paid";
                     SuccessfulPay = true;
-                    
+                    SystemHandler.AfterManagerServiceMessage();
+
 
                 }
-                
+
             }
             DatabaseServer.SaveUpdatedPayments(AllPaymentsList);
             if (SuccessfulPay == true) { Console.WriteLine("payment was successful ");  }

@@ -39,11 +39,9 @@ namespace Hotel_Management_System
             for (int i = 0; i < GuestsList.Count; i++) {
                 GuestsList[i].DisplayAllInfo();
             }
-            Console.WriteLine("guests successfully, enter [1] to get another manager service or [0] to logOut");
-            int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1) { SystemHandler.ChooseManagerService(); }
-            else
-                SystemHandler.ChooseUser();
+            Console.WriteLine("guests successfully");
+            SystemHandler.AfterManagerServiceMessage();
+
 
 
 
@@ -58,10 +56,8 @@ namespace Hotel_Management_System
             List<Reservation> ReservationsList = DatabaseServer.GetAllReservations();
 
             for (int i = 0; i < ReservationsList.Count; i++) { ReservationsList[i].DisplayAllInfo(); }
-            Console.WriteLine("\nreservations displayed successfully,type [1] to use another manager service or [0] To exit");
-            int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1) { SystemHandler.ChooseManagerService(); }
-            else SystemHandler.ChooseUser();
+            Console.WriteLine("\nreservations displayed successfully");
+            SystemHandler.AfterManagerServiceMessage();
 
 
 
@@ -74,10 +70,9 @@ namespace Hotel_Management_System
             List<Service> ServicessList = DatabaseServer.GetAllServices();
 
             for (int i = 0; i < ServicessList.Count; i++) { ServicessList[i].DisplayAllInfo(); }
-            Console.WriteLine("\nServices displayed successfully,type [1] to use another manager service or [0] To exit");
-            int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1) { SystemHandler.ChooseManagerService(); }
-            else SystemHandler.ChooseUser();
+            Console.WriteLine("\nServices displayed successfully");
+            SystemHandler.AfterManagerServiceMessage();
+
 
         }
         public void viewAllPayments()
@@ -87,13 +82,9 @@ namespace Hotel_Management_System
             for (int i = 0; i < AllPaymentsList.Count; i++) {
                 AllPaymentsList[i].DisplayAllInfo();
             }
-            Console.WriteLine("Payments successfully aquired,type [1] to use another manager service or [0] To exit");
-            int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1)
-            {
-                SystemHandler.ChooseManagerService();
-            }
-            else SystemHandler.ChooseUser();
+            Console.WriteLine("Payments successfully aquired");
+            SystemHandler.AfterManagerServiceMessage();
+
 
         }
         public void viewAllRooms()
@@ -159,15 +150,11 @@ namespace Hotel_Management_System
                         DatabaseServer.bf.Serialize(fs, RoomsList[i]);
                     }
                     fs.Close();
-                    Console.WriteLine("Rooms successfully Updated!,type [1] to use another manager service or [0] To exit");
-                    int choice = Convert.ToInt32(Console.ReadLine());
-                    if (choice == 1) { SystemHandler.changeState(SystemState.MANAGER_LOGIN);
-                        SystemHandler.ChooseManagerService(); }
+                    Console.WriteLine("Rooms successfully Updated!");
+                SystemHandler.AfterManagerServiceMessage();
 
-                    else { SystemHandler.changeState(SystemState.USER_SELECTION);
-                        SystemHandler.ChooseUser(); }
-                }
-                else if (ChosenRoomUpdate == 2)
+            }
+            else if (ChosenRoomUpdate == 2)
                 {
                     Console.WriteLine("enter the new price:");
                     RoomsList[FoundRoomIndex].PricePerDay = Convert.ToInt32(Console.ReadLine());
@@ -177,7 +164,7 @@ namespace Hotel_Management_System
                          DatabaseServer.bf.Serialize(fs, RoomsList[i]);
                      }
                      fs.Close();
-                    Console.WriteLine("Rooms successfully Updated! ,type [1] to use another manager service or [0] To exit");
+                   
                     int choice = Convert.ToInt32(Console.ReadLine());
                     if (choice == 1) { SystemHandler.ChooseManagerService(); }
                     else SystemHandler.ChooseUser();
