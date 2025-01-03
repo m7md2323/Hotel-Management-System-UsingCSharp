@@ -34,12 +34,13 @@ namespace Hotel_Management_System
                 object requiredGuest = DatabaseServer.bf.Deserialize(fs);
                 GuestsList.Add((Guest)requiredGuest);
 
-                ;
             }
+            Guest.PrintHeaderTable();
             for (int i = 0; i < GuestsList.Count; i++) {
                 GuestsList[i].DisplayAllInfo();
             }
-            Console.WriteLine("guests successfully");
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            Console.WriteLine("Guests displayed successfully");
             SystemHandler.AfterManagerServiceMessage();
 
 
@@ -54,9 +55,9 @@ namespace Hotel_Management_System
 
             Console.WriteLine("viewing all reservations..");
             List<Reservation> ReservationsList = DatabaseServer.GetAllReservations();
-
+            
             for (int i = 0; i < ReservationsList.Count; i++) { ReservationsList[i].DisplayAllInfo(); }
-            Console.WriteLine("\nreservations displayed successfully");
+            Console.WriteLine("\nReservations displayed successfully");
             SystemHandler.AfterManagerServiceMessage();
 
 
@@ -82,10 +83,8 @@ namespace Hotel_Management_System
             for (int i = 0; i < AllPaymentsList.Count; i++) {
                 AllPaymentsList[i].DisplayAllInfo();
             }
-            Console.WriteLine("Payments successfully aquired");
+            Console.WriteLine("Payments successfully acquired");
             SystemHandler.AfterManagerServiceMessage();
-
-
         }
         public void viewAllRooms()
         {
@@ -95,14 +94,8 @@ namespace Hotel_Management_System
             {
                 RoomsList[i].DisplayAllInfo();
             }
-            Console.WriteLine("Rooms successfully aquired,type [1] to use another manager service or [0] To exit");
-            int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1) { SystemHandler.ChooseManagerService(); }
-            else SystemHandler.ChooseUser();
-
-
-
-
+            Console.WriteLine("Rooms successfully acquired");
+            SystemHandler.AfterManagerServiceMessage();
         }
         public void updateRoomInfo()
         {
@@ -151,10 +144,10 @@ namespace Hotel_Management_System
                     }
                     fs.Close();
                     Console.WriteLine("Rooms successfully Updated!");
-                SystemHandler.AfterManagerServiceMessage();
+                    SystemHandler.AfterManagerServiceMessage();
 
-            }
-            else if (ChosenRoomUpdate == 2)
+                }
+                else if (ChosenRoomUpdate == 2)
                 {
                     Console.WriteLine("enter the new price:");
                     RoomsList[FoundRoomIndex].PricePerDay = Convert.ToInt32(Console.ReadLine());
@@ -164,10 +157,9 @@ namespace Hotel_Management_System
                          DatabaseServer.bf.Serialize(fs, RoomsList[i]);
                      }
                      fs.Close();
-                   
-                    int choice = Convert.ToInt32(Console.ReadLine());
-                    if (choice == 1) { SystemHandler.ChooseManagerService(); }
-                    else SystemHandler.ChooseUser();
+
+                    Console.WriteLine("Rooms successfully Updated!");
+                SystemHandler.AfterManagerServiceMessage();
                 }
                 else { Console.WriteLine("Invalid input! please enter [1] or [2]");goto invalidOption; }
             
@@ -179,16 +171,14 @@ namespace Hotel_Management_System
 
 
             Console.WriteLine("----------------------------------");
-            Console.WriteLine($"|profit from Reservations: {DatabaseServer.GetReservationsRevenue()}|");
-            Console.WriteLine($"|profit from Car rental: {DatabaseServer.GetCarRentalRevenue()}|");
-            Console.WriteLine($"|profit from Kids zone: {DatabaseServer.GetKidsZoneRevenue()}|");
+            Console.WriteLine($"|profit from Reservations: {DatabaseServer.GetReservationsRevenue()}");
+            Console.WriteLine($"|profit from Car rental: {DatabaseServer.GetCarRentalRevenue()}");
+            Console.WriteLine($"|profit from Kids zone: {DatabaseServer.GetKidsZoneRevenue()}");
             Console.WriteLine("----------------------------------");
 
 
-            Console.WriteLine("Rooms successfully Updated! ,type [1] to use another manager service or [0] To exit");
-            int choice = Convert.ToInt32(Console.ReadLine());
-            if (choice == 1) { SystemHandler.AfterManagerServiceMessage(); return; }
-            else {SystemHandler.ChooseUser(); return;}
+            Console.WriteLine("Report successfully generated!!");
+            SystemHandler.AfterManagerServiceMessage();
         }
                  
                    

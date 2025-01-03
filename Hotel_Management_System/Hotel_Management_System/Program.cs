@@ -76,8 +76,8 @@ namespace Hotel_Management_System
                16556 Salma 33 04122 660
                18730 Ahmad 44 02250 720
             */
-            
-           /* Room room1 = new Room(442, "Single", 25f, true);
+            /*
+            Room room1 = new Room(442, "Single", 25f, true);
             Room room2 = new Room(102, "Double", 30f, true);
             Room room3 = new Room(506, "Double", 32f, false);
             Room room4 = new Room(702, "Suite", 40f, true);

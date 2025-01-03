@@ -105,7 +105,7 @@ namespace Hotel_Management_System
         public static void SaveUpdatedPayments(List<Payment> data)
         {
             FileStream fs = new FileStream("Payment.txt",FileMode.Create,FileAccess.Write);
-            for(int i=0;i<fs.Length ;i++)
+            for(int i=0;i<data.Count ;i++)
             {
                 bf.Serialize(fs, data[i]);
             }
@@ -136,7 +136,7 @@ namespace Hotel_Management_System
                     }
                     catch (SerializationException e)
                     {
-                        Console.WriteLine(e.Message);
+                        Console.WriteLine(e.Message + "in Guest.txt");
                     }
                 }
             }
@@ -151,7 +151,7 @@ namespace Hotel_Management_System
                 while (fs.Position < fs.Length)
                 {
                     try { AllReservations.Add((Reservation)bf.Deserialize(fs));   }
-                    catch (SerializationException e) { Console.WriteLine(e.Message);}
+                    catch (SerializationException e) { Console.WriteLine(e.Message + "in Reservation.txt");}
                 }
                           fs.Close();
             
@@ -162,7 +162,7 @@ namespace Hotel_Management_System
             FileStream fs = new FileStream("Service.txt", FileMode.Open, FileAccess.Read);
             while (fs.Position<fs.Length) {
                 try { AllServicesList.Add((Service)bf.Deserialize(fs)); }
-                catch(SerializationException e) { Console.WriteLine(e.Message); }
+                catch(SerializationException e) { Console.WriteLine(e.Message + "in Service.txt"); }
             }
             fs.Close();
             return AllServicesList;
@@ -174,7 +174,7 @@ namespace Hotel_Management_System
             FileStream fs = new FileStream("Payment.txt",FileMode.OpenOrCreate,FileAccess.Read);
             while (fs.Position<fs.Length) {
                 try { AllPaymentsList.Add((Payment)bf.Deserialize(fs)); }
-                catch(SerializationException e) { Console.WriteLine(e.Message); }
+                catch(SerializationException e) { Console.WriteLine(e.Message + "in Payment.txt"); }
             }
             fs.Close ();
             return AllPaymentsList;
@@ -186,7 +186,7 @@ namespace Hotel_Management_System
             while (fs.Position < fs.Length)
             {
                 try { RoomsList.Add((Room)bf.Deserialize(fs)); }
-                catch (SerializationException e) { Console.WriteLine(e.Message); }
+                catch (SerializationException e) { Console.WriteLine(e.Message+"in Room.txt"); }
             }
             fs.Close();
             return RoomsList;
@@ -200,30 +200,33 @@ namespace Hotel_Management_System
                 
                 while (fs.Position < fs.Length)
                 {
-                    object wantedUser = bf.Deserialize(fs);
-                    if (wantedUser.GetType().Name == "Guest" ) 
+                    try
                     {
+                        object wantedUser = bf.Deserialize(fs);
                         Guest obj = (Guest)wantedUser;
-                        if(obj.NationalID==NationalId)guest = obj;
-                        
+                        if (obj.NationalID == NationalId) guest = obj;
                     }
+                    catch(SerializationException e) { Console.WriteLine(e.Message+ "in DatabaseServer.GetGuestUsingId()"); } 
                 }
             }
             return guest;
         }
         public static Room GetRoom(int roomNumber)
         { 
-            List<Guest> guestUsers = new List<Guest>();
             using (FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Read))
             {
 
                 while (fs.Position < fs.Length)
                 {
-                    object wantedRoom = bf.Deserialize(fs);
-                    if (wantedRoom.GetType().Name == "Room" && ((Room)wantedRoom).RoomNumber == roomNumber)
+                    try
                     {
-                        return (Room)wantedRoom;
+                        object wantedRoom = bf.Deserialize(fs);
+                        if (((Room)wantedRoom).RoomNumber == roomNumber)
+                        {
+                            return (Room)wantedRoom;
+                        }
                     }
+                    catch (SerializationException e) { Console.WriteLine(e.Message + "in DatabaseServer.GetRoom()"); }
                 }
             }
             return null;

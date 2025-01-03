@@ -144,7 +144,7 @@ namespace Hotel_Management_System
                 Console.Write("verifying");
                 LineOfDots();
                 Console.WriteLine("Successful Login!!");
-                Thread.Sleep(2000);
+                Thread.Sleep(1200);
                 Console.WriteLine();
                 ChooseManagerService();
             }

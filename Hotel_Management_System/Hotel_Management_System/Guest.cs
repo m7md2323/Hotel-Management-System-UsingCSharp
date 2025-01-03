@@ -350,16 +350,16 @@ namespace Hotel_Management_System
             if (AllPaymentsList.Count == 0) { Console.WriteLine("you have no services to be paid"); SystemHandler.AfterServiceMessage(); return; }
             Payment.PrintHeaderTable();
             int NumberOfPayments = 0;
-            
             for (int i = 0; i < AllPaymentsList.Count; i++)
             {
-                if (AllPaymentsList[i].GuestNationalID == NationalID && AllPaymentsList[i].Status == "unpaid" && AllPaymentsList[i].Source == "Kids zone" || AllPaymentsList[i].Source == "Car rental")
+                if (AllPaymentsList[i].GuestNationalID == NationalID && AllPaymentsList[i].Status == "Unpaid" && (AllPaymentsList[i].Source == "Kids zone" || AllPaymentsList[i].Source == "Car rental"))
                 {
                     AllPaymentsList[i].DisplayAllInfo();
                     NumberOfPayments++;
                 }
             }
-            if(NumberOfPayments == 0) { Console.WriteLine("no payments in your name");SystemHandler.AfterServiceMessage();return; }
+            Console.WriteLine("---------------------------------------------------------------------------------");
+            if (NumberOfPayments == 0) { Console.WriteLine("no payments in your name");SystemHandler.AfterServiceMessage();return; }
 
             Console.WriteLine("enter your bill number");
             int PaymentBill = Convert.ToInt32(Console.ReadLine());
@@ -367,85 +367,23 @@ namespace Hotel_Management_System
 
             foreach (Payment payment in AllPaymentsList)
             {
-                if (payment.GuestNationalID == NationalID && payment.Status == "unpaid" && payment.Source == "Kids zone" || payment.Source == "Car rental")
+                if (payment.GuestNationalID == NationalID && payment.Status == "Unpaid" && (payment.Source == "Kids zone" || payment.Source == "Car rental"))
                 {
                     if (SystemHandler.UpdateBankBalance(payment.Amount) == false) 
                     {
-                        Console.WriteLine("your bank balance is insufficent,service not paid");
-                        SystemHandler.AfterServiceMessage();
+                        Console.WriteLine("your bank balance is insufficient,service not paid");
                         return;
                     }
-                    DisplayAllInfo();
-                    Console.WriteLine(BankBalance);
-                    payment.Status = "  paid";
+                    payment.Status = "  Paid";
                     SuccessfulPay = true;
-                    SystemHandler.AfterManagerServiceMessage();
-
-
                 }
 
             }
             DatabaseServer.SaveUpdatedPayments(AllPaymentsList);
             if (SuccessfulPay == true) { Console.WriteLine("payment was successful ");  }
-            else { Console.WriteLine("billnumber is wrong,try again"); }
-            SystemHandler.AfterServiceMessage(); return;
-        }
-    }//fix issue with multiple bills,and not working for kids zone and typing random bill still works
-}
-/*
-  List<Payment> payments = DatabaseServer.GetAllPayments();
-            if (payments == null) Console.WriteLine("No payments available");
-            Console.WriteLine("All Unpaid Services in your name: ");
-            Payment.PrintHeaderTable();
-            int numberOfPayments = 0;
-            for (int i = 0; i < payments.Count; i++)
-            {
-                if (payments[i].GuestNationalID == NationalID && payments[i].Status == "Unpaid" && payments[i].Source != "Reservation")
-                {
-                    numberOfPayments++;
-                    payments[i].DisplayAllInfo();
-                }
-            }
-            if (numberOfPayments == 0)
-            {
-                Console.Clear();
-                Console.WriteLine("There is no Unpaid Services in your name!!");
-                SystemHandler.AfterServiceMessage();
-                return;
-
-            }
-            Console.WriteLine("--------------------------------------------------------------------------------");
-            Console.WriteLine("Please enter the bill number to pay: ");
-            int billNumber = Convert.ToInt32(Console.ReadLine());
-            bool valid = false;
-            Console.WriteLine(BankBalance);
-            for (int i = 0; i < payments.Count; i++)
-            {
-                if (payments[i].BillNumber == billNumber && payments[i].Status == "Unpaid" && payments[i].Source != "Reservation")
-                {
-                    //Check guest Bank balance and if enough pay the bill, and update the guest bank balance
-                    if (SystemHandler.UpdateBankBalance(payments[i].Amount) == false)
-                    {
-                        Console.WriteLine("Sorry you don't have enough balance, update your bank balance and try again!!");
-                        SystemHandler.AfterServiceMessage();
-                        return;
-                    }
-                    DisplayAllInfo();
-                    Console.WriteLine(BankBalance);
-                    payments[i].Status = "  Paid";
-                    valid = true;
-
-                }
-            }
-            DatabaseServer.SaveUpdatedPayments(payments);
-            if(valid==true)Console.WriteLine("Paying for Service went successfully, Thank you for using our Hotel!!");
-            else Console.WriteLine("The bill number you entered is wrong, please try again!!");
-            SystemHandler.AfterServiceMessage();
-<<<<<<< Updated upstream
-
-=======
+            else { Console.WriteLine("Bill number is wrong,try again"); }
+            SystemHandler.AfterServiceMessage(); 
+            return;
         }
     }
 }
-
->>>>>>> Stashed changes */ 
