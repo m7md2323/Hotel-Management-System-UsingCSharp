@@ -54,6 +54,7 @@ namespace Hotel_Management_System
 
 
             Console.WriteLine("viewing all reservations..");
+            Reservation.PrintHeaderTable();
             List<Reservation> ReservationsList = DatabaseServer.GetAllReservations();
             
             for (int i = 0; i < ReservationsList.Count; i++) { ReservationsList[i].DisplayAllInfo(); }
@@ -68,6 +69,7 @@ namespace Hotel_Management_System
 
 
             Console.WriteLine("viewing all Services..");
+            Service.PrintHeaderTable();
             List<Service> ServicessList = DatabaseServer.GetAllServices();
 
             for (int i = 0; i < ServicessList.Count; i++) { ServicessList[i].DisplayAllInfo(); }
@@ -79,6 +81,7 @@ namespace Hotel_Management_System
         public void viewAllPayments()
         {
             Console.WriteLine("viewing all payments..");
+            Payment.PrintHeaderTable();
             List<Payment> AllPaymentsList = DatabaseServer.GetAllPayments();
             for (int i = 0; i < AllPaymentsList.Count; i++) {
                 AllPaymentsList[i].DisplayAllInfo();
@@ -89,6 +92,7 @@ namespace Hotel_Management_System
         public void viewAllRooms()
         {
             Console.WriteLine("viewing all rooms..\n");
+            Room.PrintHeaderTable();
             List<Room> RoomsList = DatabaseServer.GetAllRooms();
             for (int i = 0; i < RoomsList.Count; i++)
             {
