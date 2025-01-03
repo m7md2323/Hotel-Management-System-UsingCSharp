@@ -50,10 +50,8 @@ namespace Hotel_Management_System
 
         }
 
-        public void ViewAllReseravtions()
+        public void ViewAllReservations()
         {
-
-
 
 
             Console.WriteLine("viewing all reservations..");
@@ -153,6 +151,7 @@ namespace Hotel_Management_System
                         Console.WriteLine("room type doesn't exist, try again");
                         goto tryAgain;
                     }
+                   if (NewRoomType == "Suite") NewRoomType += " ";
                     RoomsList[FoundRoomIndex].RoomType = NewRoomType;
                     FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Write);
                     for (int i = 0; i < RoomsList.Count; i++)

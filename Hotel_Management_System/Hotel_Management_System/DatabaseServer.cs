@@ -182,15 +182,36 @@ namespace Hotel_Management_System
         public static List<Room> GetAllRooms()
         {
             List<Room> RoomsList = new List<Room>();
-            FileStream fs = new FileStream("Room.txt",FileMode.OpenOrCreate,FileAccess.Read);
-            while (fs.Position<fs.Length) {
-                try { RoomsList.Add((Room)bf.Deserialize(fs)); }
-                catch (SerializationException e) { Console.WriteLine(e.Message); }
+            using (FileStream fs = new FileStream("Room.txt", FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                // Create a BinaryFormatter (assuming you're using binary serialization)
+                BinaryFormatter bf = new BinaryFormatter();
+                try
+                {
+                    while (fs.Position < fs.Length)
+                    {
+                        try
+                        {
+                            // Deserialize the next object
+                            Room room = (Room)bf.Deserialize(fs);
+                            RoomsList.Add(room);
+                        }
+                        catch (SerializationException e)
+                        {
+                            Console.WriteLine("Deserialization error: " + e.Message + " at position " + fs.Position);
+                            // Optionally log the position or content for further debugging
+                            break;  // Break if there is an error or if you want to continue with valid entries only
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred while processing the file: " + ex.Message);
+                }
             }
-            fs.Close ();
-
             return RoomsList;
         }
+
         public static Guest GetGuestUsingId(int NationalId)
         {   
             Guest guest = null;
@@ -209,24 +230,6 @@ namespace Hotel_Management_System
                 }
             }
             return guest;
-        }
-        public static List<Guest> LoadGuests()
-        {
-            List<Guest> guestUsers = new List<Guest>();
-            using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read))
-            {
-
-                while (fs.Position < fs.Length)
-                {
-                    object wantedUser = bf.Deserialize(fs);
-                    if (wantedUser.GetType().Name == "Guest")
-                    {
-                        guestUsers.Add((Guest)wantedUser);
-                    }
-                }
-            }
-            return guestUsers;
-            
         }
         public static Room GetRoom(int roomNumber)
         { 

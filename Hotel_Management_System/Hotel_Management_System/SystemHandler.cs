@@ -59,7 +59,12 @@ namespace Hotel_Management_System
             Console.WriteLine("Please select the account type : ");
             Console.WriteLine("[1] Manager \n[2] Guest \n[3] To Exit the System.");
             Console.WriteLine("-------------------------------------------------------------------");
-            int userChoice=Convert.ToInt32(Console.ReadLine());
+            int userChoice = 0;
+            try
+            {
+              userChoice = Convert.ToInt32(Console.ReadLine());
+            }
+            catch(FormatException e) { Console.WriteLine(e.Message);}
             return (UserType)userChoice;
             
         }
@@ -159,7 +164,7 @@ namespace Hotel_Management_System
                         manager.viewAllGuests();
                         break;
                     case (int)ManagerServiceSelection.VIEW_ALL_RESERVATIONS:
-                        manager.ViewAllReseravtions();
+                        manager.ViewAllReservations();
 
                         break;
                     case (int)ManagerServiceSelection.VIEW_ALL_SERVICES:

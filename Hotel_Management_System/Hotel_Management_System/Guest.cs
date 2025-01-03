@@ -101,6 +101,7 @@ namespace Hotel_Management_System
                 return;
             }
             //change room availability to false
+            invalidDateFormat:
             Console.WriteLine("Check In Date and Check Out date in form of (DD/MM/YYYY) : ");
             //remember to handle the case where check-out is before check-in 
             Console.Write("Check In Date : ");
@@ -117,16 +118,14 @@ namespace Hotel_Management_System
                 {
                     Console.WriteLine("Invalid range (check-out is before check-in), please try again!!");
                     Thread.Sleep(2500);
-                    ReserveRoom();
-                    return;
+                    goto invalidDateFormat;
                 }
             }
             catch (FormatException e)
             {
                 Console.WriteLine(e.Message);
                 Thread.Sleep(2000);
-                ReserveRoom();
-                return;
+                goto invalidDateFormat;
             }
             //if check in date is after check out date display error message
             //remember to send a payment record of the reservation
@@ -443,4 +442,11 @@ namespace Hotel_Management_System
             if(valid==true)Console.WriteLine("Paying for Service went successfully, Thank you for using our Hotel!!");
             else Console.WriteLine("The bill number you entered is wrong, please try again!!");
             SystemHandler.AfterServiceMessage();
+<<<<<<< Updated upstream
  */ 
+=======
+        }
+    }
+}
+
+>>>>>>> Stashed changes
