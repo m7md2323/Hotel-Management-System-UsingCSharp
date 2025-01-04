@@ -288,7 +288,6 @@ namespace Hotel_Management_System
             DateTime checkInDate = DateTime.ParseExact(reservation.CheckInDate, "dd/MM/yyyy", dateFormat);
             DateTime checkOutDate = DateTime.ParseExact(reservation.CheckOutDate, "dd/MM/yyyy", dateFormat);
             TimeSpan totalResidenceDays = checkOutDate - checkInDate;
-            Console.WriteLine(totalResidenceDays.Days);
             float amount=0;
             if (meal == "Breakfast")
             {
@@ -369,17 +368,17 @@ namespace Hotel_Management_System
             bool Exit = false;
             while (!Exit)
             {
-                switch (SystemHandler.systemState)
+                switch (systemState)
                 {
                     case SystemState.USER_SELECTION:
                         //
-                        switch (SystemHandler.ChooseUser())
+                        switch (ChooseUser())
                         {
                             case UserType.GUEST:
-                                SystemHandler.GuestLogin();
+                                GuestLogin();
                                 break;
                             case UserType.MANAGER:
-                                SystemHandler.ManagerLogin();
+                                ManagerLogin();
                                 break;
                             case UserType.INVALID_SELECTION:
                                 Console.WriteLine("Please enter a valid option(1, 2, 3)");
@@ -392,16 +391,16 @@ namespace Hotel_Management_System
                         break;
                     //
                     case SystemState.GUEST_LOGIN:
-                        SystemHandler.GuestLogin();
+                        GuestLogin();
                         break;
                     case SystemState.GUEST_MENU:
-                        SystemHandler.EnterGuestSystem();
+                        EnterGuestSystem();
                         break;
                     case SystemState.MANAGER_MENU:
-                        SystemHandler.ChooseManagerService();
+                        ChooseManagerService();
                         break;
                     case SystemState.MANAGER_LOGIN:
-                        SystemHandler.ManagerLogin();
+                        ManagerLogin();
                         break;
                     case SystemState.EXIT:
                         Exit = true;
