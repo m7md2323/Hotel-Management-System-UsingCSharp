@@ -40,7 +40,7 @@ namespace Hotel_Management_System
             string spaces = "                    ";
 
 
-            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("---------------------------------------------------------------------------------");
             Console.Write($"| {ID}" + spaces.Substring(0, 10));
             Console.Write($"| {GustNationalID}" + spaces.Substring(0, 9));
             Console.Write($"| {Description}" + spaces.Substring(0, 14 - Description.Length));

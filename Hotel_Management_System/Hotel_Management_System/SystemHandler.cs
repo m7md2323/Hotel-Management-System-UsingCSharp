@@ -53,7 +53,6 @@ namespace Hotel_Management_System
         static Manager manager;
         static public SystemState systemState=SystemState.USER_SELECTION;
         public static UserType ChooseUser() {
-            systemState = SystemState.USER_SELECTION;
             Console.Clear();
             Console.WriteLine("--------------------[ Hotel Management System ]--------------------");
             Console.WriteLine("Please select the account type : ");
@@ -71,7 +70,6 @@ namespace Hotel_Management_System
         public static void GuestLogin()
         {
                 int guestID=0, Password=0; 
-                systemState = SystemState.GUEST_LOGIN;
                 Console.Clear();
                 Console.WriteLine("-------------------------[ Guest Login ]-------------------------");
                 Console.WriteLine("Please enter your National ID and Password (Type 0 to get back) ");
@@ -109,18 +107,19 @@ namespace Hotel_Management_System
         public static void ManagerHotelServices()
         {
             Console.Clear();
-            
-            Console.WriteLine($"Hello manager and welcome to the hotel system.");
-            Console.WriteLine("1. View all guests\n2. View all reservations\n3. View all services\n4. View all payments\n5. View all rooms\n6. Update room information\n7. Generate profit report\n8. Log Out");
+            Console.WriteLine($"Hello manager and welcome to the hotel system.\n");
+            Console.WriteLine("------------------------[Manager Hotel Services]------------------------");
+            Console.WriteLine("[1] View all guests\n[2] View all reservations\n[3] View all services\n[4] View all payments\n[5] View all rooms\n[6] Update room information\n[7] Generate profit report\n[8] Log Out");
+            Console.WriteLine("------------------------------------------------------------------------");
+
         }
        public static void  ManagerLogin()
         {
-            systemState = SystemState.MANAGER_LOGIN;
             Console.Clear();
             manager = new Manager();
-            Console.WriteLine("---------[Manager login]--------");
+            Console.WriteLine("--------------[Manager login]-------------");
             Console.WriteLine("Please enter your ID and Password");
-            Console.Write(" ID : ");
+            Console.Write("ID : ");
             string ManagerID = Console.ReadLine();
             Console.Write("Password : ");
             int Password = Convert.ToInt32(Console.ReadLine());
@@ -129,16 +128,14 @@ namespace Hotel_Management_System
                 Console.WriteLine("Unsuccessful Login attempt!!");
                 Console.WriteLine("ID or Password is wrong, please try again!!");
                 Console.WriteLine("Press (1) to try again, (0) to Exit the system.");
-                MoreManagerOrLeave();
-                void MoreManagerOrLeave()
-                { string choice = Console.ReadLine();
+
+                tryAgain:
+                string choice = Console.ReadLine();
+                if (choice == "1") { changeState(SystemState.MANAGER_LOGIN); }
+                else if (choice == "0") { changeState(SystemState.EXIT); }
+                else { Console.WriteLine("invalid choice, choose 1 or 0");Thread.Sleep(500) ; goto tryAgain; }
                 
-                    if (choice == "1") { changeState(SystemState.MANAGER_LOGIN); }
-                    else if (choice == "0") { changeState(SystemState.EXIT); }
-                    else { Console.WriteLine("invalid choice, choose 1 or 0");Thread.Sleep(500) ; MoreManagerOrLeave(); }
-                }
             }
-            //
             else
             {
                 Console.Write("verifying");
@@ -146,19 +143,16 @@ namespace Hotel_Management_System
                 Console.WriteLine("Successful Login!!");
                 Thread.Sleep(1200);
                 Console.WriteLine();
-                ChooseManagerService();
+                changeState(SystemState.MANAGER_MENU);
             }
-
-            //return false;
         }
             public static void ChooseManagerService() 
             {
                 
-                systemState = SystemState.MANAGER_MENU;
                 Console.WriteLine("choose a service: \n");
                 ManagerHotelServices();
-                int managerchoice = Convert.ToInt32(Console.ReadLine());
-                switch (managerchoice)
+                int managerChoice = Convert.ToInt32(Console.ReadLine());
+                switch (managerChoice)
                 {
                     case (int)ManagerServiceSelection.VIEW_ALL_GUESTS:
                         manager.viewAllGuests();
@@ -206,7 +200,6 @@ namespace Hotel_Management_System
         }
         public static void EnterGuestSystem()
         {
-            systemState = SystemState.GUEST_MENU;
             LoadGuestServicesMenu();
             int guestChoice = Convert.ToInt32(Console.ReadLine());
             switch (guestChoice)

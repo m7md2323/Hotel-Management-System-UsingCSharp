@@ -27,14 +27,7 @@ namespace Hotel_Management_System
         public void viewAllGuests() {
             Console.WriteLine("viewing all guests..");
 
-            List<Guest> GuestsList = new List<Guest>();
-            FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read);
-            while (fs.Position < fs.Length)
-            {
-                object requiredGuest = DatabaseServer.bf.Deserialize(fs);
-                GuestsList.Add((Guest)requiredGuest);
-
-            }
+            List<Guest> GuestsList = DatabaseServer.GetAllGuests();
             Guest.PrintHeaderTable();
             for (int i = 0; i < GuestsList.Count; i++) {
                 GuestsList[i].DisplayAllInfo();
@@ -54,10 +47,12 @@ namespace Hotel_Management_System
 
 
             Console.WriteLine("viewing all reservations..");
-            Reservation.PrintHeaderTable();
+           
             List<Reservation> ReservationsList = DatabaseServer.GetAllReservations();
-            
+            if (ReservationsList.Count == 0) { Console.WriteLine("There are no Reservations to display!!");SystemHandler.AfterServiceMessage();return; }
+             Reservation.PrintHeaderTable();
             for (int i = 0; i < ReservationsList.Count; i++) { ReservationsList[i].DisplayAllInfo(); }
+            Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine("\nReservations displayed successfully");
             SystemHandler.AfterManagerServiceMessage();
 
@@ -69,10 +64,12 @@ namespace Hotel_Management_System
 
 
             Console.WriteLine("viewing all Services..");
-            Service.PrintHeaderTable();
+            
             List<Service> ServicessList = DatabaseServer.GetAllServices();
-
+            if (ServicessList.Count == 0) { Console.WriteLine("There are no Services to display!!"); SystemHandler.AfterServiceMessage();return;}
+            Service.PrintHeaderTable();
             for (int i = 0; i < ServicessList.Count; i++) { ServicessList[i].DisplayAllInfo(); }
+            Console.WriteLine("---------------------------------------------------------------------------------");
             Console.WriteLine("\nServices displayed successfully");
             SystemHandler.AfterManagerServiceMessage();
 
@@ -81,11 +78,14 @@ namespace Hotel_Management_System
         public void viewAllPayments()
         {
             Console.WriteLine("viewing all payments..");
-            Payment.PrintHeaderTable();
+            
             List<Payment> AllPaymentsList = DatabaseServer.GetAllPayments();
+            if (AllPaymentsList.Count == 0) { Console.WriteLine("There are no Payments to display!!"); SystemHandler.AfterServiceMessage();return; }
+            Payment.PrintHeaderTable();
             for (int i = 0; i < AllPaymentsList.Count; i++) {
                 AllPaymentsList[i].DisplayAllInfo();
             }
+            Console.WriteLine("---------------------------------------------------------------------------------");
             Console.WriteLine("Payments successfully acquired");
             SystemHandler.AfterManagerServiceMessage();
         }
@@ -98,6 +98,7 @@ namespace Hotel_Management_System
             {
                 RoomsList[i].DisplayAllInfo();
             }
+            Console.WriteLine("-----------------------------------------------------------------");
             Console.WriteLine("Rooms successfully acquired");
             SystemHandler.AfterManagerServiceMessage();
         }
@@ -106,10 +107,12 @@ namespace Hotel_Management_System
             Console.WriteLine("update room info..\n");
             Console.WriteLine("viewing all rooms..\n");
             List<Room> RoomsList = DatabaseServer.GetAllRooms();
+            Room.PrintHeaderTable();
             for (int i = 0; i < RoomsList.Count; i++)
             {
                 RoomsList[i].DisplayAllInfo();
             }
+            Console.WriteLine("-----------------------------------------------------------------\n");
             Console.WriteLine("enter room number to update its info\n");
             int ChosenRoomNumber = Convert.ToInt32(Console.ReadLine());
             Room ChosenRoom = DatabaseServer.GetRoom(ChosenRoomNumber);
@@ -175,9 +178,9 @@ namespace Hotel_Management_System
 
 
             Console.WriteLine("----------------------------------");
-            Console.WriteLine($"|profit from Reservations: {DatabaseServer.GetReservationsRevenue()}");
-            Console.WriteLine($"|profit from Car rental: {DatabaseServer.GetCarRentalRevenue()}");
-            Console.WriteLine($"|profit from Kids zone: {DatabaseServer.GetKidsZoneRevenue()}");
+            Console.WriteLine($"|profit from Reservations: {DatabaseServer.GetReservationsRevenue()}$");
+            Console.WriteLine($"|profit from Car rental: {DatabaseServer.GetCarRentalRevenue()}$");
+            Console.WriteLine($"|profit from Kids zone: {DatabaseServer.GetKidsZoneRevenue()}$");
             Console.WriteLine("----------------------------------");
 
 
