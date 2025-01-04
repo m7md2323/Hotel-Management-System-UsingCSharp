@@ -357,5 +357,59 @@ namespace Hotel_Management_System
             }
             Console.WriteLine();
         }
+        static void Main(string[] arg)
+        {
+
+            //this system is designed using a state mechanism
+            //we have a variable called systemState in SystemHandler class
+            //and this variable will keep track of the system state 
+            //whether he is in login state(for manager or guest) or in hotel service menu(for manager or guest)
+            //or user selection state etc..
+            //and also we have an enum called SystemState that stores the names of our state, to make tracking and understanding process of the code easier
+            bool Exit = false;
+            while (!Exit)
+            {
+                switch (SystemHandler.systemState)
+                {
+                    case SystemState.USER_SELECTION:
+                        //
+                        switch (SystemHandler.ChooseUser())
+                        {
+                            case UserType.GUEST:
+                                SystemHandler.GuestLogin();
+                                break;
+                            case UserType.MANAGER:
+                                SystemHandler.ManagerLogin();
+                                break;
+                            case UserType.INVALID_SELECTION:
+                                Console.WriteLine("Please enter a valid option(1, 2, 3)");
+                                break;
+                            case UserType.EXIT:
+                                Console.WriteLine("Exiting the system........");
+                                Exit = true;
+                                break;
+                        }
+                        break;
+                    //
+                    case SystemState.GUEST_LOGIN:
+                        SystemHandler.GuestLogin();
+                        break;
+                    case SystemState.GUEST_MENU:
+                        SystemHandler.EnterGuestSystem();
+                        break;
+                    case SystemState.MANAGER_MENU:
+                        SystemHandler.ChooseManagerService();
+                        break;
+                    case SystemState.MANAGER_LOGIN:
+                        SystemHandler.ManagerLogin();
+                        break;
+                    case SystemState.EXIT:
+                        Exit = true;
+                        Console.WriteLine("Exiting the system........");
+                        break;
+                }
+            }
+
+        }
     }
 }

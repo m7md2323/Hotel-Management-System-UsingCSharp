@@ -40,7 +40,6 @@
     <Compile Include="Guest.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Payment.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Reservation.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="Service.cs" />

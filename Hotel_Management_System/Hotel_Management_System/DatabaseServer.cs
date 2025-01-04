@@ -104,7 +104,7 @@ namespace Hotel_Management_System
         }
         public static void SaveUpdatedPayments(List<Payment> data)
         {
-            FileStream fs = new FileStream("Payment.txt",FileMode.Create,FileAccess.Write);
+            FileStream fs = new FileStream("Payment.txt",FileMode.OpenOrCreate,FileAccess.Write);
             for(int i=0;i<data.Count ;i++)
             {
                 bf.Serialize(fs, data[i]);
@@ -113,7 +113,7 @@ namespace Hotel_Management_System
         }
         public static void SaveUpdatedGuests(List<Guest> data)
         {
-            using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Write))
+            using (FileStream fs = new FileStream("Guest.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 for (int i = 0; i < data.Count; i++)
                 {
@@ -146,7 +146,7 @@ namespace Hotel_Management_System
         public static List<Reservation> GetAllReservations()
         {
             List<Reservation> AllReservations = new List<Reservation>();
-            FileStream fs = new FileStream("Reservation.txt", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream("Reservation.txt", FileMode.OpenOrCreate, FileAccess.Read);
             
                 while (fs.Position < fs.Length)
                 {
@@ -159,7 +159,7 @@ namespace Hotel_Management_System
         }
         public static List<Service> GetAllServices() {
             List<Service> AllServicesList = new List<Service>();
-            FileStream fs = new FileStream("Service.txt", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream("Service.txt", FileMode.OpenOrCreate, FileAccess.Read);
             while (fs.Position<fs.Length) {
                 try { AllServicesList.Add((Service)bf.Deserialize(fs)); }
                 catch(SerializationException e) { Console.WriteLine(e.Message + "in Service.txt"); }
@@ -195,7 +195,7 @@ namespace Hotel_Management_System
         public static Guest GetGuestUsingId(int NationalId)
         {   
             Guest guest = null;
-            using (FileStream fs = new FileStream("Guest.txt", FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream("Guest.txt", FileMode.OpenOrCreate, FileAccess.Read))
             {
                 
                 while (fs.Position < fs.Length)
@@ -213,7 +213,7 @@ namespace Hotel_Management_System
         }
         public static Room GetRoom(int roomNumber)
         { 
-            using (FileStream fs = new FileStream("Room.txt", FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream("Room.txt", FileMode.OpenOrCreate, FileAccess.Read))
             {
 
                 while (fs.Position < fs.Length)

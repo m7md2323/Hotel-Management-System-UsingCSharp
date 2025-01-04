@@ -129,6 +129,7 @@ namespace Hotel_Management_System
             }
             //if check in date is after check out date display error message
             //remember to send a payment record of the reservation
+            invalidChoice:
             Console.WriteLine("Choose one of the meals type below : ");
             Console.WriteLine("1. Breakfast.");
             Console.WriteLine("2. Breakfast and Lunch.");
@@ -137,13 +138,12 @@ namespace Hotel_Management_System
             if (mealSelection == "1") meal = "Breakfast";
             else if (mealSelection == "2") meal = "Breakfast and Lunch";
             else if (mealSelection == "3") meal = "Full Board";
-            else { Console.WriteLine("Invalid choice, please try again!!"); Thread.Sleep(2000); ReserveRoom(); return; }
+            else { Console.WriteLine("Invalid choice, please try again!!"); Thread.Sleep(2000); goto invalidChoice; }
             foreach (Room r in AllRooms)
             {
                 if (roomNumber == r.RoomNumber) r.Available = false;
             }
             DatabaseServer.SaveUpdatedRoom(AllRooms);
-            //calculate the total amount of reservation (total room reservation + the price of the meal)
             Reservation reservation = new Reservation(SystemHandler.GenerateId("Reservation"), roomNumber, NationalID, checkInDate, checkOutDate, meal);
             Payment resPaymentRecord = new Payment(SystemHandler.GenerateId("Payment"), NationalID, "Reservation", SystemHandler.calculateReservation(reservation, chosenRoom.PricePerDay, meal), "Unpaid");
             Console.WriteLine("Your receipt : ");
@@ -227,11 +227,11 @@ namespace Hotel_Management_System
             Console.WriteLine();
             Console.WriteLine("Please enter the reservation Id to check in: ");
             int resId = Convert.ToInt32(Console.ReadLine());
-            for (int i = 0; i < reservations.Count; i++)
+            foreach(Reservation r in reservations)
             {
-                if (reservations[i].ID == resId && reservations[i].ReservationStatus == "Confirmed")
+                if (r.ID == resId && r.ReservationStatus == "Confirmed"&&r.NationalId==NationalID)
                 {
-                    reservations[i].ReservationStatus = "Checked In";
+                    r.ReservationStatus = "Checked In";
                     valid = true;
                 }
             }
@@ -270,12 +270,12 @@ namespace Hotel_Management_System
             int resId = Convert.ToInt32(Console.ReadLine());
             bool valid = false;
             int roomNumber = 0;//to use it to change the availability of the room to true
-            for (int i = 0; i < reservations.Count; i++)
+            foreach (Reservation r in reservations)
             {
-                if (reservations[i].ID == resId && reservations[i].ReservationStatus == "Checked In")
+                if (r.ID == resId && r.ReservationStatus == "Checked In" && r.NationalId == NationalID)
                 {
-                    reservations[i].ReservationStatus = "Checked Out";
-                    roomNumber = reservations[i].RoomNumber;
+                    r.ReservationStatus = "Checked Out";
+                    roomNumber = r.RoomNumber;
                     valid = true;
                 }
             }
@@ -321,18 +321,18 @@ namespace Hotel_Management_System
             Console.WriteLine("Please enter the bill number to pay: ");
             int billNumber = Convert.ToInt32(Console.ReadLine());
             bool valid = false;
-            for (int i = 0; i < payments.Count; i++)
+            foreach (Payment p in payments)
             {
-                if (payments[i].BillNumber == billNumber && payments[i].Status == "Unpaid" && payments[i].Source == "Reservation")
+                if (p.BillNumber == billNumber && p.Status == "Unpaid" && p.Source == "Reservation"&&p.GuestNationalID==NationalID)
                 {
                     //Check guest Bank balance and if enough pay the bill, and update the guest bank balance
-                    if (SystemHandler.UpdateBankBalance(payments[i].Amount) == false)
+                    if (SystemHandler.UpdateBankBalance(p.Amount) == false)
                     {
                         Console.WriteLine("Sorry you don't have enough balance, update your bank balance and try again!!");
                         SystemHandler.AfterServiceMessage();
                         return;
                     }
-                    payments[i].Status = "  Paid";
+                    p.Status = "  Paid";
                     valid = true;
 
                 }
@@ -367,7 +367,7 @@ namespace Hotel_Management_System
 
             foreach (Payment payment in AllPaymentsList)
             {
-                if (payment.GuestNationalID == NationalID && payment.Status == "Unpaid" && (payment.Source == "Kids zone" || payment.Source == "Car rental"))
+                if (payment.BillNumber==PaymentBill&&payment.GuestNationalID == NationalID && payment.Status == "Unpaid" && (payment.Source == "Kids zone" || payment.Source == "Car rental"))
                 {
                     if (SystemHandler.UpdateBankBalance(payment.Amount) == false) 
                     {

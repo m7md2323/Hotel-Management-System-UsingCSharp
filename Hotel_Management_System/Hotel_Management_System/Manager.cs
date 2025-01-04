@@ -49,7 +49,7 @@ namespace Hotel_Management_System
             Console.WriteLine("viewing all reservations..");
            
             List<Reservation> ReservationsList = DatabaseServer.GetAllReservations();
-            if (ReservationsList.Count == 0) { Console.WriteLine("There are no Reservations to display!!");SystemHandler.AfterServiceMessage();return; }
+            if (ReservationsList.Count == 0) { Console.WriteLine("There are no Reservations to display!!");SystemHandler.AfterManagerServiceMessage();return; }
              Reservation.PrintHeaderTable();
             for (int i = 0; i < ReservationsList.Count; i++) { ReservationsList[i].DisplayAllInfo(); }
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
@@ -66,7 +66,7 @@ namespace Hotel_Management_System
             Console.WriteLine("viewing all Services..");
             
             List<Service> ServicessList = DatabaseServer.GetAllServices();
-            if (ServicessList.Count == 0) { Console.WriteLine("There are no Services to display!!"); SystemHandler.AfterServiceMessage();return;}
+            if (ServicessList.Count == 0) { Console.WriteLine("There are no Services to display!!"); SystemHandler.AfterManagerServiceMessage();return;}
             Service.PrintHeaderTable();
             for (int i = 0; i < ServicessList.Count; i++) { ServicessList[i].DisplayAllInfo(); }
             Console.WriteLine("---------------------------------------------------------------------------------");
@@ -80,7 +80,7 @@ namespace Hotel_Management_System
             Console.WriteLine("viewing all payments..");
             
             List<Payment> AllPaymentsList = DatabaseServer.GetAllPayments();
-            if (AllPaymentsList.Count == 0) { Console.WriteLine("There are no Payments to display!!"); SystemHandler.AfterServiceMessage();return; }
+            if (AllPaymentsList.Count == 0) { Console.WriteLine("There are no Payments to display!!"); SystemHandler.AfterManagerServiceMessage();return; }
             Payment.PrintHeaderTable();
             for (int i = 0; i < AllPaymentsList.Count; i++) {
                 AllPaymentsList[i].DisplayAllInfo();
@@ -133,7 +133,7 @@ namespace Hotel_Management_System
                 invalidOption:
                 Console.WriteLine("Room Found!\nto update room (type) enter [1],to update room (price) enter [2] \n");
                 int ChosenRoomUpdate = Convert.ToInt32(Console.ReadLine());
-                if (ChosenRoomUpdate == 1) {//fix problem with not updating new type and price
+                if (ChosenRoomUpdate == 1) {
                     tryAgain:
                     Console.WriteLine("enter the new type:");
                     string NewRoomType = Console.ReadLine();
